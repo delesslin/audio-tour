@@ -1,12 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
 import useTheme from '../../hooks/useTheme'
-import { Buttons } from './Buttons'
+import { Buttons } from '../Layout/Buttons'
 
 const Panel = ({ children, color = 'red', navigation }) => {
   const theme = useTheme()
   return (
     <>
+      <Buttons />
       <View
         style={{
           backgroundColor: theme.colors[color],
@@ -21,7 +22,6 @@ const Panel = ({ children, color = 'red', navigation }) => {
       >
         {children}
       </View>
-      <Buttons />
     </>
   )
 }

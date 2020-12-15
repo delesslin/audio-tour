@@ -15,7 +15,12 @@ export default function Views() {
   return (
     <Layout>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Home'>
+        <Stack.Navigator
+          initialRouteName='Home'
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
           <Stack.Screen name='Camera' component={Camera} />
           <Stack.Screen name='Stop' component={Stop} />
           <Stack.Screen name='Home' component={Home} />

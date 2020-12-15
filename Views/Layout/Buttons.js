@@ -2,7 +2,9 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 import useTheme from '../../hooks/useTheme'
-
+import { Feather } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 const HomeButton = ({ onClick }) => {
   const theme = useTheme()
   return (
@@ -17,11 +19,13 @@ const HomeButton = ({ onClick }) => {
           borderRadius: 25,
           elevation: 2,
           flex: 1,
-          margin: 5,
+          margin: 10,
+          alignItems: 'center',
         },
       ]}
     >
-      <Text style={{ color: theme.colors.navy, fontSize: 20 }}>CCPP </Text>
+      {/* <Text style={{ color: theme.colors.navy, fontSize: 20 }}>CCPP </Text> */}
+      <Feather name='home' size={24} color={theme.colors.navy} />
     </Pressable>
   )
 }
@@ -39,11 +43,14 @@ const CameraButton = ({ handlePress, onClick }) => {
           borderRadius: 25,
           elevation: 2,
           flex: 2,
-          margin: 5,
+          margin: 10,
+          alignItems: 'center',
         },
       ]}
     >
-      <Text style={{ color: theme.colors.navy, fontSize: 20 }}>Camera </Text>
+      {/* <Text style={{ color: theme.colors.navy, fontSize: 20 }}>Camera </Text> */}
+      <Ionicons name='md-qr-code' size={24} color={theme.colors.navy} />
+      {/* <AntDesign name='camerao' size={24} color={theme.colors.navy} /> */}
     </Pressable>
   )
 }
