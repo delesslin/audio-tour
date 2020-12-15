@@ -4,6 +4,12 @@
     "slug": "ccpp-audio",
     "version": "1.0.0",
     "orientation": "portrait",
+    "androidStatusBar": {
+      "backgroundColor": "#ffffff"
+    },
+    "androidNavigationBar" : {
+      "visible": "sticky-immersive"
+    },
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
