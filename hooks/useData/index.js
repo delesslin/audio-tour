@@ -1,20 +1,38 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import jsonData from '../../assets/data'
+import tourData from '../../assets/data'
+import audio_registry from '../../assets/audio'
 const DataContext = createContext()
 
-const useData = (_id) => {
+const useData = () => {
   const data = useContext(DataContext)
-  console.log(data)
-  return data.filter(({ slug }) => slug === _id)
+  const dataIncludes = (_id) => {
+    const index = data.findIndex(({ slug }) => slug === _id)
+
+    return index >= 0 ? true : false
+  }
+  const filterData = (_id) => {
+    return data.filter(({ slug }) => slug === _id)
+  }
+  return { dataIncludes, filterData }
 }
 
 export default useData
 
 export const DataProvider = ({ children }) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState([])
   useEffect(() => {
-    console.log(setData)
-    setData(jsonData)
+    setData(() => {
+      return tourData.reduce((acc, curr) => {
+        const audio = audio_registry[curr.slug]
+        if (audio != null) {
+          return [...acc, { ...curr, audio }]
+        } else {
+          console.log(`No Audio for ${curr.slug}`)
+          return [...acc, curr]
+        }
+      }, [])
+      return
+    })
   }, [])
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>
 }

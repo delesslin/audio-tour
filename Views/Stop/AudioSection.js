@@ -1,64 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Image, ImageBackground, Pressable, Text, View } from 'react-native'
-import useTheme from '../../hooks/useTheme'
-import { Audio } from 'expo-av'
-import { FontAwesome } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
+import React from 'react'
+import { ImageBackground, Text, View } from 'react-native'
 import data from '../../assets/data'
-const useAudio = (src) => {
-  const [sound, setSound] = useState()
-  const [isPlaying, setIsPlaying] = useState(false)
-
-  const playSound = async () => {
-    console.log('Playing Sound')
-    if (sound != null) {
-      setIsPlaying(true)
-      await sound.playAsync()
-    }
-  }
-  const pauseSound = async () => {
-    if (sound != null) {
-      setIsPlaying(false)
-      await sound.pauseAsync()
-    }
-  }
-
-  useEffect(() => {
-    Audio.Sound.createAsync(src).then(({ sound }) => setSound(sound))
-
-    return sound
-      ? () => {
-          console.log('Unloading Sound')
-          sound.unloadAsync()
-        }
-      : undefined
-  }, [src])
-  return { playSound, pauseSound, isPlaying }
-}
-const AudioControls = ({ src }) => {
-  const theme = useTheme()
-  const { pauseSound, playSound, isPlaying = true } = useAudio(src)
-
-  return (
-    <View style={{ alignItems: 'center' }}>
-      {isPlaying ? (
-        <Pressable onPress={pauseSound}>
-          <AntDesign
-            name='pausecircleo'
-            size={48}
-            color={theme.colors.yellow}
-          />
-        </Pressable>
-      ) : (
-        <Pressable onPress={playSound}>
-          <FontAwesome name='play-circle' size={48} color={theme.colors.navy} />
-        </Pressable>
-      )}
-    </View>
-  )
-}
-
-const AudioSection = ({ img, color = 'red', title }) => {
+import useTheme from '../../hooks/useTheme'
+import { AudioControls } from './AudioControls'
+const AudioSection = ({ img, color = 'red', title, audio }) => {
   const theme = useTheme()
   return (
     <View
@@ -94,7 +39,7 @@ const AudioSection = ({ img, color = 'red', title }) => {
         >
           {title}
         </Text>
-        <AudioControls src={data[0].audio[0]} />
+        <AudioControls src={audio} />
       </ImageBackground>
     </View>
   )

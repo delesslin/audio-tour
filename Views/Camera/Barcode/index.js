@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
+import useData from '../../../hooks/useData'
 import useTheme from '../../../hooks/useTheme'
 // TODO: ADD TIMER SO THAT IT FADES IF IT ISN'T UPDATED FREQENT;Y
 // TODO: Don't bound image, instead pop up image in center of view?
 const Barcode = ({ barcode, onSelect }) => {
   const margin = 5
   const { colors } = useTheme()
-  const { cornerPoints, bounds, data, loaded, target, type } = barcode
+  const { dataIncludes, filterData } = useData()
+
+  const { cornerPoints, bounds, data: slug, loaded, target, type } = barcode
   // const [opacity, setOpacity] = useState(1)
-  const [{ top, left, width, height, opacity }, setState] = useState({
+  const [{ top, left, width, height, opacity, show }, setState] = useState({
     top: 0 - margin,
     left: 0 - margin,
     width: 0 - margin * 2,
     height: 0 - margin * 2,
     opacity: 1,
+    show: false,
   })
   if (opacity <= 0) {
     return null
@@ -27,15 +31,18 @@ const Barcode = ({ barcode, onSelect }) => {
         left: bounds.origin.x - margin,
         width: bounds.size.width + margin * 2,
         height: bounds.size.height + margin * 2,
+        show: dataIncludes(slug),
       }
     })
   }, [bounds])
 
   const handlePress = () => {
     console.log('oh gosh oh gee!!!!')
-    onSelect({ type, target, data })
+    const data = filterData(slug)
+    onSelect(data)
   }
-  return (
+
+  return show ? (
     <Pressable
       onPress={handlePress}
       style={{
@@ -50,8 +57,8 @@ const Barcode = ({ barcode, onSelect }) => {
         padding: 5,
       }}
     >
-      <Text>{data}</Text>
+      <Text>{slug}</Text>
     </Pressable>
-  )
+  ) : null
 }
 export default Barcode

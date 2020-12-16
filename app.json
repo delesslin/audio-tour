@@ -1,14 +1,10 @@
 {
   "expo": {
-    "name": "ccpp-audio",
-    "slug": "ccpp-audio",
-    "version": "1.0.0",
+    "name": "Catawba Audio Tour",
+    "slug": "catawba-audio-tour",
+    "version": "0.0.1",
     "orientation": "portrait",
-    // "androidStatusBar": {
-    //   "backgroundColor": "#ffffff",
-    //   "translucent": false
-    // },
-    "androidNavigationBar" : {
+    "androidNavigationBar": {
       "visible": "sticky-immersive"
     },
     "icon": "./assets/icon.png",
@@ -30,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.delesslin.catawbaaudiotour"
     },
     "web": {
       "favicon": "./assets/favicon.png"
