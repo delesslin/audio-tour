@@ -28,3 +28,6 @@ Currently the repo doesn't handle remote .mp3 resources
 
 ##### If you reference a local image file, be sure to add it to the /temp folder
 Currently the repo SHOULD handle .jpg image files
+
+### Create assets by running `npm run build:assets`
+
