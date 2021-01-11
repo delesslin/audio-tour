@@ -1,6 +1,5 @@
 // TODO: refactor
 import React from 'react'
-import useData from '../../hooks/useData'
 import useTheme from '../../hooks/useTheme'
 import Panel from '../Panel'
 import AudioSection from './AudioSection'
@@ -12,10 +11,10 @@ const example =
 const Stop = ({ route, navigation }) => {
   const theme = useTheme()
   console.log('ROUTE PARAMS', route.params)
-  const { title, audio, transcript, slug } = route.params[0]
+  const { title, audio, text: transcript, slug, image } = route.params[0]
   return (
     <Panel color='white' style={{ flex: 1 }}>
-      <AudioSection img={example} title={title} audio={audio} />
+      <AudioSection img={image} title={title} audio={audio} />
       <Transcript transcript={transcript} />
     </Panel>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, Text, View } from 'react-native'
 import useTheme from '../../hooks/useTheme'
 import Panel from '../Panel'
-import logo from '../../assets/icon.png'
+import logo from '../../static/icon.png'
 
 const Home = () => {
   const theme = useTheme()

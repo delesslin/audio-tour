@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, Text } from 'react-native'
 import useData from '../../../hooks/useData'
 import useTheme from '../../../hooks/useTheme'
 // TODO: ADD TIMER SO THAT IT FADES IF IT ISN'T UPDATED FREQENT;Y

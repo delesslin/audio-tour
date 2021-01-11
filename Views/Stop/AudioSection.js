@@ -1,6 +1,6 @@
 import React from 'react'
 import { ImageBackground, Text, View } from 'react-native'
-import data from '../../assets/data'
+
 import useTheme from '../../hooks/useTheme'
 import { AudioControls } from './AudioControls'
 const AudioSection = ({ img, color = 'red', title, audio }) => {
@@ -14,7 +14,7 @@ const AudioSection = ({ img, color = 'red', title, audio }) => {
       }}
     >
       <ImageBackground
-        source={{ uri: img }}
+        source={img}
         imageStyle={{
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,

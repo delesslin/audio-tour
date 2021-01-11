@@ -1,3 +1,9 @@
+assets
+temp/*
+!temp/example.md
+!temp/example.mp3
+
+
 node_modules/**/*
 .expo/*
 npm-debug.*

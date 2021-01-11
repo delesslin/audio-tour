@@ -1,14 +1,12 @@
 // TODO implement opacity for barcode View
 
-import React from 'react'
-import { Text } from 'react-native'
-import Camera from './Camera'
-import Layout from './Layout'
-import Panel from './Panel'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import Stop from './Stop'
+import React from 'react'
+import Camera from './Camera'
 import Home from './Home'
+import Layout from './Layout'
+import Stop from './Stop'
 const Stack = createStackNavigator()
 
 export default function Views() {

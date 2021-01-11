@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import tourData from '../../assets/data'
-import audio_registry from '../../assets/audio'
+import tourData from '../../assets'
+
 const DataContext = createContext()
 
 const useData = () => {
@@ -21,18 +21,31 @@ export default useData
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState([])
   useEffect(() => {
-    setData(() => {
-      return tourData.reduce((acc, curr) => {
-        const audio = audio_registry[curr.slug]
-        if (audio != null) {
-          return [...acc, { ...curr, audio }]
-        } else {
-          console.log(`No Audio for ${curr.slug}`)
-          return [...acc, curr]
-        }
-      }, [])
-      return
-    })
+    setData(tourData)
   }, [])
+  // useEffect(() => {
+  //   setData(() => {
+  //     return tourData
+  //       .reduce((acc, curr) => {
+  //         const audio = audio_registry[curr.slug]
+  //         if (audio != null) {
+  //           return [...acc, { ...curr, audio }]
+  //         } else {
+  //           console.log(`No Audio for ${curr.slug}`)
+  //           return [...acc, curr]
+  //         }
+  //       }, [])
+  //       .reduce((acc, curr) => {
+  //         const image = image_registry[curr.slug]
+  //         if (image != null) {
+  //           return [...acc, { ...curr, image }]
+  //         } else {
+  //           console.log(`No image for ${curr.slug}`)
+  //           return [...acc, curr]
+  //         }
+  //       }, [])
+  //     return
+  //   })
+  // }, [])
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>
 }
