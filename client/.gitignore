@@ -2,6 +2,7 @@ assets
 temp/*
 !temp/example.md
 !temp/example.mp3
+builds
 
 
 node_modules/**/*
