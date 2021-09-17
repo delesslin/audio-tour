@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Catawba Audio Tour",
+    "slug": "catawba-audio-tour",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "androidNavigationBar": {
+      "visible": "sticky-immersive"
+    },
+    "backgroundColor": "#051940",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#FFFFFF"
+    },
+    "icon": "./static/icon.png",
+    "splash": {
+      "image": "./static/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./static/adaptive-icon.png",
+        "backgroundColor": "#FF0000"
+      },
+      "package": "com.delesslin.catawbaaudiotour"
+    },
+    "web": {
+      "favicon": "./static/favicon.png"
+    },
+    "description": ""
+  }
+}
