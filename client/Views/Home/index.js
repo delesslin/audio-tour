@@ -1,89 +1,72 @@
-import React, { useEffect, useState } from 'react'
-import { Image, Text, View, Pressable } from 'react-native'
-import useTheme from '../../hooks/useTheme'
-import { Ionicons } from '@expo/vector-icons'
-import Panel from '../Panel'
-import logo from '../../static/icon.png'
-import useData from '../../hooks/useData'
-import AudioButton from './AudioButton'
+import React from 'react'
+import { View, Text, StyleSheet, Platform } from 'react-native'
+import theme from '../../Theme'
+import CameraButton from './CameraButton'
+import Logo from './Logo'
 
-const Home = ({ navigation }) => {
-  const theme = useTheme()
-  const data = useData()
-  const [welcome, setWelcome] = useState({ description: [] })
-  useEffect(() => {
-    const i = data.findIndex((entry) => entry.slug === 'welcome')
-    if (i < 0) return
-    setWelcome(data[i])
-  }, [data])
+const Home = ({ navigation: { navigate } }) => {
+  const handleClick = () => {
+    console.log('CLICK!')
+    navigate('Camera')
+  }
+
   return (
-    <View
-      style={{
-        margin: 25,
-        padding: 25,
-        borderRadius: 10,
-        backgroundColor: theme.colors.blue,
-        alignSelf: 'stretch',
-        flex: 8,
-        marginBottom: 60,
-        alignItems: 'center',
-        elevation: 1,
-        paddingBottom: 150,
-        justifyContent: 'space-between',
-      }}
-    >
-      <Text
-        style={{
-          color: theme.colors.navy,
-          fontSize: 50,
-          fontFamily: 'PermanentMarker_400Regular',
-        }}
-      >
-        Tanake!
-      </Text>
-      <AudioButton buttonSize={150} />
-      {welcome.description.map((para, i) => {
-        return (
-          <Text style={{ margin: 10, textAlign: 'justify' }} key={i}>
-            {para}
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <Text style={styles.title}>Tanake!</Text>
+
+        <Logo size={200}></Logo>
+        <View style={styles.textView}>
+          <Text
+            textBreakStrategy='simple'
+            adjustsFontSizeToFit={true}
+            style={styles.text}
+          >
+            Tanake and welcome to the Catawba Audio Tour. Tour codes can be
+            unlocked on our mobile app by clicking the camera button below.
+            Otherwise use your favorite QR code reader.
           </Text>
-        )
-      })}
-      <Pressable
-        onPress={() => navigation.navigate('Camera')}
-        style={{
-          backgroundColor: theme.colors.yellow,
-          height: 100,
-          width: 100,
-          borderRadius: 100 / 2,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          bottom: -30,
-          elevation: 2,
-        }}
-      >
-        <Ionicons name='md-qr-code' size={50} color={theme.colors.navy} />
-      </Pressable>
+        </View>
+        <CameraButton onPress={handleClick} />
+      </View>
     </View>
   )
-  // return (
-  //   <Panel color='navy'>
-  //     <View
-  //       style={{
-  //         padding: 15,
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         flex: 1,
-  //       }}
-  //     >
-  //       <Text style={{ fontSize: 48, color: theme.colors.white, flex: 1 }}>
-  //         Tanake!
-  //       </Text>
-  //       <Image source={logo} style={{ width: 200, height: 200 }} />
-  //     </View>
-  //   </Panel>
-  // )
 }
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: theme.YELLOW,
+    padding: 40,
+  },
+  card: {
+    flex: 1,
+    backgroundColor: theme.WHITE,
+    padding: 20,
+    borderRadius: 20,
+    borderWidth: 5,
+    borderColor: theme.BLACK,
+    alignItems: 'stretch',
+    justifyContent: 'space-evenly',
+  },
+  title: {
+    flex: 1,
+    fontFamily: theme.FONT_TITLE,
+    fontSize: 50,
+
+    textAlign: 'center',
+    paddingBottom: 10,
+  },
+  text: {
+    fontSize: Platform.OS == 'android' ? 15 : 19,
+    textAlign: 'center',
+    fontFamily: 'text',
+  },
+  textView: {
+    flex: Platform.OS == 'android' ? 1.5 : 2,
+  },
+})
 
 export default Home

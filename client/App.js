@@ -1,28 +1,59 @@
-// TODO implement opacity for barcode View
-import React from 'react'
-import { DataProvider } from './hooks/useData'
-import { ThemeProvider } from './hooks/useTheme'
-import Views from './Views'
-import { View, Text } from 'react-native'
-import {
-  useFonts,
-  PermanentMarker_400Regular,
-} from '@expo-google-fonts/permanent-marker'
-// TODO: move to /Views folder
-export default function App() {
-  let [fontsLoaded] = useFonts({ PermanentMarker_400Regular })
-  if (!fontsLoaded) {
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    )
+import React, { useEffect, useState } from 'react'
+import { Platform, View, Text } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import Home from './Views/Home'
+import Stop from './Views/Stop'
+import Camera from './Views/Camera'
+import { ConcertOne_400Regular } from '@expo-google-fonts/concert-one'
+import * as Font from 'expo-font'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+// TODO: refactor navigation to reflect trail:stop architecture
+const NotFound = ({ navigation }) => <Home navigation={navigation} />
+const Stack = createNativeStackNavigator()
+const linking = {
+  config: {
+    screens: {
+      Home: '',
+      Stop: 'stop/:trail/:slug',
+      Camera: 'camera',
+      NotFound: '*',
+    },
+  },
+}
+function App() {
+  const [fontLoading, setFontLoading] = useState(true)
+  useEffect(() => {
+    Font.loadAsync({
+      title: require('./Fonts/Anton-Regular.ttf'),
+      text: require('./Fonts/Nunito-Regular.ttf'),
+    }).then((e) => setFontLoading(false))
+  }, [])
+  if (fontLoading) {
+    return <Text>Loading...</Text>
   }
   return (
-    <DataProvider>
-      <ThemeProvider>
-        <Views />
-      </ThemeProvider>
-    </DataProvider>
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <NavigationContainer linking={linking}>
+          <Stack.Navigator
+            initialRouteName='Home'
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name='Home' component={Home} />
+            <Stack.Screen name='Stop' component={Stop} />
+            {Platform.OS == 'web' ? null : (
+              <Stack.Screen name='Camera' component={Camera} />
+            )}
+
+            <Stack.Screen name='NotFound' component={NotFound} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
+
+export default App

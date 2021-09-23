@@ -1,16 +1,29 @@
-// TODO: refactor
 import React from 'react'
-import Panel from '../Panel'
-import AudioSection from './AudioSection'
-import { Transcript } from './Transcript'
-
+import { View, Text } from 'react-native'
+const data = {
+  cultural: [
+    {
+      slug: 'yehasuri-trail',
+      title: 'Yehasuri Trail',
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit…',
+      Narrator: 'Dr. Wenonah Haire',
+      image:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Catawba_River%2C_North_Fork%2C_near_Ashford%2C_North_Carolina.jpg/2880px-Catawba_River%2C_North_Fork%2C_near_Ashford%2C_North_Carolina.jpg',
+      Audio:
+        'https://upload.wikimedia.org/wikipedia/commons/d/de/Lorem_ipsum.ogg',
+      date_modified: '01/01/01',
+      _id: 'hash',
+    },
+  ],
+}
 const Stop = ({ route }) => {
-  const { title, audio, description: transcript, slug, image } = route.params
+  const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
+
   return (
-    <Panel color='white' style={{ flex: 1 }}>
-      <AudioSection img={image} title={title} audio={audio} />
-      <Transcript transcript={transcript} />
-    </Panel>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>{trail}</Text>
+      <Text>{slug}</Text>
+    </View>
   )
 }
 

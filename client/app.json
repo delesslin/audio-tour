@@ -7,7 +7,7 @@
     "androidNavigationBar": {
       "visible": "sticky-immersive"
     },
-    "backgroundColor": "#051940",
+    "backgroundColor": "#fbc10b",
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#FFFFFF"
