@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: Platform.OS == 'android' ? 15 : 19,
-    textAlign: 'center',
+    textAlign: 'justify',
     fontFamily: 'text',
   },
   textView: {

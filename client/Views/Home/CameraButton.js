@@ -18,7 +18,9 @@ const CameraButton = ({ onPress }) => {
   return (
     <View style={styles.container}>
       <Pressable onPress={onPress} style={styles.button}>
-        <Feather name='camera' size={50} color='black' />
+        <View style={styles.icon}>
+          <Feather name='camera' size={50} color='black' />
+        </View>
       </Pressable>
     </View>
   )
@@ -32,18 +34,20 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   button: {
-    padding: 0,
     backgroundColor: Theme.TEAL,
     flex: 1,
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 100,
-    width: 95,
+
     borderRadius: 100,
     overflow: 'hidden',
     top: 50,
     borderWidth: 5,
+    padding: 40,
+  },
+  icon: {
+    position: 'absolute',
   },
 })
 

@@ -11,9 +11,15 @@ const Camera = ({ navigation }) => {
   }
   const handleScan = ({ type, data }) => {
     let host = 'tour.catawbaculture.org'
+
     if (data.includes(host)) {
-      let [trail, stop] = data.split(host)[1].split('/stop/')[1].split('/')
-      setData({ trail, slug: stop })
+      try {
+        let [trail, stop] = data.split(host)[1].split('/stop/')[1].split('/')
+        setData({ trail, slug: stop })
+      } catch (e) {
+        if (e) console.error(e)
+        return
+      }
     }
   }
 
