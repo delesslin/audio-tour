@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Button, View, Text, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import Theme from '../../Theme'
-// TODO: parse QR codes and verify they are from an expected url
+import HomeButton from '../../Components/HomeButton'
+import { StopButton } from './StopButton'
+
 const Camera = ({ navigation }) => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
   const goTo = () => {
+    console.log('To a stop')
     navigation.navigate('Stop', data)
   }
   const handleScan = ({ type, data }) => {
@@ -37,46 +40,76 @@ const Camera = ({ navigation }) => {
     return <Text>No access to camera</Text>
   }
   return (
-    <View style={styles().page}>
-      <Text style={styles().title}>Point at a Tour Code</Text>
+    <View style={styles().container}>
+      <View style={styles().card}>
+        <Text style={styles().title}>Point at a Tour Code</Text>
 
-      <View style={styles(400).cameraView}>
-        {data.trail ? (
-          <Button onPress={goTo} title={'Go!'} />
-        ) : (
-          <BarCodeScanner
-            onBarCodeScanned={handleScan}
-            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-            style={StyleSheet.absoluteFill}
-          ></BarCodeScanner>
-        )}
+        <View style={styles().cameraContainer}>
+          <View style={styles(400).cameraView}>
+            {data.trail ? (
+              <StopButton goTo={goTo}></StopButton>
+            ) : (
+              <BarCodeScanner
+                onBarCodeScanned={handleScan}
+                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+                style={[
+                  StyleSheet.absoluteFillObject,
+                  { backgroundColor: Theme.BLACK },
+                ]}
+              ></BarCodeScanner>
+            )}
+          </View>
+        </View>
       </View>
+      <HomeButton navigate={navigation.navigate} />
     </View>
   )
 }
 
-const styles = (size) =>
+export const styles = (size) =>
   StyleSheet.create({
-    scanner: {},
+    container: {
+      flex: 1,
+
+      justifyContent: 'center',
+      backgroundColor: Theme.YELLOW,
+    },
+    card: {
+      flex: 1,
+      borderWidth: 5,
+      borderRadius: 20,
+      backgroundColor: Theme.WHITE,
+      minHeight: 200,
+      margin: 20,
+      marginBottom: 50,
+    },
     title: {
       fontFamily: 'title',
+      padding: 10,
+      paddingBottom: 0,
+      textAlign: 'center',
+      fontSize: 30,
     },
-    page: {
-      backgroundColor: Theme.YELLOW,
+    cameraContainer: {
       flex: 1,
-      alignItems: 'center',
+      flexDirection: 'row',
+      alignItems: 'stretch',
       justifyContent: 'center',
     },
     cameraView: {
-      height: size,
-      width: size,
-      backgroundColor: 'white',
-      height: size,
+      backgroundColor: Theme.BLACK,
+      flex: 1,
       borderRadius: size,
       overflow: 'hidden',
-      borderWidth: 10,
-      borderColor: Theme.BLUE,
+      borderWidth: 5,
+      borderColor: Theme.BLACK,
       backgroundColor: Theme.BLUE,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 125,
+      margin: 70,
+
+      marginBottom: 100,
     },
   })
 

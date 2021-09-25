@@ -6,7 +6,7 @@ import Logo from './Logo'
 
 const Home = ({ navigation: { navigate } }) => {
   const handleClick = () => {
-    console.log('CLICK!')
+    console.log('CLICKkk!')
     navigate('Camera')
   }
 
@@ -27,6 +27,7 @@ const Home = ({ navigation: { navigate } }) => {
             Otherwise use your favorite QR code reader.
           </Text>
         </View>
+        {/* Refactor to use like HomeButton */}
         <CameraButton onPress={handleClick} />
       </View>
     </View>
@@ -39,7 +40,7 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     backgroundColor: theme.YELLOW,
-    padding: 40,
+    padding: 30,
   },
   card: {
     flex: 1,
