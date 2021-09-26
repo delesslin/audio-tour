@@ -2,35 +2,48 @@ import React from 'react'
 import { View, Text, StyleSheet, Platform } from 'react-native'
 import theme from '../../Theme'
 import CameraButton from './CameraButton'
+import Controls from './Controls'
 import Logo from './Logo'
 
+import Title from '../Stop/Title'
+import Container from '../../Components/Container'
+import Card from '../../Components/Card'
+import NavButton from '../../Components/NavButton'
+import CardText from '../../Components/CardText'
+import useSound from '../../hooks/useSound'
 const Home = ({ navigation: { navigate } }) => {
+  const { isPlaying, stopSound, playSound, sound } = useSound(
+    require('./Welcome.mp3')
+  )
   const handleClick = () => {
     console.log('CLICKkk!')
+    sound ? stopSound() : null
     navigate('Camera')
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.title}>Tanake!</Text>
+    <Container>
+      <Card>
+        <Title fontSize={50}>TANAKE</Title>
 
         <Logo size={200}></Logo>
-        <View style={styles.textView}>
-          <Text
-            textBreakStrategy='simple'
-            adjustsFontSizeToFit={true}
-            style={styles.text}
-          >
-            Tanake and welcome to the Catawba Audio Tour. Tour codes can be
-            unlocked on our mobile app by clicking the camera button below.
-            Otherwise use your favorite QR code reader.
-          </Text>
-        </View>
-        {/* Refactor to use like HomeButton */}
-        <CameraButton onPress={handleClick} />
-      </View>
-    </View>
+        <Controls
+          isPlaying={isPlaying}
+          stopSound={stopSound}
+          playSound={playSound}
+        ></Controls>
+        <CardText>
+          Tanake and welcome to the Catawba Audio Tour. Tour codes can be
+          unlocked on our mobile app by clicking the camera button below.
+          Otherwise use your favorite QR code reader.
+        </CardText>
+      </Card>
+      {Platform.OS == 'web' ? null : (
+        <NavButton onPress={handleClick}>
+          <CameraButton />
+        </NavButton>
+      )}
+    </Container>
   )
 }
 

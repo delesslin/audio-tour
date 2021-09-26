@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Button, StyleSheet, Platform } from 'react-native'
-import Theme from '../../Theme'
-import HomeButton from '../../Components/HomeButton'
+import { View, Text } from 'react-native'
+import NavButton from '../../Components/NavButton'
 import data from './exampleData'
 import StopText from './StopText'
 import PlayButton from './PlayButton'
 import { ExpandButton } from './ExpandButton'
 import StopImage from './StopImage'
 import Title from './Title'
+import Container from '../../Components/Container'
+import Card from '../../Components/Card'
+import BackIcon from '../../Components/BackIcon'
 const getData = ({ trail, slug }) => {
   return data[trail].filter((entry) => entry.slug == slug)
 }
@@ -31,41 +33,25 @@ const Stop = ({ route, navigation: { navigate } }) => {
     )
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        {expanded ? null : <Title title={data.title}></Title>}
+    <Container>
+      <Card>
+        {expanded ? null : <Title>{data.title}</Title>}
         <StopImage expanded={expanded} image={data.image}></StopImage>
-        {expanded ? (
-          <Title expanded={expanded} title={data.title}></Title>
-        ) : null}
-        <PlayButton />
+        {expanded ? <Title expanded={expanded}>{data.title}</Title> : null}
+        <PlayButton audio={data.audio} expanded={expanded} />
         <ExpandButton expanded={expanded} onPress={toggleExpand}></ExpandButton>
         <StopText
           onPress={toggleExpand}
           expanded={expanded}
           data={data}
         ></StopText>
-      </View>
-      <HomeButton navigate={navigate}></HomeButton>
-    </View>
+      </Card>
+
+      <NavButton onPress={() => navigate('Home')}>
+        <BackIcon></BackIcon>
+      </NavButton>
+    </Container>
   )
 }
-export const styles = StyleSheet.create({
-  // TODO: refactor to share with Home & Camera as applicable
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: Theme.YELLOW,
-  },
-  card: {
-    flex: 1,
-    borderWidth: 5,
-    borderRadius: 20,
-    backgroundColor: Theme.WHITE,
-    minHeight: 200,
-    margin: 30,
-    marginBottom: 50,
-    overflow: 'hidden',
-  },
-})
+
 export default Stop

@@ -1,27 +1,46 @@
+import hexRgb from 'hex-rgb'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Animated, Platform, Text, View } from 'react-native'
 import Theme from '../../Theme'
-function Title({ title, expanded }) {
+function Title({ children, expanded = false, fontSize = 30 }) {
+  let animeValue = React.useRef(new Animated.Value(0)).current
+  let fs = Platform.OS == 'android' ? fontSize - 3 : fontSize
+  React.useEffect(() => {
+    Animated.spring(animeValue, {
+      toValue: expanded ? 1 : 0,
+      useNativeDriver: false,
+    }).start()
+  }, [])
   return (
-    <View
+    <Animated.View
       style={{
-        backgroundColor: expanded ? Theme.BLUE : Theme.WHITE,
+        // backgroundColor: animeValue.interpolate({
+        //   inputRange: [0, 1],
+        //   outputRange: [
+        //     'rgba(0,0,0,0)',
+        //     expanded ? Theme.rgba(Theme.BLUE, 0.9) : Theme.rgba(Theme.WHITE, 1),
+        //   ],
+        // }),
+        backgroundColor: expanded
+          ? Theme.rgba(Theme.BLUE, 0.9)
+          : Theme.rgba(Theme.WHITE, 1),
         alignSelf: expanded ? 'flex-start' : 'center',
-        padding: 5,
+        padding: 2,
         paddingHorizontal: 20,
         borderRadius: 30,
         margin: 10,
+        borderWidth: expanded ? 3 : 0,
       }}
     >
       <Text
         style={{
-          fontSize: 30,
+          fontSize: expanded ? fs - 5 : fs,
           fontFamily: 'title',
         }}
       >
-        {title.toUpperCase()}
+        {children.toUpperCase()}
       </Text>
-    </View>
+    </Animated.View>
   )
 }
 

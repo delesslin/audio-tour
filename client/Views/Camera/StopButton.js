@@ -1,17 +1,38 @@
 import React from 'react'
-import { View, StyleSheet, Pressable } from 'react-native'
-import { AntDesign } from '@expo/vector-icons'
+import { Animated, View, StyleSheet, Pressable } from 'react-native'
+
+import { Ionicons } from '@expo/vector-icons'
 import Theme from '../../Theme'
 
-export function StopButton(props) {
+export function StopButton({ goTo }) {
+  const animationVariable = React.useRef(new Animated.Value(0)).current
+  React.useEffect(() => {
+    Animated.spring(animationVariable, {
+      toValue: 1,
+      useNativeDriver: true,
+      friction: 2,
+    }).start()
+  }, [])
   return (
     <View style={[StyleSheet.absoluteFill, styles.container]}>
       <Pressable
-        onPress={props.goTo}
+        onPress={goTo}
         style={[styles.pressable, StyleSheet.absoluteFill]}
       >
-        {/* <AntDesign name='find' size={80} color={Theme.BLACK} /> */}
-        <AntDesign name='arrowright' size={80} color={Theme.BLACK} />
+        <Animated.View
+          style={{
+            transform: [
+              {
+                scale: animationVariable.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 2],
+                }),
+              },
+            ],
+          }}
+        >
+          <Ionicons name='qr-code' size={80} color={Theme.BLACK} />
+        </Animated.View>
       </Pressable>
     </View>
   )

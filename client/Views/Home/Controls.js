@@ -1,59 +1,50 @@
 import React from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { Entypo, Ionicons } from '@expo/vector-icons'
-import { Audio } from 'expo-av'
-import theme from '../../Theme'
-function Controls() {
-  const [isPlaying, setIsPlaying] = React.useState(false)
-  const [sound, setSound] = React.useState()
-  let togglePlay = () => {
-    if (!isPlaying) {
-      playSound()
-    } else {
-      stopSound()
-    }
-    setIsPlaying(() => !isPlaying)
-  }
-  async function stopSound() {
-    sound.stopAsync()
-  }
-  async function playSound() {
-    console.log('Loading Sound')
-    const { sound } = await Audio.Sound.createAsync(require('./Welcome.mp3'))
-    setSound(sound)
 
-    console.log('Playing Sound')
-    await sound.playAsync()
-  }
+import theme from '../../Theme'
+import Theme from '../../Theme'
+// TODO: WHY is this not stopping on navigate? maybe just implement the Play component from Stop?
+function Controls({ isPlaying, stopSound, playSound }) {
   return (
-    <Pressable
-      style={[
-        styles.play,
-        { backgroundColor: !isPlaying ? theme.BLUE : theme.YELLOW },
-      ]}
-      onPress={togglePlay}
+    <View
+      style={{
+        position: 'absolute',
+
+        alignSelf: 'center',
+        top: 300 + 50 - 30,
+      }}
     >
-      {isPlaying ? (
-        <Ionicons name='md-pause-sharp' size={30} color='black' />
-      ) : (
-        <Entypo name='controller-play' size={30} color='black' />
-      )}
-    </Pressable>
+      <Pressable
+        style={{
+          backgroundColor: isPlaying ? theme.YELLOW : theme.BLUE,
+          padding: 30,
+          borderRadius: 75,
+          borderWidth: 3,
+          alignSelf: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onPress={isPlaying ? stopSound : playSound}
+      >
+        {isPlaying ? (
+          <Ionicons
+            style={{ position: 'absolute' }}
+            name='md-pause-sharp'
+            size={30}
+            color='black'
+          />
+        ) : (
+          <Entypo
+            style={{ position: 'absolute' }}
+            name='controller-play'
+            size={30}
+            color='black'
+          />
+        )}
+      </Pressable>
+    </View>
   )
 }
-
-const styles = StyleSheet.create({
-  play: {
-    backgroundColor: theme.BLUE,
-    padding: 10,
-    borderRadius: 75,
-    borderWidth: 3,
-    height: 70,
-    width: 70,
-    top: -35,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
 
 export default Controls

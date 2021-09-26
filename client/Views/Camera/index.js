@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Button, View, Text, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import Theme from '../../Theme'
-import HomeButton from '../../Components/HomeButton'
+import NavButton from '../../Components/NavButton'
 import { StopButton } from './StopButton'
-
+import BackIcon from '../../Components/BackIcon'
 const Camera = ({ navigation }) => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
@@ -61,7 +61,9 @@ const Camera = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <HomeButton navigate={navigation.navigate} />
+      <NavButton onPress={() => navigation.navigate('Home')}>
+        <BackIcon></BackIcon>
+      </NavButton>
     </View>
   )
 }

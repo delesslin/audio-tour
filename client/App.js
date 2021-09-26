@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from './Views/Home'
 import Stop from './Views/Stop'
 import Camera from './Views/Camera'
-import { ConcertOne_400Regular } from '@expo-google-fonts/concert-one'
+import Download from './Views/Download'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 // TODO: refactor navigation to reflect trail:stop architecture
@@ -17,6 +17,7 @@ const linking = {
       Home: '',
       Stop: 'stop/:trail/:slug',
       Camera: 'camera',
+      Download: 'download',
       NotFound: '*',
     },
   },
@@ -47,6 +48,9 @@ function App() {
             {Platform.OS == 'web' ? null : (
               <Stack.Screen name='Camera' component={Camera} />
             )}
+            {Platform.OS == 'web' ? (
+              <Stack.Screen name='Download' component={Download} />
+            ) : null}
 
             <Stack.Screen name='NotFound' component={NotFound} />
           </Stack.Navigator>

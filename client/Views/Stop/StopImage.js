@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 import Theme from '../../Theme'
-function StopImage({ image, expanded }) {
+function StopImage({ image, expanded = false }) {
   return (
     <View style={expanded ? styles.fullscreenImage : styles.image}>
       <Image
