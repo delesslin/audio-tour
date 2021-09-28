@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import NavButton from '../../Components/NavButton'
 import data from './exampleData'
@@ -10,20 +10,13 @@ import Title from './Title'
 import Container from '../../Components/Container'
 import Card from '../../Components/Card'
 import BackIcon from '../../Components/BackIcon'
-const getData = ({ trail, slug }) => {
-  return data[trail].filter((entry) => entry.slug == slug)
-}
+import { useData } from './useData'
 
 const Stop = ({ route, navigation: { navigate } }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
-  const [data, setData] = useState(null)
   const [expanded, setExpanded] = useState(false)
+  const { data } = useData({ trail, slug })
   const toggleExpand = () => setExpanded(!expanded)
-  useEffect(() => {
-    let entry = getData({ trail, slug })
-    if (entry.length < 1) return
-    setData(entry[0])
-  }, [])
 
   if (!data) {
     return (
