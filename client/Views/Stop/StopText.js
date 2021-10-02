@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'
 import hexRgb from 'hex-rgb'
 function StopText({ data, expanded, onPress }) {
-  let teal = hexRgb(Theme.TEAL)
+  let teal = hexRgb(Theme.YELLOW)
   let white = hexRgb(Theme.WHITE)
   // TODO: Style expanded view text
   if (expanded) {
