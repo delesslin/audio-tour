@@ -8,6 +8,7 @@ import Camera from './Views/Camera'
 import Download from './Views/Download'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { DataProvider } from './hooks/useData'
 // TODO: refactor navigation to reflect trail:stop architecture
 const NotFound = ({ navigation }) => <Home navigation={navigation} />
 const Stack = createNativeStackNavigator()
@@ -34,29 +35,31 @@ function App() {
     return <Text>Loading...</Text>
   }
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer linking={linking}>
-          <Stack.Navigator
-            initialRouteName='Home'
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name='Home' component={Home} />
-            <Stack.Screen name='Stop' component={Stop} />
-            {Platform.OS == 'web' ? null : (
-              <Stack.Screen name='Camera' component={Camera} />
-            )}
-            {Platform.OS == 'web' ? (
-              <Stack.Screen name='Download' component={Download} />
-            ) : null}
+    <DataProvider>
+      <SafeAreaProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          <NavigationContainer linking={linking}>
+            <Stack.Navigator
+              initialRouteName='Home'
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name='Home' component={Home} />
+              <Stack.Screen name='Stop' component={Stop} />
+              {Platform.OS == 'web' ? null : (
+                <Stack.Screen name='Camera' component={Camera} />
+              )}
+              {Platform.OS == 'web' ? (
+                <Stack.Screen name='Download' component={Download} />
+              ) : null}
 
-            <Stack.Screen name='NotFound' component={NotFound} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </SafeAreaProvider>
+              <Stack.Screen name='NotFound' component={NotFound} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </DataProvider>
   )
 }
 

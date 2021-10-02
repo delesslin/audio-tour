@@ -5,7 +5,7 @@ import Theme from '../../Theme'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'
 import hexRgb from 'hex-rgb'
-function StopText({ data, expanded, onPress }) {
+function StopText({ transcript, narrator, expanded, onPress }) {
   let teal = hexRgb(Theme.YELLOW)
   let white = hexRgb(Theme.WHITE)
   // TODO: Style expanded view text
@@ -38,7 +38,7 @@ function StopText({ data, expanded, onPress }) {
               margin: 10,
             }}
           >
-            {data.text.slice(0, 25)}...
+            {transcript.slice(0, 25)}...
           </Text>
           <View
             style={{
@@ -64,8 +64,8 @@ function StopText({ data, expanded, onPress }) {
   }
   return (
     <ScrollView style={styles.text}>
-      <Text style={styles.transcript}>{data.text}</Text>
-      <Text style={styles.narrator}>Narrator: {data.narrator}</Text>
+      <Text style={styles.transcript}>{transcript}</Text>
+      <Text style={styles.narrator}>Narrator: {narrator}</Text>
     </ScrollView>
   )
 }

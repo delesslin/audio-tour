@@ -26,14 +26,16 @@ existsOrCreate(trailPath)
 
 let stopPath = trailPath + `/${stop}`
 existsOrCreate(stopPath)
-let template = {
+let templateJSON = {
   title: '',
   narrator: '',
-  text: '',
 }
 let dataPath = stopPath + `/data.json`
-fs.writeFileSync(dataPath, JSON.stringify(template))
+fs.writeFileSync(dataPath, JSON.stringify(templateJSON))
+let templateTXT = fs.readFileSync('directoryUtility/template.txt')
+let txtPath = stopPath + '/transcript.txt'
 let imgPath = stopPath + '/image'
+fs.writeFileSync(txtPath, templateTXT)
 fs.mkdirSync(imgPath)
 let audioPath = stopPath + '/audio'
 fs.mkdirSync(audioPath)
