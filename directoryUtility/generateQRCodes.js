@@ -24,7 +24,11 @@ const generateQRCodes = ({ data, width, logoSize, path }) => {
       images(fileName) //Load image from file
         .size(width)
 
-        .draw(images('logo.png').size(logoSize, logoSize), offset, offset) //Drawn logo at coordinates (10,10)
+        .draw(
+          images('./directoryUtility/logo.png').size(logoSize, logoSize),
+          offset,
+          offset
+        ) //Drawn logo at coordinates (10,10)
 
         .save(fileName, {
           //Save the image to a file, with the quality of 50

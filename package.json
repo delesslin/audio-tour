@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "create": "node index.js"
+    "create": "node directoryUtility"
   },
   "dependencies": {
     "images": "^3.2.3",
