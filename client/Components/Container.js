@@ -8,7 +8,7 @@ const Container = ({ children }) => {
       style={{
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: Theme.YELLOW,
+        backgroundColor: Theme.TEAL,
       }}
     >
       {children}

@@ -16,7 +16,7 @@ const PlayButton = ({ audio, expanded }) => {
       useNativeDriver: false,
       friction: 4,
     }).start()
-    let color = isPlaying ? Theme.RED : Theme.BLUE
+    let color = isPlaying ? Theme.NAVY : Theme.BLUE
     if (expanded) {
       setBg(Theme.rgba(color, 0.9))
       return
@@ -58,7 +58,7 @@ const PlayButton = ({ audio, expanded }) => {
           style={{ position: 'absolute' }}
           name={isPlaying ? 'stop' : 'play'}
           size={25}
-          color='black'
+          color={isPlaying ? Theme.BLUE : Theme.NAVY}
         />
       </Pressable>
     </Animated.View>

@@ -54,7 +54,7 @@ const Camera = ({ navigation }) => {
                 barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
                 style={[
                   StyleSheet.absoluteFillObject,
-                  { backgroundColor: Theme.BLACK },
+                  { backgroundColor: Theme.BLACK, position: 'absolute' },
                 ]}
               ></BarCodeScanner>
             )}
@@ -74,7 +74,7 @@ export const styles = (size) =>
       flex: 1,
 
       justifyContent: 'center',
-      backgroundColor: Theme.YELLOW,
+      backgroundColor: Theme.TEAL,
     },
     card: {
       flex: 1,
@@ -95,8 +95,9 @@ export const styles = (size) =>
     cameraContainer: {
       flex: 1,
       flexDirection: 'row',
-      alignItems: 'stretch',
+      alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 50,
     },
     cameraView: {
       backgroundColor: Theme.BLACK,
@@ -106,12 +107,8 @@ export const styles = (size) =>
       borderWidth: 5,
       borderColor: Theme.BLACK,
       backgroundColor: Theme.BLUE,
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 125,
-      margin: 70,
-
-      marginBottom: 100,
+      padding: 150,
+      position: 'absolute',
     },
   })
 

@@ -41,7 +41,9 @@
     "react-native-screens": "~3.4.0",
     "react-native-web": "~0.13.12",
     "request": "^2.88.2",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "simple-xml-to-json": "^1.0.8",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

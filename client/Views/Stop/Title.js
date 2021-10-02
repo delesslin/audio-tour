@@ -22,11 +22,11 @@ function Title({ children, expanded = false, fontSize = 30 }) {
         //   ],
         // }),
         backgroundColor: expanded
-          ? Theme.rgba(Theme.BLUE, 0.9)
+          ? Theme.rgba(Theme.TEAL, 0.9)
           : Theme.rgba(Theme.WHITE, 1),
         alignSelf: expanded ? 'flex-start' : 'center',
         padding: 2,
-        paddingHorizontal: 20,
+        paddingHorizontal: 40,
         borderRadius: 30,
         margin: 10,
         borderWidth: expanded ? 3 : 0,
@@ -36,6 +36,7 @@ function Title({ children, expanded = false, fontSize = 30 }) {
         style={{
           fontSize: expanded ? fs - 5 : fs,
           fontFamily: 'title',
+          color: Theme.BLACK,
         }}
       >
         {children.toUpperCase()}
