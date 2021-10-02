@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "create": "node index.js"
+  },
+  "dependencies": {
+    "images": "^3.2.3",
+    "jimp": "^0.16.1",
+    "qrcode": "^1.4.4"
+  },
+  "license": "MIT"
+}
