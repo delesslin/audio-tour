@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "create": "node directoryUtility"
+    "create": "node directoryUtility",
+    "lint": "node directoryUtility/linter"
   },
   "dependencies": {
     "images": "^3.2.3",
