@@ -1,27 +1,43 @@
 import React, { useEffect } from 'react'
-import { View, StyleSheet, Pressable, Animated } from 'react-native'
+import { View, StyleSheet, Pressable, Animated, Easing } from 'react-native'
 
 import Theme from '../Theme'
 
 function NavButton({ onPress, size = 40, color = Theme.RED, children }) {
   let anime = React.useRef(new Animated.Value(0)).current
-
+  let backgroundColor = React.useRef(new Animated.Value(0)).current
   const handleClick = () => {
-    Animated.spring(anime, {
-      toValue: 1,
-      useNativeDriver: false,
+    Animated.sequence([
+      Animated.spring(anime, {
+        toValue: 1,
+        useNativeDriver: false,
 
-      speed: 20,
-    }).start(() => {
+        speed: 20,
+      }),
+    ]).start(() => {
       anime.setValue(0)
       onPress()
+      Animated.timing(backgroundColor, {
+        toValue: 0,
+        useNativeDriver: false,
+        duration: 100,
+        easing: Easing.bounce,
+      }).start()
     })
   }
   const handlePressIn = () => {
-    Animated.spring(anime, {
-      toValue: -1,
-      useNativeDriver: false,
-    }).start()
+    Animated.parallel([
+      Animated.spring(anime, {
+        toValue: -1,
+        useNativeDriver: false,
+      }),
+      Animated.timing(backgroundColor, {
+        toValue: 1,
+        useNativeDriver: false,
+        duration: 100,
+        easing: Easing.bounce,
+      }),
+    ]).start()
   }
   return (
     <Animated.View
@@ -36,6 +52,10 @@ function NavButton({ onPress, size = 40, color = Theme.RED, children }) {
           position: 'absolute',
           borderRadius: size * 2,
           overflow: 'hidden',
+          backgroundColor: backgroundColor.interpolate({
+            inputRange: [0, 1],
+            outputRange: [Theme.rgba(color, 1), Theme.rgba(Theme.YELLOW, 1)],
+          }),
           transform: [
             {
               scale: anime.interpolate({
@@ -52,7 +72,6 @@ function NavButton({ onPress, size = 40, color = Theme.RED, children }) {
         onPressOut={handleClick}
         onPressIn={handlePressIn}
         style={{
-          backgroundColor: color,
           padding: size,
           alignItems: 'center',
           justifyContent: 'center',

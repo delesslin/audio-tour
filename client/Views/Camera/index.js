@@ -5,6 +5,7 @@ import Theme from '../../Theme'
 import NavButton from '../../Components/NavButton'
 import { StopButton } from './StopButton'
 import BackIcon from '../../Components/BackIcon'
+import Background from './Background'
 const Camera = ({ navigation }) => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
@@ -41,11 +42,56 @@ const Camera = ({ navigation }) => {
   }
   return (
     <View style={styles().container}>
-      <View style={styles().card}>
-        <Text style={styles().title}>Point at a Tour Code</Text>
+      <View
+        style={{
+          overflow: 'hidden',
+          flex: 1,
+          borderWidth: 5,
+          borderRadius: 20,
+          backgroundColor: Theme.WHITE,
+          minHeight: 200,
+          margin: 20,
+          marginBottom: 50,
+          paddingVertical: 25,
+        }}
+      >
+        <Background />
+        <Text
+          style={{
+            fontFamily: 'title',
+            padding: 10,
+            paddingBottom: 0,
+            textAlign: 'center',
+            fontSize: 40,
 
-        <View style={styles().cameraContainer}>
-          <View style={styles(400).cameraView}>
+            backgroundColor: Theme.WHITE,
+          }}
+        >
+          Point at a Tour Code
+        </Text>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 50,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: Theme.BLACK,
+              flex: 1,
+              borderRadius: 400,
+              overflow: 'hidden',
+              borderWidth: 5,
+              borderColor: data.trail ? Theme.BLACK : Theme.BLUE,
+              backgroundColor: Theme.BLUE,
+              padding: 150,
+              position: 'absolute',
+            }}
+          >
             {data.trail ? (
               <StopButton goTo={goTo}></StopButton>
             ) : (
@@ -72,11 +118,11 @@ export const styles = (size) =>
   StyleSheet.create({
     container: {
       flex: 1,
-
       justifyContent: 'center',
       backgroundColor: Theme.TEAL,
     },
     card: {
+      overflow: 'hidden',
       flex: 1,
       borderWidth: 5,
       borderRadius: 20,
@@ -90,7 +136,9 @@ export const styles = (size) =>
       padding: 10,
       paddingBottom: 0,
       textAlign: 'center',
-      fontSize: 30,
+      fontSize: 40,
+      marginTop: 20,
+      backgroundColor: Theme.WHITE,
     },
     cameraContainer: {
       flex: 1,
@@ -105,7 +153,7 @@ export const styles = (size) =>
       borderRadius: size,
       overflow: 'hidden',
       borderWidth: 5,
-      borderColor: Theme.BLACK,
+      borderColor: Theme.BLUE,
       backgroundColor: Theme.BLUE,
       padding: 150,
       position: 'absolute',

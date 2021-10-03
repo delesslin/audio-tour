@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
+import { View, Text, StyleSheet, Platform, Image } from 'react-native'
 import theme from '../../Theme'
 import CameraButton from './CameraButton'
 import Controls from './Controls'
