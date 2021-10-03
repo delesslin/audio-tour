@@ -6,8 +6,12 @@ let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
 const DataContext = createContext()
 export const DataProvider = ({ children, s3URL = dataURL }) => {
   const [data, setData] = useState(null)
+  const [dataLoading, setDataLoading] = useState(true)
   useEffect(() => {
-    xmlToTree(s3URL).then(setData)
+    xmlToTree(s3URL).then((obj) => {
+      setData(obj)
+      setDataLoading(false)
+    })
     // TODO: localStorage on non web platform
   }, [])
 
@@ -43,28 +47,30 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
     }
   }
   return (
-    <DataContext.Provider value={{ data, fetchStop }}>
+    <DataContext.Provider value={{ data, fetchStop, dataLoading }}>
       {children}
     </DataContext.Provider>
   )
 }
 
 export default ({ trail, slug }) => {
-  const { fetchStop } = useContext(DataContext)
+  const { fetchStop, dataLoading } = useContext(DataContext)
   let [stop, setStop] = useState({})
   let [loading, setLoading] = useState(true)
   let [error, setError] = useState(false)
 
   useEffect(() => {
-    fetchStop({ trail, slug })
-      .then((stopData) => {
-        setStop(stopData)
-      })
-      .catch((e) => {
-        console.error(e)
-        setError(true)
-      })
-      .finally(() => setLoading(false))
-  }, [trail, slug])
+    if (!dataLoading) {
+      fetchStop({ trail, slug })
+        .then((stopData) => {
+          setStop(stopData)
+        })
+        .catch((e) => {
+          console.error(e)
+          setError(true)
+        })
+        .finally(() => setLoading(false))
+    }
+  }, [trail, slug, dataLoading])
   return { stop, loading, error }
 }
