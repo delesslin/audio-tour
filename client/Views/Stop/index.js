@@ -11,6 +11,8 @@ import Container from '../../Components/Container'
 import Card from '../../Components/Card'
 import BackIcon from '../../Components/BackIcon'
 import useData from '../../hooks/useData'
+import ErrorView from './Error'
+import Loading from './Loading'
 
 const Stop = ({ route, navigation: { navigate } }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
@@ -20,18 +22,10 @@ const Stop = ({ route, navigation: { navigate } }) => {
   const toggleExpand = () => setExpanded(!expanded)
 
   if (loading) {
-    return (
-      <View>
-        <Text>LOADING...</Text>
-      </View>
-    )
+    return <Loading />
   }
   if (error) {
-    return (
-      <View>
-        <Text>ERROR!</Text>
-      </View>
-    )
+    return <ErrorView navigate={navigate} />
   }
   return (
     <Container>

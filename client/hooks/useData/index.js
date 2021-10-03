@@ -8,6 +8,7 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
   const [data, setData] = useState(null)
   useEffect(() => {
     xmlToTree(s3URL).then(setData)
+    // TODO: localStorage on non web platform
   }, [])
 
   const fetchStop = async ({ trail, slug }) => {
@@ -16,8 +17,10 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
       stopData.hasOwnProperty('narrator') &&
       stopData.hasOwnProperty('title')
     ) {
+      console.log('ALREADY HAVE DATA')
       return await stopData
     } else {
+      console.log('NEED DATA')
       return await fetch(stopData.data.url)
         .then((res) => res.json())
         .then(({ title, narrator }) => {
@@ -53,17 +56,15 @@ export default ({ trail, slug }) => {
   let [error, setError] = useState(false)
 
   useEffect(() => {
-    try {
-      fetchStop({ trail, slug }).then((stopData) => {
-        // console.log('STOP DATA: ', stopData)
+    fetchStop({ trail, slug })
+      .then((stopData) => {
         setStop(stopData)
-        setLoading(false)
       })
-    } catch (e) {
-      console.error(e)
-      setLoading(false)
-      setError(true)
-    }
+      .catch((e) => {
+        // console.error(e)
+        setError(true)
+      })
+      .finally(() => setLoading(false))
   }, [trail, slug])
   return { stop, loading, error }
 }

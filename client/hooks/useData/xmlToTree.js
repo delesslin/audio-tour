@@ -1,5 +1,4 @@
 import { convertXML } from 'simple-xml-to-json'
-import fetch from 'node-fetch'
 
 let xmlToTree = function (url) {
   return fetch(url)
