@@ -61,7 +61,7 @@ export default ({ trail, slug }) => {
         setStop(stopData)
       })
       .catch((e) => {
-        // console.error(e)
+        console.error(e)
         setError(true)
       })
       .finally(() => setLoading(false))
