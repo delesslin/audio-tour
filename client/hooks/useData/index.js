@@ -2,7 +2,9 @@ import React, { useEffect, useState, createContext, useContext } from 'react'
 
 import xmlToTree from './xmlToTree'
 let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
-
+// TODO: PLATFORM.OS == 'web' ?  () : ()
+// TODO: download react-device-detect
+// TODO: if (mobileBrowser) then {offer mobile app download}
 const DataContext = createContext()
 export const DataProvider = ({ children, s3URL = dataURL }) => {
   const [data, setData] = useState(null)
@@ -15,21 +17,20 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
     // TODO: localStorage on non web platform
   }, [])
 
+  // TODO: Move function out of hook
   const fetchStop = async ({ trail, slug }) => {
     let stopData = data[trail][slug]
     if (
       stopData.hasOwnProperty('narrator') &&
       stopData.hasOwnProperty('title')
     ) {
-      console.log('ALREADY HAVE DATA')
+      // console.log('ALREADY HAVE DATA')
       return await stopData
     } else {
-      console.log('NEED DATA')
+      // console.log('NEED DATA')
       return await fetch(stopData.data.url)
         .then((res) => res.json())
         .then(({ title, narrator }) => {
-          // console.log('OBJ: ', obj)
-          // console.log(stopData.transcript.url)
           return fetch(stopData.transcript.url)
             .then((res) => res.text())
             .then((transcript) => {
