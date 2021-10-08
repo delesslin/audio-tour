@@ -61,7 +61,7 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
           truth[trail][stop].image.uri =
             stopPath + '/image' + getExt(truth[trail][stop].image.file)
           if (truthImageDate.to > localImageDate) {
-            console.log('fetching data')
+            console.log('fetching image data')
             let { uri } = await FileSystem.downloadAsync(
               truth[trail][stop].image.url,
               truth[trail][stop].image.uri
@@ -80,14 +80,14 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
               truth[trail][stop].audio.url,
               truth[trail][stop].audio.uri
             )
-            console.log('downloaded data')
+            console.log('downloaded audio data')
             truth[trail][stop].audio.uri = uri
           }
           const localTextDate = new Date(2001, 1, 1)
           const truthTextDate = new Date(2010, 1, 1)
 
           if (truthTextDate > localTextDate) {
-            console.log('Fetching data')
+            console.log('Fetching text data')
             await fetch(truth[trail][stop].data.url)
               .then((res) => res.json())
               .then(
@@ -126,7 +126,7 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
       return stopData
     } else if (Platform.OS == 'web') {
       // console.log('NEED DATA')
-      console.log('fetching data')
+      console.log('fetching data for web')
       return await fetch(stopData.data.url)
         .then((res) => res.json())
         .then(async ({ title, narrator }) => {
