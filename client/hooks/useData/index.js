@@ -4,6 +4,7 @@ import { Platform } from 'react-native'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as FileSystem from 'expo-file-system'
 import xmlToTree from './xmlToTree'
+import NetInfo from '@react-native-community/netinfo'
 let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
 // TODO: download react-device-detect
 // TODO: if (mobileBrowser) then {offer mobile app download}
@@ -18,98 +19,119 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
   const [data, setData] = useState(null)
   const [dataLoading, setDataLoading] = useState(true)
   useEffect(() => {
-    // TODO: localStorage on non web platform
-    console.log('fetching data map')
-    // TODO: how do we handle no internet access?
-    xmlToTree(s3URL).then(async (truth) => {
-      // TODO: PLATFORM.OS == 'web' ?  () : ()
-      if (Platform.OS == 'web') {
-        setData(truth)
-        setDataLoading(false)
-        return
-      }
-      let local = JSON.parse(
-        await FileSystem.readAsStringAsync(
+    NetInfo.fetch().then(({ isConnected, type }) => {
+      console.log('Is connected?', isConnected)
+      console.log('Connection type: ', type)
+      if (!isConnected) {
+        console.log('not connected')
+        return FileSystem.readAsStringAsync(
           FileSystem.documentDirectory + 'db.json'
         )
-      )
-      if (typeof local == 'string') {
-        console.log('NO DB!')
-        local = {}
+          .then(JSON.parse)
+          .then((local) => {
+            // TODO: map through local and create uri
+            setData(local)
+            setDataLoading(false)
+            return
+          })
       }
-      const files = await FileSystem.readDirectoryAsync(
-        FileSystem.documentDirectory
-      )
-      const trails = Object.keys(truth)
-      for (let trail of trails) {
-        let trailPath = FileSystem.documentDirectory + trail
-        if (!files.includes(trail)) {
-          await FileSystem.makeDirectoryAsync(trailPath)
+      // TODO: localStorage on non web platform
+      console.log('fetching data map')
+      // TODO: how do we handle no internet access?
+      xmlToTree(s3URL).then(async (truth) => {
+        // TODO: PLATFORM.OS == 'web' ?  () : ()
+        if (Platform.OS == 'web') {
+          setData(truth)
+          setDataLoading(false)
+          return
         }
-        let stops = Object.keys(truth[trail])
-        let stopFiles = await FileSystem.readDirectoryAsync(trailPath)
-        for (let stop of stops) {
-          let stopPath = trailPath + `/${stop}`
-          if (!stopFiles.includes(stop)) {
-            await FileSystem.makeDirectoryAsync(stopPath)
-          }
-
-          const localImageDate = new Date(
-            local[trail]?.[stop]?.image?.lastModified || '2001-1-1'
+        let local = JSON.parse(
+          await FileSystem.readAsStringAsync(
+            FileSystem.documentDirectory + 'db.json'
           )
-          const truthImageDate = new Date(truth[trail][stop].image.lastModified)
-          truth[trail][stop].image.uri =
-            stopPath + '/image' + getExt(truth[trail][stop].image.file)
-          if (truthImageDate.to > localImageDate) {
-            console.log('fetching image data')
-            let { uri } = await FileSystem.downloadAsync(
-              truth[trail][stop].image.url,
-              truth[trail][stop].image.uri
-            )
-            truth[trail][stop].image.uri = uri
+        )
+        if (typeof local == 'string') {
+          console.log('NO DB!')
+          local = {}
+        }
+        const files = await FileSystem.readDirectoryAsync(
+          FileSystem.documentDirectory
+        )
+        const trails = Object.keys(truth)
+        for (let trail of trails) {
+          let trailPath = FileSystem.documentDirectory + trail
+          if (!files.includes(trail)) {
+            await FileSystem.makeDirectoryAsync(trailPath)
           }
-          const localAudioDate =
-            new Date(local[trail][stop].audio.lastModified) ||
-            new Date(2001, 1, 1)
-          const truthAudioDate = new Date(truth[trail][stop].audio.lastModified)
-          truth[trail][stop].audio.uri =
-            stopPath + '/audio' + getExt(truth[trail][stop].audio.file)
+          let stops = Object.keys(truth[trail])
+          let stopFiles = await FileSystem.readDirectoryAsync(trailPath)
+          for (let stop of stops) {
+            let stopPath = trailPath + `/${stop}`
+            if (!stopFiles.includes(stop)) {
+              await FileSystem.makeDirectoryAsync(stopPath)
+            }
 
-          if (truthAudioDate > localAudioDate) {
-            let { uri } = await FileSystem.downloadAsync(
-              truth[trail][stop].audio.url,
-              truth[trail][stop].audio.uri
+            const localImageDate = new Date(
+              local[trail]?.[stop]?.image?.lastModified || '2001-1-1'
             )
-            console.log('downloaded audio data')
-            truth[trail][stop].audio.uri = uri
-          }
-          const localTextDate = new Date(2001, 1, 1)
-          const truthTextDate = new Date(2010, 1, 1)
-
-          if (truthTextDate > localTextDate) {
-            console.log('Fetching text data')
-            await fetch(truth[trail][stop].data.url)
-              .then((res) => res.json())
-              .then(
-                async ({ narrator = 'no narrator', title = 'no title' }) => {
-                  return await fetch(truth[trail][stop].transcript.url)
-                    .then((res) => res.text())
-                    .then((text) => {
-                      truth[trail][stop] = {
-                        ...truth[trail][stop],
-                        narrator,
-                        title,
-                        text,
-                      }
-                    })
-                }
+            const truthImageDate = new Date(
+              truth[trail][stop].image.lastModified
+            )
+            truth[trail][stop].image.uri =
+              stopPath + '/image' + getExt(truth[trail][stop].image.file)
+            if (truthImageDate.to > localImageDate) {
+              console.log('fetching image data')
+              let { uri } = await FileSystem.downloadAsync(
+                truth[trail][stop].image.url,
+                truth[trail][stop].image.uri
               )
+              truth[trail][stop].image.uri = uri
+            }
+            const localAudioDate =
+              new Date(local[trail][stop].audio.lastModified) ||
+              new Date(2001, 1, 1)
+            const truthAudioDate = new Date(
+              truth[trail][stop].audio.lastModified
+            )
+            truth[trail][stop].audio.uri =
+              stopPath + '/audio' + getExt(truth[trail][stop].audio.file)
+
+            if (truthAudioDate > localAudioDate) {
+              let { uri } = await FileSystem.downloadAsync(
+                truth[trail][stop].audio.url,
+                truth[trail][stop].audio.uri
+              )
+              console.log('downloaded audio data')
+              truth[trail][stop].audio.uri = uri
+            }
+            const localTextDate = new Date(2001, 1, 1)
+            const truthTextDate = new Date(2010, 1, 1)
+
+            if (truthTextDate > localTextDate) {
+              console.log('Fetching text data')
+              await fetch(truth[trail][stop].data.url)
+                .then((res) => res.json())
+                .then(
+                  async ({ narrator = 'no narrator', title = 'no title' }) => {
+                    return await fetch(truth[trail][stop].transcript.url)
+                      .then((res) => res.text())
+                      .then((text) => {
+                        truth[trail][stop] = {
+                          ...truth[trail][stop],
+                          narrator,
+                          title,
+                          text,
+                        }
+                      })
+                  }
+                )
+            }
           }
         }
-      }
 
-      setData(truth)
-      setDataLoading(false)
+        setData(truth)
+        setDataLoading(false)
+      })
     })
   }, [])
 
