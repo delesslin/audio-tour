@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Platform, Image } from 'react-native'
 import theme from '../../Theme'
 import CameraButton from './CameraButton'
@@ -12,13 +12,13 @@ import NavButton from '../../Components/NavButton'
 import CardText from '../../Components/CardText'
 import useSound from '../../hooks/useSound'
 const Home = ({ navigation: { navigate } }) => {
-  const { isPlaying, stopSound, playSound, sound } = useSound(
-    require('./Welcome.mp3')
-  )
+  const { isPlaying, stopSound, playSound, isLoading, loadSound, unloadSound } =
+    useSound()
+  useEffect(() => {
+    loadSound(require('./Welcome.mp3'))
+  }, [])
   const handleClick = () => {
-    console.log('CLICKkk!')
-    sound ? stopSound() : null
-    navigate('Camera')
+    stopSound().then(() => navigate('Camera'))
   }
 
   return (
@@ -27,11 +27,13 @@ const Home = ({ navigation: { navigate } }) => {
         <Title fontSize={50}>TANAKE</Title>
 
         <Logo size={200}></Logo>
-        <Controls
-          isPlaying={isPlaying}
-          stopSound={stopSound}
-          playSound={playSound}
-        ></Controls>
+        {!isLoading ? (
+          <Controls
+            isPlaying={isPlaying}
+            stopSound={stopSound}
+            playSound={playSound}
+          ></Controls>
+        ) : null}
         <CardText>
           Tanake and welcome to the Catawba Audio Tour. Tour codes can be
           unlocked on our mobile app by clicking the camera button below.

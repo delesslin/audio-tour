@@ -10,7 +10,6 @@ const Camera = ({ navigation }) => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
   const goTo = () => {
-    console.log('To a stop')
     navigation.navigate('Stop', data)
   }
   const handleScan = ({ type, data }) => {

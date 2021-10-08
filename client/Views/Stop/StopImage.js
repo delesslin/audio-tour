@@ -83,7 +83,6 @@ function StopImage({ image, expanded = false }) {
   const [isLoading, setIsLoading] = useState(true)
   let opacity = useRef(new Animated.Value(0)).current
   const handleLoad = () => {
-    console.log('IMAGE LOADED!')
     Animated.spring(opacity, {
       toValue: 1,
       useNativeDriver: false,
@@ -97,6 +96,7 @@ function StopImage({ image, expanded = false }) {
           source={{
             uri: image,
           }}
+          onError={console.error}
           onLoad={handleLoad}
           style={[
             StyleSheet.absoluteFill,

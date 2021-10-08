@@ -1,12 +1,16 @@
 import React from 'react'
 import { Audio } from 'expo-av'
-const useSound = (audioObj) => {
+
+const useSound = () => {
+  const [isLoading, setIsLoading] = React.useState(true)
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [sound, setSound] = React.useState()
 
   async function stopSound() {
-    await sound.stopAsync()
-    setIsPlaying(false)
+    if (sound) {
+      await sound.stopAsync()
+      setIsPlaying(false)
+    }
   }
   async function playSound() {
     await sound.playAsync()
@@ -18,26 +22,23 @@ const useSound = (audioObj) => {
       }
     })
   }
-  async function loadSound() {
+  async function loadSound(audioObj) {
     const { sound } = await Audio.Sound.createAsync(audioObj)
     setSound(sound)
+    setIsLoading(false)
   }
   async function unloadSound() {
-    await stopSound()
     await sound.unloadAsync()
   }
-  React.useEffect(() => {
-    loadSound()
-  }, [])
-  React.useEffect(() => {
-    return sound
-      ? () => {
-          console.log('Unloading Sound')
-          sound.unloadAsync()
-        }
-      : undefined
-  }, [sound])
-  return { sound, stopSound, playSound, loadSound, unloadSound, isPlaying }
+
+  return {
+    stopSound,
+    playSound,
+    loadSound,
+    unloadSound,
+    isPlaying,
+    isLoading,
+  }
 }
 
 export default useSound

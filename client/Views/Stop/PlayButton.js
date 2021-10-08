@@ -3,12 +3,10 @@ import { Animated, Pressable, StyleSheet, View } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
 import Theme from '../../Theme'
 
-import useSound from '../../hooks/useSound'
 // TODO: Animate scale
-const PlayButton = ({ audio, expanded }) => {
+const PlayButton = ({ handlePlay, handleStop, isPlaying, expanded }) => {
   const anime = React.useRef(new Animated.Value(expanded ? 1 : 0)).current
   let [bg, setBg] = React.useState('')
-  const { isPlaying, stopSound, playSound } = useSound({ uri: audio })
 
   React.useEffect(() => {
     Animated.spring(anime, {
@@ -52,7 +50,7 @@ const PlayButton = ({ audio, expanded }) => {
           justifyContent: 'center',
           backgroundColor: bg,
         }}
-        onPress={isPlaying ? stopSound : playSound}
+        onPress={isPlaying ? handleStop : handlePlay}
       >
         <FontAwesome5
           style={{ position: 'absolute' }}
