@@ -23,13 +23,13 @@ const Stop = ({ route, navigation: { navigate } }) => {
     useSound()
   const toggleExpand = () => setExpanded(!expanded)
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !error) {
       loadSound({
         uri: Platform.OS == 'web' ? stop.audio.url : stop.audio.uri,
       })
       return () => unloadSound
     }
-  }, [loading])
+  }, [loading, error])
   const handleNav = () => {
     stopSound().then(() => navigate('Home'))
   }
