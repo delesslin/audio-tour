@@ -1,7 +1,15 @@
 import React, { useRef } from 'react'
 import Container from '../../../Components/Container'
 import Card from '../../../Components/Card'
-import { Text, Image, StyleSheet, View, Animated, Easing } from 'react-native'
+import {
+  Text,
+  Image,
+  StyleSheet,
+  View,
+  Animated,
+  Easing,
+  Platform,
+} from 'react-native'
 import NavButton from '../../../Components/NavButton'
 import BackIcon from '../../../Components/BackIcon'
 import Acorn from './Acorn'
@@ -45,7 +53,11 @@ const Error = ({ navigate }) => {
           </Text>
           <Animated.View style={{ width: 425, flex: 1, opacity }}>
             <Image
-              style={{ width: 425, flex: 1 }}
+              style={{
+                width: Platform.OS == 'android' ? 375 : 425,
+                flex: 1,
+                left: Platform.OS == 'android' ? 50 : 0,
+              }}
               source={require('./background.png')}
               onLoad={handleLoad}
             />

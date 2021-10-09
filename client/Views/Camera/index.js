@@ -34,9 +34,11 @@ const Camera = ({ navigation }) => {
   }, [])
 
   if (hasPermission === null) {
+    // TODO: Loading page
     return <Text>Requesting for camera permission</Text>
   }
   if (hasPermission === false) {
+    // TODO: Error page
     return <Text>No access to camera</Text>
   }
   return (
@@ -47,7 +49,7 @@ const Camera = ({ navigation }) => {
           flex: 1,
           borderWidth: 5,
           borderRadius: 20,
-          backgroundColor: Theme.WHITE,
+
           minHeight: 200,
           margin: 20,
           marginBottom: 50,
@@ -62,8 +64,6 @@ const Camera = ({ navigation }) => {
             paddingBottom: 0,
             textAlign: 'center',
             fontSize: 40,
-
-            backgroundColor: Theme.WHITE,
           }}
         >
           Point at a Tour Code
@@ -87,7 +87,7 @@ const Camera = ({ navigation }) => {
               borderWidth: 5,
               borderColor: data.trail ? Theme.BLACK : Theme.BLUE,
               backgroundColor: Theme.BLUE,
-              padding: 150,
+              padding: Platform.OS == 'android' ? 125 : 150,
               position: 'absolute',
             }}
           >
@@ -99,7 +99,11 @@ const Camera = ({ navigation }) => {
                 barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
                 style={[
                   StyleSheet.absoluteFillObject,
-                  { backgroundColor: Theme.BLACK, position: 'absolute' },
+                  {
+                    backgroundColor: Theme.BLACK,
+                    position: 'absolute',
+                    height: 443,
+                  },
                 ]}
               ></BarCodeScanner>
             )}

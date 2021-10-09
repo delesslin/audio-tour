@@ -44,12 +44,12 @@ const Stop = ({ route, navigation: { navigate } }) => {
   return (
     <Container>
       <Card>
-        {expanded ? null : <Title>{slug}</Title>}
+        {expanded ? null : <Title>{stop.title}</Title>}
         <StopImage
           expanded={expanded}
           image={Platform.OS == 'web' ? stop.image.url : stop.image.uri}
         ></StopImage>
-        {expanded ? <Title expanded={expanded}>{slug}</Title> : null}
+        {expanded ? <Title expanded={expanded}>{stop.title}</Title> : null}
         <PlayButton
           handlePlay={playSound}
           handleStop={stopSound}

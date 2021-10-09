@@ -26,7 +26,7 @@ function StopText({ transcript, narrator, expanded, onPress }) {
     }).start()
   }, [expanded])
   // TODO: Style expanded view text
-  console.log(JSON.stringify(text))
+
   if (expanded) {
     return (
       <Animated.View
@@ -113,23 +113,5 @@ function StopText({ transcript, narrator, expanded, onPress }) {
     </Animated.ScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  text: {
-    flex: 1,
-    paddingHorizontal: 20,
-
-    marginTop: Platform.OS == 'android' ? 40 : 50,
-    // TODO: marginBottom here or in .narrator ? ask alex
-    marginBottom: 60,
-  },
-  transcript: {},
-  narrator: {
-    paddingTop: 20,
-    fontStyle: 'italic',
-    fontFamily: 'text',
-    // marginBottom: 70,
-  },
-})
 
 export default StopText

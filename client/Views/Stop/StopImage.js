@@ -4,8 +4,8 @@ import Theme from '../../Theme'
 // TODO: handle image loading maybe using <Image onLoad={() => handleLoad}
 const degToRad = (deg) => deg * (Math.PI / 180)
 const LoadingImage = ({ size = 125 }) => {
-  const rotateZ = useRef(new Animated.Value(degToRad(0))).current
-  const scale = useRef(new Animated.Value(1)).current
+  // const rotateZ = useRef(new Animated.Value(degToRad(0))).current
+  // const scale = useRef(new Animated.Value(1)).current
   // useEffect(() => {
   //   const useNativeDriver = false
   //   const duration = 2000

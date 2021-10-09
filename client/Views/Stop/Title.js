@@ -28,13 +28,21 @@ function Title({ children, expanded, fontSize = 30 }) {
       ]).start()
     } else {
       opacity.setValue(0)
-      left.setValue(0)
-      Animated.timing(opacity, {
-        useNativeDriver: false,
-        toValue: 1,
-        duration,
-        easing: Easing.exp,
-      }).start()
+      left.setValue(-50)
+      Animated.parallel([
+        Animated.timing(opacity, {
+          useNativeDriver: false,
+          toValue: 1,
+          duration,
+          easing: Easing.exp,
+        }),
+        Animated.timing(left, {
+          useNativeDriver: false,
+          toValue: 0,
+          duration,
+          easing: Easing.linear,
+        }),
+      ]).start()
     }
   }, [expanded])
   React.useEffect(() => {

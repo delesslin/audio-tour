@@ -5,21 +5,26 @@ import Theme from '../../Theme'
 
 // TODO: Animate scale
 const PlayButton = ({ handlePlay, handleStop, isPlaying, expanded }) => {
-  const anime = React.useRef(new Animated.Value(expanded ? 1 : 0)).current
+  const scale = React.useRef(new Animated.Value(0)).current
   let [bg, setBg] = React.useState('')
 
   React.useEffect(() => {
-    Animated.spring(anime, {
-      toValue: expanded ? 1 : 0,
-      useNativeDriver: false,
-      friction: 4,
-    }).start()
     let color = isPlaying ? Theme.BLUE : Theme.BLUE
     if (expanded) {
       setBg(Theme.rgba(color, 0.9))
-      return
+      Animated.spring(scale, {
+        toValue: 1.5,
+        useNativeDriver: false,
+        friction: 4,
+      }).start()
+    } else {
+      Animated.spring(scale, {
+        toValue: 1,
+        useNativeDriver: false,
+        friction: 4,
+      }).start()
+      setBg(color)
     }
-    setBg(color)
   }, [expanded, isPlaying])
   return (
     <Animated.View
@@ -32,10 +37,7 @@ const PlayButton = ({ handlePlay, handleStop, isPlaying, expanded }) => {
         top: 250 + 40,
         transform: [
           {
-            scale: anime.interpolate({
-              inputRange: [0, 1],
-              outputRange: [1, 1.75],
-            }),
+            scale,
           },
         ],
       }}
