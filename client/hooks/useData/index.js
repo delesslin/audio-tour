@@ -35,11 +35,10 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
             return
           })
       }
-      // TODO: localStorage on non web platform
+
       console.log('fetching data map')
-      // TODO: how do we handle no internet access?
+
       xmlToTree(s3URL).then(async (truth) => {
-        // TODO: PLATFORM.OS == 'web' ?  () : ()
         if (Platform.OS == 'web') {
           setData(truth)
           setDataLoading(false)
