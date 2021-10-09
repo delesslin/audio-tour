@@ -31,8 +31,8 @@ const Error = ({ navigate }) => {
               textAlign: 'justify',
             }}
           >
-            We couldn't find that stop. Check your data connection and try
-            again.
+            We couldn't find that stop. Check your wifi or cellular connection
+            and try again.
           </Text>
           <Image
             style={{ width: 425, flex: 1 }}
