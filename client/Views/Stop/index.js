@@ -34,6 +34,7 @@ const Stop = ({ route, navigation: { navigate } }) => {
     stopSound().then(() => navigate('Home'))
   }
   if (loading) {
+    // TODO: fix weird glitch
     return <Loading />
   }
   if (error) {

@@ -6,52 +6,59 @@ const degToRad = (deg) => deg * (Math.PI / 180)
 const LoadingImage = ({ size = 125 }) => {
   const rotateZ = useRef(new Animated.Value(degToRad(0))).current
   const scale = useRef(new Animated.Value(1)).current
-  useEffect(() => {
-    const useNativeDriver = false
-    const duration = 2000
-    const easing = Easing.bounce
-    Animated.loop(
-      Animated.parallel([
-        Animated.sequence([
-          Animated.timing(rotateZ, {
-            toValue: degToRad(360),
-            easing,
-            duration: duration,
-            useNativeDriver,
-          }),
-          Animated.timing(rotateZ, {
-            toValue: degToRad(360 * 2),
-            easing,
-            duration: duration,
-            useNativeDriver,
-          }),
-        ]),
-        Animated.sequence([
-          Animated.timing(scale, {
-            toValue: 2,
-            easing,
-            duration,
-            useNativeDriver,
-          }),
-          Animated.timing(scale, {
-            toValue: 1,
-            easing,
-            duration: duration / 2,
-            useNativeDriver,
-          }),
-        ]),
-        // Animated.timing(rotateZ, {
-        //   toValue: degToRad(0),
-        //   easing,
-        //   duration,
-        //   useNativeDriver,
-        // }),
-      ])
-    ).start()
-  }, [])
+  // useEffect(() => {
+  //   const useNativeDriver = false
+  //   const duration = 2000
+  //   const easing = Easing.bounce
+  //   Animated.loop(
+  //     Animated.parallel([
+  //       Animated.sequence([
+  //         Animated.timing(rotateZ, {
+  //           toValue: degToRad(360),
+  //           easing,
+  //           duration: duration,
+  //           useNativeDriver,
+  //         }),
+  //         Animated.timing(rotateZ, {
+  //           toValue: degToRad(360 * 2),
+  //           easing,
+  //           duration: duration,
+  //           useNativeDriver,
+  //         }),
+  //       ]),
+  //       Animated.sequence([
+  //         Animated.timing(scale, {
+  //           toValue: 2,
+  //           easing,
+  //           duration,
+  //           useNativeDriver,
+  //         }),
+  //         Animated.timing(scale, {
+  //           toValue: 1,
+  //           easing,
+  //           duration: duration / 2,
+  //           useNativeDriver,
+  //         }),
+  //       ]),
+  //       // Animated.timing(rotateZ, {
+  //       //   toValue: degToRad(0),
+  //       //   easing,
+  //       //   duration,
+  //       //   useNativeDriver,
+  //       // }),
+  //     ])
+  //   ).start()
+  // }, [])
   return (
-    <View>
-      <Animated.View
+    <View
+      style={{
+        backgroundColor: Theme.TEAL,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {/* <Animated.View
         style={{
           backgroundColor: Theme.YELLOW,
           alignItems: 'center',
@@ -75,7 +82,7 @@ const LoadingImage = ({ size = 125 }) => {
           source={require('./Error/acorn.png')}
           style={{ position: 'absolute', height: size / 2, width: size / 2 }}
         ></Image>
-      </Animated.View>
+      </Animated.View> */}
     </View>
   )
 }
