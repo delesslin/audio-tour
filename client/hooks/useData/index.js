@@ -83,8 +83,10 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
             console.log('downloaded audio data')
             truth[trail][stop].audio.uri = uri
           }
-          const localTextDate = new Date(2001, 1, 1)
-          const truthTextDate = new Date(2010, 1, 1)
+          const localTextDate =
+            new Date(local[trail][stop].data.lastModified) ||
+            new Date(2001, 1, 1)
+          const truthTextDate = new Date(truth[trail][stop].data.lastModified)
 
           if (truthTextDate > localTextDate) {
             console.log('Fetching text data')
@@ -104,10 +106,15 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
                     })
                 }
               )
+          } else {
+            truth[trail][stop] = {
+              ...local[trail][stop],
+              ...truth[trail][stop],
+            }
           }
         }
       }
-
+      // console.log(truth)
       setData(truth)
       setDataLoading(false)
     })
@@ -116,7 +123,9 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
   // TODO: Move function out of hook
   const fetchStop = async ({ trail, slug }) => {
     let stopData = data[trail][slug] || {}
-    if (stopData == {}) {
+
+    if (stopData === {}) {
+      // console.log('empty stop')
       return stopData
     } else if (
       stopData.hasOwnProperty('narrator') &&

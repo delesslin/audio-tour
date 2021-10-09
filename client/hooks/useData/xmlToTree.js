@@ -89,7 +89,6 @@ let xmlToTree = function (url) {
           assets.forEach((asset) => {
             // TODO: handle when asset == data.json or 'transcript.txt'
             if (asset == 'data.json' || asset == 'transcript.txt') {
-              console.log('data.json asset or transcript i guess')
               let k = asset.split('.')[0]
               obj[trail][stop][k] = {
                 ...obj[trail][stop][asset],
@@ -103,16 +102,9 @@ let xmlToTree = function (url) {
               asset
             ].url = `${url}/trails/${trail}/${stop}/${asset}/${fileName}`
           })
-          // obj[trail][stop].data = {
-          //   url: `${url}/trails/${trail}/${stop}/data.json`,
-          // }
-          // obj[trail][stop].transcript = {
-          //   url: `${url}/trails/${trail}/${stop}/transcript.txt`,
-          // }
         })
-        // obj[trail].audio.url = `${dataURL}`
       })
-      console.log(obj)
+      // console.log(obj)
       return obj
     })
 }
