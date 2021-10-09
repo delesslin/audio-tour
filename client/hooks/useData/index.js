@@ -65,13 +65,18 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
 
         for (let stop of stops) {
           let stopPath = trailPath + `/${stop}`
+          let pathExists = true
           if (!stopFiles.includes(stop)) {
             await FileSystem.makeDirectoryAsync(stopPath)
+            pathExists = false
           }
+          let pathFiles = await FileSystem.readDirectoryAsync(stopPath)
+
           const updateBoolFN = (property) => {
-            if (!localExists) {
+            if (!localExists || !pathFiles.includes(property)) {
               return true
             }
+
             return (
               new Date(truth[trail][stop][property].lastModified) >
               new Date(local[trail][stop][property].lastModified)
@@ -162,7 +167,7 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
           return await fetch(stopData.transcript.url)
             .then((res) => res.text())
             .then((transcript) => {
-              stopData.transcript = transcript
+              stopData.text = transcript
               stopData.title = title
               stopData.narrator = narrator
 

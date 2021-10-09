@@ -1,10 +1,19 @@
-import React from 'react'
-import { View, Platform } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { View, Platform, Animated, Easing } from 'react-native'
 import Theme from '../Theme'
 
 const Card = ({ children }) => {
+  const opacity = useRef(new Animated.Value(0)).current
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      easing: Easing.ease,
+      useNativeDriver: false,
+      duration: 150,
+    }).start()
+  }, [])
   return (
-    <View
+    <Animated.View
       style={[
         {
           flex: 1,
@@ -15,13 +24,14 @@ const Card = ({ children }) => {
           margin: 30,
           marginBottom: 50,
           overflow: 'hidden',
-          maxWidth: 400,
+          maxWidth: 375,
+          opacity,
         },
         Platform.OS == 'web' ? { alignSelf: 'center', width: 400 } : null,
       ]}
     >
       {children}
-    </View>
+    </Animated.View>
   )
 }
 

@@ -6,6 +6,15 @@ import Theme from '../Theme'
 function NavButton({ onPress, size = 40, color = Theme.RED, children }) {
   let anime = React.useRef(new Animated.Value(0)).current
   let backgroundColor = React.useRef(new Animated.Value(0)).current
+  const opacity = React.useRef(new Animated.Value(0)).current
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      easing: Easing.ease,
+      useNativeDriver: false,
+      duration: 150,
+    }).start()
+  }, [])
   const handleClick = () => {
     Animated.sequence([
       Animated.spring(anime, {
@@ -52,6 +61,7 @@ function NavButton({ onPress, size = 40, color = Theme.RED, children }) {
           position: 'absolute',
           borderRadius: size * 2,
           overflow: 'hidden',
+          opacity,
           backgroundColor: backgroundColor.interpolate({
             inputRange: [0, 1],
             outputRange: [Theme.rgba(color, 1), Theme.rgba(Theme.YELLOW, 1)],

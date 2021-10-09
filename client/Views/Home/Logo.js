@@ -1,10 +1,19 @@
-import React from 'react'
-import { View, Image, StyleSheet } from 'react-native'
+import React, { useRef, useEffect } from 'react'
+import { View, Image, StyleSheet, Animated, Easing } from 'react-native'
 import Theme from '../../Theme'
 
 function Logo({ src = require('./Logo.png'), size = 100, children }) {
+  const opacity = useRef(new Animated.Value(0)).current
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      easing: Easing.ease,
+      useNativeDriver: false,
+      duration: 150,
+    }).start()
+  }, [])
   return (
-    <View
+    <Animated.View
       style={{
         borderRadius: 125,
         overflow: 'hidden',
@@ -15,6 +24,7 @@ function Logo({ src = require('./Logo.png'), size = 100, children }) {
         borderColor: Theme.BLACK,
         alignItems: 'center',
         justifyContent: 'center',
+        opacity,
       }}
     >
       <Image
@@ -27,7 +37,7 @@ function Logo({ src = require('./Logo.png'), size = 100, children }) {
       ></Image>
 
       {children}
-    </View>
+    </Animated.View>
   )
 }
 

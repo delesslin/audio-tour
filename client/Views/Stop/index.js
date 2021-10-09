@@ -17,7 +17,7 @@ import useSound from '../../hooks/useSound'
 
 const Stop = ({ route, navigation: { navigate } }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(true)
   const { stop, loading, error } = useData({ trail, slug })
   const { loadSound, isLoading, isPlaying, unloadSound, playSound, stopSound } =
     useSound()

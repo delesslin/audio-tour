@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Container from '../../../Components/Container'
 import Card from '../../../Components/Card'
-import { Text, Image, StyleSheet, View } from 'react-native'
+import { Text, Image, StyleSheet, View, Animated, Easing } from 'react-native'
 import NavButton from '../../../Components/NavButton'
 import BackIcon from '../../../Components/BackIcon'
 import Acorn from './Acorn'
 const Error = ({ navigate }) => {
+  const opacity = useRef(new Animated.Value(0)).current
+  const handleLoad = () => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      useNativeDriver: false,
+      easing: Easing.ease,
+      duration: 300,
+    }).start()
+  }
   return (
     <Container>
       <Card>
@@ -34,10 +43,13 @@ const Error = ({ navigate }) => {
             We couldn't find that stop. Check your wifi or cellular connection
             and try again.
           </Text>
-          <Image
-            style={{ width: 425, flex: 1 }}
-            source={require('./background.png')}
-          />
+          <Animated.View style={{ width: 425, flex: 1, opacity }}>
+            <Image
+              style={{ width: 425, flex: 1 }}
+              source={require('./background.png')}
+              onLoad={handleLoad}
+            />
+          </Animated.View>
         </View>
         <Acorn />
       </Card>
