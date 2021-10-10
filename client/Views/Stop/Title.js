@@ -1,7 +1,6 @@
-import hexRgb from 'hex-rgb'
 import React from 'react'
-import { Animated, Easing, Platform, Text, View } from 'react-native'
-import Theme from '../../Theme'
+import { Animated, Easing, Platform, Text } from 'react-native'
+import Theme from 'Theme'
 function Title({ children, expanded, fontSize = 30 }) {
   let animeValue = React.useRef(new Animated.Value(0)).current
   let opacity = React.useRef(new Animated.Value(0)).current

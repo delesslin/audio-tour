@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { View, Platform, Animated, Easing } from 'react-native'
-import Theme from '../Theme'
+import Theme from 'Theme'
 
 const Card = ({ children }) => {
   const opacity = useRef(new Animated.Value(0)).current

@@ -1,9 +1,9 @@
 import React from 'react'
-import { BackIcon, Card, Container, NavButton } from '../../Components'
+import { BackIcon, Card, Container, NavButton } from 'Components'
 import { View, Text, Pressable } from 'react-native'
 import { FontAwesome5, Zocial } from '@expo/vector-icons'
-import Theme from '../../Theme'
-import { useNav } from '../../hooks'
+import Theme from 'Theme'
+import { useNav } from 'hooks'
 const androidLink = 'http://google.com'
 const iosLink = 'http://twitter.com'
 function AppButton({

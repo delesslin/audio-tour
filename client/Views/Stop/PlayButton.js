@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import { Animated, Pressable, StyleSheet, View } from 'react-native'
+import React from 'react'
+import { Animated, Pressable } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import Theme from '../../Theme'
+import Theme from 'Theme'
 
-// TODO: Animate scale
 const PlayButton = ({ handlePlay, handleStop, isPlaying, expanded }) => {
   const scale = React.useRef(new Animated.Value(0)).current
   let [bg, setBg] = React.useState('')

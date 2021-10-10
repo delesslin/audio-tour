@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { View, StyleSheet, Pressable, Animated, Easing } from 'react-native'
 
-import Theme from '../Theme'
+import Theme from 'Theme'
 
 function NavButton({ onPress, size = 40, color = Theme.RED, children }) {
   let anime = React.useRef(new Animated.Value(0)).current

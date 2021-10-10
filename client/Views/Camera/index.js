@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-import Theme from '../../Theme'
-import { NavButton, BackIcon } from '../../Components'
+import Theme from 'Theme'
+import { NavButton, BackIcon } from 'Components'
 import { StopButton } from './StopButton'
 
 import Background from './Background'
-import { useNav } from '../../hooks'
+import { useNav } from 'hooks'
 const Camera = () => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)

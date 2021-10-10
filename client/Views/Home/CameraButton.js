@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Theme from '../../Theme'
+import Theme from 'Theme'
 import { Feather } from '@expo/vector-icons'
 
 const CameraButton = ({ color = Theme.BLACK, size = 50 }) => {

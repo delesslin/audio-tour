@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Animated, Easing, Platform, View } from 'react-native'
-import Theme from '../Theme'
+import Theme from 'Theme'
 
 const Container = ({ children }) => {
   return (

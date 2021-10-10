@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Platform } from 'react-native'
-import theme from '../../Theme'
+import theme from 'Theme'
 import CameraButton from './CameraButton'
 import Controls from './Controls'
 import Logo from './Logo'
 import Title from '../Stop/Title'
-import {
-  Container,
-  Card,
-  NavButton,
-  DownloadIcon,
-  CardText,
-} from '../../Components'
-import { useSound, useNav } from '../../hooks'
+import { Container, Card, NavButton, DownloadIcon, CardText } from 'Components'
+import { useSound, useNav } from 'hooks'
 import AboutButton from './AboutButton'
 
 const Home = () => {

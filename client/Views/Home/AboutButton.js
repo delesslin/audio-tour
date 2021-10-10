@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
 import { Animated, Pressable } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import Theme from '../../Theme'
+import Theme from 'Theme'
 
-import { useNav } from '../../hooks'
+import { useNav } from 'hooks'
 
 function AboutButton({ size = 30, color = Theme.YELLOW }) {
   const bg = useRef(new Animated.Value(0)).current

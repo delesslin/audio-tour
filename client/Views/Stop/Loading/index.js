@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { View, Image, Animated, Easing } from 'react-native'
-import { Container } from '../../../Components'
-import Theme from '../../../Theme'
+import { Container } from 'Components'
+import Theme from 'Theme'
 const Loading = ({ size = 100 }) => {
   const scale = useRef(new Animated.Value(1)).current
   const rotateZ = useRef(new Animated.Value(0)).current

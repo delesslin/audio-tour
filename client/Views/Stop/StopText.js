@@ -1,21 +1,10 @@
 import React from 'react'
-import {
-  Text,
-  StyleSheet,
-  View,
-  Pressable,
-  Platform,
-  Animated,
-} from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import Theme from '../../Theme'
-import { MaterialIcons } from '@expo/vector-icons'
+import { Text, View, Pressable, Platform, Animated } from 'react-native'
+import Theme from 'Theme'
 import { Feather } from '@expo/vector-icons'
-import hexRgb from 'hex-rgb'
+
 function StopText({ transcript, narrator, expanded, onPress }) {
   let text = transcript.replace(/\r\n\r\n/g, '\r\n')
-  let teal = hexRgb(Theme.YELLOW)
-  let white = hexRgb(Theme.WHITE)
   const bottom = React.useRef(new Animated.Value(75)).current
   React.useEffect(() => {
     bottom.setValue(0)
@@ -25,7 +14,6 @@ function StopText({ transcript, narrator, expanded, onPress }) {
       toValue: 75,
     }).start()
   }, [expanded])
-  // TODO: Style expanded view text
 
   if (expanded) {
     return (
@@ -45,7 +33,7 @@ function StopText({ transcript, narrator, expanded, onPress }) {
       >
         <Pressable
           style={{
-            backgroundColor: `rgba(${white.red}, ${white.green}, ${white.blue}, 0.90)`,
+            backgroundColor: Theme.rgba(Theme.WHITE, 0.9),
             padding: 5,
             borderRadius: 40,
             borderWidth: 3,
@@ -70,7 +58,7 @@ function StopText({ transcript, narrator, expanded, onPress }) {
               borderWidth: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: `rgba(${teal.red}, ${teal.green}, ${teal.blue}, 0.85)`,
+              backgroundColor: Theme.rgba(Theme.YELLOW, 0.9),
             }}
           >
             <Feather

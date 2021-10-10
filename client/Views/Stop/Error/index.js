@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Container, Card, NavButton, BackIcon } from '../../../Components'
+import { Container, Card, NavButton, BackIcon } from 'Components'
 import {
   Text,
   Image,

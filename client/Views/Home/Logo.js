@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
-import { View, Image, StyleSheet, Animated, Easing } from 'react-native'
-import Theme from '../../Theme'
+import { Image, Animated, Easing } from 'react-native'
+import Theme from 'Theme'
 
 function Logo({ src = require('./Logo.png'), size = 100, children }) {
   const opacity = useRef(new Animated.Value(0)).current

@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { View, Image, StyleSheet, Animated, Easing } from 'react-native'
-import Theme from '../../Theme'
+import React, { useState, useRef } from 'react'
+import { View, Image, StyleSheet, Animated } from 'react-native'
+import Theme from 'Theme'
 // TODO: handle image loading maybe using <Image onLoad={() => handleLoad}
 const degToRad = (deg) => deg * (Math.PI / 180)
 const LoadingImage = ({ size = 125 }) => {
