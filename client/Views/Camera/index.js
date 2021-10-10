@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import Theme from '../../Theme'
-import NavButton from '../../Components/NavButton'
+import { NavButton, BackIcon } from '../../Components'
 import { StopButton } from './StopButton'
-import BackIcon from '../../Components/BackIcon'
+
 import Background from './Background'
 import useNav from '../../hooks/useNav'
 const Camera = () => {

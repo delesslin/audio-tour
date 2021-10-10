@@ -1,15 +1,7 @@
 import React from 'react'
-import BackIcon from '../../Components/BackIcon'
-import Card from '../../Components/Card'
-
-import Container from '../../Components/Container'
-import NavButton from '../../Components/NavButton'
-
+import { BackIcon, Card, Container, NavButton } from '../../Components'
 import { View, Text, Pressable } from 'react-native'
-
-import { FontAwesome5 } from '@expo/vector-icons'
-
-import { Zocial } from '@expo/vector-icons'
+import { FontAwesome5, Zocial } from '@expo/vector-icons'
 import Theme from '../../Theme'
 import useNav from '../../hooks/useNav'
 const androidLink = 'http://google.com'

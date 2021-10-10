@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
-import Container from '../../../Components/Container'
-import Card from '../../../Components/Card'
+import { Container, Card, NavButton, BackIcon } from '../../../Components'
 import {
   Text,
   Image,
@@ -10,8 +9,6 @@ import {
   Easing,
   Platform,
 } from 'react-native'
-import NavButton from '../../../Components/NavButton'
-import BackIcon from '../../../Components/BackIcon'
 import Acorn from './Acorn'
 const Error = ({ navigate }) => {
   const opacity = useRef(new Animated.Value(0)).current

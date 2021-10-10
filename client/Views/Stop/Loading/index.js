@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { View, Image, Animated, Easing } from 'react-native'
-import Container from '../../../Components/Container'
+import { Container } from '../../../Components'
 import Theme from '../../../Theme'
 const degToRad = (deg) => deg * (Math.PI / 180)
 const Loading = ({ size = 100 }) => {

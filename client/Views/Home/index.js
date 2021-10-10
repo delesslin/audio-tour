@@ -5,12 +5,16 @@ import CameraButton from './CameraButton'
 import Controls from './Controls'
 import Logo from './Logo'
 import Title from '../Stop/Title'
-import Container from '../../Components/Container'
-import Card from '../../Components/Card'
-import NavButton from '../../Components/NavButton'
-import CardText from '../../Components/CardText'
+import {
+  Container,
+  Card,
+  NavButton,
+  DownloadIcon,
+  CardText,
+} from '../../Components'
+
 import useSound from '../../hooks/useSound'
-import DownloadIcon from '../../Components/DownloadIcon'
+
 import AboutButton from './AboutButton'
 import useNav from '../../hooks/useNav'
 

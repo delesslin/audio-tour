@@ -1,12 +1,14 @@
 import React from 'react'
-import Container from '../../Components/Container'
-import Card from '../../Components/Card'
-import { Text, ScrollView, Easing, Platform } from 'react-native'
+import {
+  Container,
+  Card,
+  NavButton,
+  DownloadIcon,
+  BackIcon,
+} from '../../Components'
+import { Text, ScrollView, Platform } from 'react-native'
 import { Link } from './Link'
 import Theme from '../../Theme'
-import NavButton from '../../Components/NavButton'
-import DownloadIcon from '../../Components/DownloadIcon'
-import BackIcon from '../../Components/BackIcon'
 
 import useNav from '../../hooks/useNav'
 const catawbaLink = 'https://catawbaculture.org',
