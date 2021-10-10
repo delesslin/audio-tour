@@ -4,13 +4,15 @@ import theme from '../../Theme'
 import CameraButton from './CameraButton'
 import Controls from './Controls'
 import Logo from './Logo'
-
 import Title from '../Stop/Title'
 import Container from '../../Components/Container'
 import Card from '../../Components/Card'
 import NavButton from '../../Components/NavButton'
 import CardText from '../../Components/CardText'
 import useSound from '../../hooks/useSound'
+import DownloadIcon from '../../Components/DownloadIcon'
+import AboutButton from './AboutButton'
+
 const Home = ({ navigation: { navigate } }) => {
   const { isPlaying, stopSound, playSound, isLoading, loadSound, unloadSound } =
     useSound()
@@ -25,6 +27,7 @@ const Home = ({ navigation: { navigate } }) => {
     <Container>
       <Card>
         <Title fontSize={50}>TANAKE</Title>
+        <AboutButton />
 
         <Logo size={200}></Logo>
         {!isLoading ? (
@@ -40,7 +43,11 @@ const Home = ({ navigation: { navigate } }) => {
           Otherwise use your favorite QR code reader.
         </CardText>
       </Card>
-      {Platform.OS == 'web' ? null : (
+      {Platform.OS == 'web' ? (
+        <NavButton onPress={() => navigate('Download')}>
+          <DownloadIcon />
+        </NavButton>
+      ) : (
         <NavButton onPress={handleClick}>
           <CameraButton />
         </NavButton>

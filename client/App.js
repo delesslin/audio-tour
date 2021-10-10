@@ -6,6 +6,7 @@ import Home from './Views/Home'
 import Stop from './Views/Stop'
 import Camera from './Views/Camera'
 import Download from './Views/Download'
+import About from './Views/About'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { DataProvider } from './hooks/useData'
@@ -19,6 +20,7 @@ const linking = {
       Stop: 'stop/:trail/:slug',
       Camera: 'camera',
       Download: 'download',
+      About: 'about',
       NotFound: '*',
     },
   },
@@ -40,7 +42,7 @@ function App() {
         <SafeAreaView style={{ flex: 1 }}>
           <NavigationContainer linking={linking}>
             <Stack.Navigator
-              initialRouteName='Home'
+              initialRouteName='About'
               screenOptions={{
                 headerShown: false,
               }}
@@ -53,7 +55,7 @@ function App() {
               {Platform.OS == 'web' ? (
                 <Stack.Screen name='Download' component={Download} />
               ) : null}
-
+              <Stack.Screen name='About' component={About} />
               <Stack.Screen name='NotFound' component={NotFound} />
             </Stack.Navigator>
           </NavigationContainer>

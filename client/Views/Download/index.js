@@ -7,8 +7,11 @@ import NavButton from '../../Components/NavButton'
 import Title from '../Stop/Title'
 import { AntDesign } from '@expo/vector-icons'
 import { View, Text, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 
 const Download = () => {
+  const { navigate } = useNavigation()
+  const toHome = () => navigate('Home')
   return (
     <Container>
       <Card>
@@ -52,7 +55,7 @@ const Download = () => {
           </Pressable>
         </View>
       </Card>
-      <NavButton>
+      <NavButton onPress={toHome}>
         <BackIcon />
       </NavButton>
     </Container>
