@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Button, View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import Theme from '../../Theme'
 import NavButton from '../../Components/NavButton'
 import { StopButton } from './StopButton'
 import BackIcon from '../../Components/BackIcon'
 import Background from './Background'
-const Camera = ({ navigation }) => {
+import useNav from '../../hooks/useNav'
+const Camera = () => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
-  const goTo = () => {
-    navigation.navigate('Stop', data)
-  }
+  const { to } = useNav()
+  const toStop = () => to('Stop', data)
+
   const handleScan = ({ type, data }) => {
     let host = 'tour.catawbaculture.org'
 
@@ -92,7 +93,7 @@ const Camera = ({ navigation }) => {
             }}
           >
             {data.trail ? (
-              <StopButton goTo={goTo}></StopButton>
+              <StopButton goTo={toStop}></StopButton>
             ) : (
               <BarCodeScanner
                 onBarCodeScanned={handleScan}
@@ -110,7 +111,7 @@ const Camera = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <NavButton onPress={() => navigation.navigate('Home')}>
+      <NavButton onPress={() => to('Home')}>
         <BackIcon></BackIcon>
       </NavButton>
     </View>

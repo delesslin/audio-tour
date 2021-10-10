@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { Text, View, StyleSheet, Animated } from 'react-native'
-import * as Linking from 'expo-linking'
+import { Text, Animated } from 'react-native'
 import Theme from '../../Theme'
+import useNav from '../../hooks/useNav'
 
 export const Link = ({ children, href, color = Theme.BLUE }) => {
   const flex = useRef(new Animated.Value(0)).current
-
+  const { href: external } = useNav()
   const handlePress = () => {
     Animated.parallel([
       Animated.spring(flex, {
@@ -14,7 +14,7 @@ export const Link = ({ children, href, color = Theme.BLUE }) => {
         bounciness: 15,
       }),
     ]).start(() => {
-      Linking.openURL(href).then(() => {
+      external(href).then(() => {
         Animated.delay(500).start(() => {
           flex.setValue(0.5)
         })

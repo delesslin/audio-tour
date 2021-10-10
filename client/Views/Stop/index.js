@@ -14,13 +14,15 @@ import useData from '../../hooks/useData'
 import ErrorView from './Error'
 import Loading from './Loading'
 import useSound from '../../hooks/useSound'
+import useNav from '../../hooks/useNav'
 
-const Stop = ({ route, navigation: { navigate } }) => {
+const Stop = ({ route }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
   const [expanded, setExpanded] = useState(true)
   const { stop, loading, error } = useData({ trail, slug })
   const { loadSound, isLoading, isPlaying, unloadSound, playSound, stopSound } =
     useSound()
+  const { to } = useNav()
   const toggleExpand = () => setExpanded(!expanded)
   useEffect(() => {
     if (!loading && !error) {
@@ -31,14 +33,14 @@ const Stop = ({ route, navigation: { navigate } }) => {
     }
   }, [loading, error])
   const handleNav = () => {
-    stopSound().then(() => navigate('Home'))
+    stopSound().then(() => to('Home'))
   }
   if (loading) {
     // TODO: fix weird glitch
     return <Loading />
   }
   if (error) {
-    return <ErrorView navigate={navigate} />
+    return <ErrorView navigate={to} />
   }
 
   return (

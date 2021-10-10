@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, Platform, Image } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import theme from '../../Theme'
 import CameraButton from './CameraButton'
 import Controls from './Controls'
@@ -12,15 +12,17 @@ import CardText from '../../Components/CardText'
 import useSound from '../../hooks/useSound'
 import DownloadIcon from '../../Components/DownloadIcon'
 import AboutButton from './AboutButton'
+import useNav from '../../hooks/useNav'
 
-const Home = ({ navigation: { navigate } }) => {
+const Home = () => {
   const { isPlaying, stopSound, playSound, isLoading, loadSound, unloadSound } =
     useSound()
+  const { to } = useNav()
   useEffect(() => {
     loadSound(require('./Welcome.mp3'))
   }, [])
   const handleClick = () => {
-    stopSound().then(() => navigate('Camera'))
+    stopSound().then(() => to('Camera'))
   }
 
   return (
@@ -44,7 +46,7 @@ const Home = ({ navigation: { navigate } }) => {
         </CardText>
       </Card>
       {Platform.OS == 'web' ? (
-        <NavButton onPress={() => navigate('Download')}>
+        <NavButton onPress={() => to('Download')}>
           <DownloadIcon />
         </NavButton>
       ) : (

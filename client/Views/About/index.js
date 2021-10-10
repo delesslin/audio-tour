@@ -7,7 +7,8 @@ import Theme from '../../Theme'
 import NavButton from '../../Components/NavButton'
 import DownloadIcon from '../../Components/DownloadIcon'
 import BackIcon from '../../Components/BackIcon'
-import { useNavigation } from '@react-navigation/core'
+
+import useNav from '../../hooks/useNav'
 const catawbaLink = 'https://catawbaculture.org',
   codeLink = 'https://github.com/delesslin/audio-tour',
   imlsLink = 'https://www.imls.gov/',
@@ -34,9 +35,9 @@ const Paragraph = ({ children }) => {
   )
 }
 const About = () => {
-  const navigation = useNavigation()
-  const toDownload = () => navigation.navigate('Download')
-  const toHome = () => navigation.navigate('Home')
+  const { to } = useNav()
+  const toDownload = () => to('Download')
+  const toHome = () => to('Home')
   return (
     <Container>
       <Card>

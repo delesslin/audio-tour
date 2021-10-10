@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Animated, Pressable } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import Theme from '../../Theme'
-import { useNavigation } from '@react-navigation/native'
+
+import useNav from '../../hooks/useNav'
 
 function AboutButton({ size = 30, color = Theme.YELLOW }) {
   const bg = useRef(new Animated.Value(0)).current
-  const { navigate } = useNavigation()
+  const { to } = useNav()
 
   const fadeInBG = (cb) => {
     Animated.spring(bg, {
@@ -16,7 +17,12 @@ function AboutButton({ size = 30, color = Theme.YELLOW }) {
     }).start(cb)
   }
   const toAbout = () => {
-    fadeInBG(() => navigate('About'))
+    fadeInBG(() => {
+      to('About')
+      Animated.delay(500).start(() => {
+        bg.setValue(0)
+      })
+    })
   }
   return (
     <Pressable
