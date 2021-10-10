@@ -6,7 +6,7 @@ import { NavButton, BackIcon } from '../../Components'
 import { StopButton } from './StopButton'
 
 import Background from './Background'
-import useNav from '../../hooks/useNav'
+import { useNav } from '../../hooks'
 const Camera = () => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)

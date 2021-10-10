@@ -12,11 +12,8 @@ import {
   DownloadIcon,
   CardText,
 } from '../../Components'
-
-import useSound from '../../hooks/useSound'
-
+import { useSound, useNav } from '../../hooks'
 import AboutButton from './AboutButton'
-import useNav from '../../hooks/useNav'
 
 const Home = () => {
   const { isPlaying, stopSound, playSound, isLoading, loadSound, unloadSound } =

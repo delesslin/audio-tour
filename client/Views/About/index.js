@@ -10,7 +10,7 @@ import { Text, ScrollView, Platform } from 'react-native'
 import { Link } from './Link'
 import Theme from '../../Theme'
 
-import useNav from '../../hooks/useNav'
+import { useNav } from '../../hooks'
 const catawbaLink = 'https://catawbaculture.org',
   codeLink = 'https://github.com/delesslin/audio-tour',
   imlsLink = 'https://www.imls.gov/',

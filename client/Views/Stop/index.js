@@ -6,11 +6,9 @@ import PlayButton from './PlayButton'
 import { ExpandButton } from './ExpandButton'
 import StopImage from './StopImage'
 import Title from './Title'
-import useData from '../../hooks/useData'
+import { useData, useSound, useNav } from '../../hooks'
 import ErrorView from './Error'
 import Loading from './Loading'
-import useSound from '../../hooks/useSound'
-import useNav from '../../hooks/useNav'
 
 const Stop = ({ route }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params

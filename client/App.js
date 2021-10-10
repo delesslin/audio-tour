@@ -9,7 +9,7 @@ import Download from './Views/Download'
 import About from './Views/About'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-import { DataProvider } from './hooks/useData'
+import { DataProvider } from './hooks'
 // TODO: refactor navigation to reflect trail:stop architecture
 const NotFound = ({ navigation }) => <Home navigation={navigation} />
 const Stack = createNativeStackNavigator()

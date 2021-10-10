@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Text, Animated } from 'react-native'
 import Theme from '../../Theme'
-import useNav from '../../hooks/useNav'
+import { useNav } from '../../hooks'
 
 export const Link = ({ children, href, color = Theme.BLUE }) => {
   const flex = useRef(new Animated.Value(0)).current
