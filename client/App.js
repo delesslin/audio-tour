@@ -42,7 +42,7 @@ function App() {
         <SafeAreaView style={{ flex: 1 }}>
           <NavigationContainer linking={linking}>
             <Stack.Navigator
-              initialRouteName='About'
+              initialRouteName='Home'
               screenOptions={{
                 headerShown: false,
               }}
