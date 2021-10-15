@@ -1,9 +1,11 @@
 {
   "scripts": {
     "create": "node directoryUtility",
-    "lint": "node directoryUtility/linter"
+    "lint": "node directoryUtility/linter",
+    "start": "node server"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "images": "^3.2.3",
     "jimp": "^0.16.1",
     "qrcode": "^1.4.4"
