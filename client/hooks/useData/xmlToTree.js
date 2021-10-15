@@ -1,6 +1,7 @@
 import { convertXML } from 'simple-xml-to-json'
 
 let xmlToTree = function (url) {
+  console.log(url)
   return fetch(url)
     .then((res) => res.text())
     .then((res) => convertXML(res))
@@ -104,7 +105,7 @@ let xmlToTree = function (url) {
           })
         })
       })
-      // console.log(obj)
+      console.log(obj)
       return obj
     })
 }

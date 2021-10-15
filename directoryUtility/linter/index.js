@@ -27,17 +27,19 @@ trails.forEach((trail) => {
       ) {
         return false
       }
+      if (images[0] !== images[0].replace(/ /g, '')) return false
       return true
     })()
     const hasAudio = (() => {
-      let images = fs.readdirSync(stopPath + '/audio')
-      if (images.length !== 1) {
+      let audios = fs.readdirSync(stopPath + '/audio')
+      if (audios.length !== 1) {
         return false
       }
       // TODO: check filename extensions
-      if (!images[0].includes('.')) {
+      if (!audios[0].includes('.')) {
         return false
       }
+      if (audios[0] !== audios[0].replace(/ /g, '')) return false
       return true
     })()
     const transcriptPath = stopPath + '/transcript.txt'

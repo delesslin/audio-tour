@@ -88,6 +88,7 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
             stopPath + '/image' + getExt(truth[trail][stop].image.file)
           if (imgUpdateBool) {
             // console.log('fetching image data')
+            console.log(truth[trail][stop].image.url)
             let { uri } = await FileSystem.downloadAsync(
               truth[trail][stop].image.url,
               truth[trail][stop].image.uri
@@ -98,9 +99,10 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
 
           truth[trail][stop].audio.uri =
             stopPath + '/audio' + getExt(truth[trail][stop].audio.file)
-
+          console.log(truth[trail][stop].audio.uri)
           if (audioUpdateBool) {
             // console.log('fetching audio data')
+            console.log(truth[trail][stop].audio.url)
             let { uri } = await FileSystem.downloadAsync(
               truth[trail][stop].audio.url,
               truth[trail][stop].audio.uri
@@ -194,6 +196,7 @@ export default ({ trail, slug }) => {
   let [error, setError] = useState(false)
 
   useEffect(() => {
+    console.log('data loading:', dataLoading)
     if (!dataLoading) {
       fetchStop({ trail, slug })
         .then((stopData) => {
