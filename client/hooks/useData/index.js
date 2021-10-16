@@ -113,11 +113,17 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
 
           if (textUpdateBool) {
             // console.log('Fetching text data')
-            await fetch(truth[trail][stop].data.url)
+            await fetch(truth[trail][stop].data.url, {
+              mode: 'no-cors', // It can be no-cors, cors, same-origin
+              credentials: 'same-origin', // It can be include, same-origin, omit
+            })
               .then((res) => res.json())
               .then(
                 async ({ narrator = 'no narrator', title = 'no title' }) => {
-                  return await fetch(truth[trail][stop].transcript.url)
+                  return await fetch(truth[trail][stop].transcript.url, {
+                    mode: 'no-cors', // It can be no-cors, cors, same-origin
+                    credentials: 'same-origin', // It can be include, same-origin, omit
+                  })
                     .then((res) => res.text())
                     .then((text) => {
                       truth[trail][stop] = {
@@ -163,10 +169,16 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
       return stopData
     } else if (Platform.OS == 'web') {
       // console.log('fetching data for web')
-      return await fetch(stopData.data.url)
+      return await fetch(stopData.data.url, {
+        mode: 'no-cors', // It can be no-cors, cors, same-origin
+        credentials: 'same-origin', // It can be include, same-origin, omit
+      })
         .then((res) => res.json())
         .then(async ({ title, narrator }) => {
-          return await fetch(stopData.transcript.url)
+          return await fetch(stopData.transcript.url, {
+            mode: 'no-cors', // It can be no-cors, cors, same-origin
+            credentials: 'same-origin', // It can be include, same-origin, omit
+          })
             .then((res) => res.text())
             .then((transcript) => {
               stopData.text = transcript

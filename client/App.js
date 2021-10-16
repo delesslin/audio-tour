@@ -14,7 +14,11 @@ import { DataProvider } from './hooks'
 const NotFound = ({ navigation }) => <Home navigation={navigation} />
 const Stack = createNativeStackNavigator()
 const linking = {
-  prefixes: ['tour.catawbaculture.org', 'catawba-tour.herokuapp.com'],
+  prefixes: [
+    'tour.catawbaculture.org',
+    'catawba-tour.herokuapp.com',
+    'catawba-tour-delesslin.vercel.app',
+  ],
   config: {
     screens: {
       Home: '',

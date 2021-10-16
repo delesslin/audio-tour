@@ -1,8 +1,11 @@
 import { convertXML } from 'simple-xml-to-json'
 
-let xmlToTree = function (url) {
+let xmlToTree = async function (url) {
   console.log(url)
-  return fetch(url)
+  return await fetch(url, {
+    mode: 'no-cors', // It can be no-cors, cors, same-origin
+    credentials: 'same-origin', // It can be include, same-origin, omit
+  })
     .then((res) => res.text())
     .then((res) => convertXML(res))
     .then((obj) => obj.ListBucketResult.children)
