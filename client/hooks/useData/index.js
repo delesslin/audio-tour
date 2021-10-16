@@ -4,7 +4,8 @@ import * as FileSystem from 'expo-file-system'
 import xmlToTree from './xmlToTree'
 import NetInfo from '@react-native-community/netinfo'
 let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
-let proxyURL = 'http://localhost:8000/api'
+// let proxyURL = 'http://localhost:8000/api'
+let proxyURL = '/api'
 // TODO: download react-device-detect
 // TODO: if (mobileBrowser) then {offer mobile app download}
 const getExt = (fileName) => {
