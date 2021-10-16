@@ -1,12 +1,18 @@
+import { Platform } from 'react-native'
 import { convertXML } from 'simple-xml-to-json'
 
 let xmlToTree = async function (url) {
   console.log(url)
-  return await fetch(url, {
-    mode: 'no-cors', // It can be no-cors, cors, same-origin
-    credentials: 'same-origin', // It can be include, same-origin, omit
-  })
+  return await fetch(url)
+    .then((res) => {
+      console.log(res.body)
+      return res
+    })
     .then((res) => res.text())
+    .then((res) => {
+      console.log(res)
+      return res
+    })
     .then((res) => convertXML(res))
     .then((obj) => obj.ListBucketResult.children)
     .then((objs) =>

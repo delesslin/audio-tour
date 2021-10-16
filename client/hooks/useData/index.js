@@ -4,13 +4,16 @@ import * as FileSystem from 'expo-file-system'
 import xmlToTree from './xmlToTree'
 import NetInfo from '@react-native-community/netinfo'
 let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
-
+let proxyURL = 'http://localhost:8000/api'
 // TODO: download react-device-detect
 // TODO: if (mobileBrowser) then {offer mobile app download}
 const getExt = (fileName) => {
   let arr = fileName.split('.')
   return '.' + arr[arr.length - 1]
 }
+
+const apiURL = (url) => `${Platform.OS === 'web' ? proxyURL : dataURL}/${url}`
+
 const DataContext = createContext()
 // const devDelete = async () => {
 //   await FileSystem.deleteAsync(FileSystem.documentDirectory + 'db.json').then(
@@ -25,11 +28,12 @@ const DataContext = createContext()
 // }
 // TODO: refactor
 // TODO: ensure through logs
-export const DataProvider = ({ children, s3URL = dataURL }) => {
+export const DataProvider = ({ children, s3URL = '' }) => {
   const [data, setData] = useState(null)
   const [dataLoading, setDataLoading] = useState(true)
   useEffect(() => {
-    xmlToTree(s3URL).then(async (truth) => {
+    console.log(apiURL(s3URL))
+    xmlToTree(apiURL(s3URL)).then(async (truth) => {
       if (Platform.OS == 'web') {
         setData(truth)
         setDataLoading(false)
@@ -112,18 +116,11 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
           const textUpdateBool = updateBoolFN('data')
 
           if (textUpdateBool) {
-            // console.log('Fetching text data')
-            await fetch(truth[trail][stop].data.url, {
-              mode: 'no-cors', // It can be no-cors, cors, same-origin
-              credentials: 'same-origin', // It can be include, same-origin, omit
-            })
+            await fetch(truth[trail][stop].data.url)
               .then((res) => res.json())
               .then(
                 async ({ narrator = 'no narrator', title = 'no title' }) => {
-                  return await fetch(truth[trail][stop].transcript.url, {
-                    mode: 'no-cors', // It can be no-cors, cors, same-origin
-                    credentials: 'same-origin', // It can be include, same-origin, omit
-                  })
+                  return await fetch(truth[trail][stop].transcript.url)
                     .then((res) => res.text())
                     .then((text) => {
                       truth[trail][stop] = {
@@ -168,17 +165,11 @@ export const DataProvider = ({ children, s3URL = dataURL }) => {
       // console.log('ALREADY HAVE DATA')
       return stopData
     } else if (Platform.OS == 'web') {
-      // console.log('fetching data for web')
-      return await fetch(stopData.data.url, {
-        mode: 'no-cors', // It can be no-cors, cors, same-origin
-        credentials: 'same-origin', // It can be include, same-origin, omit
-      })
+      console.log('fetching data for web', stopData.data.url)
+      return await fetch(stopData.data.url)
         .then((res) => res.json())
         .then(async ({ title, narrator }) => {
-          return await fetch(stopData.transcript.url, {
-            mode: 'no-cors', // It can be no-cors, cors, same-origin
-            credentials: 'same-origin', // It can be include, same-origin, omit
-          })
+          return await fetch(stopData.transcript.url)
             .then((res) => res.text())
             .then((transcript) => {
               stopData.text = transcript
@@ -213,6 +204,7 @@ export default ({ trail, slug }) => {
       fetchStop({ trail, slug })
         .then((stopData) => {
           if (stopData == null) {
+            console.log('stop data:', stopData)
             setError(true)
             return
           }
