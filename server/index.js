@@ -4,7 +4,7 @@ const path = require('path')
 const app = express()
 const PORT = process.env.PORT || 8000
 app.use(express.static(path.join(__dirname, '../client/web-build')))
-app.get('*', (req, res) => {
+app.get('/:all', (req, res) => {
   console.log('GET request', req.body)
   res.sendFile(path.join(__dirname, '../client/web-build/index.html'))
 })
