@@ -5,8 +5,8 @@ const app = express()
 const PORT = process.env.PORT || 8000
 app.use(express.static(path.join(__dirname, '../client/web-build')))
 
-app.get('*', (req, res) => {
-  console.log('GET * request', req.body)
+app.all('*', (req, res) => {
+  console.log('ALL * request', req.body)
   res.sendFile(path.join(__dirname, '../client/web-build/index.html'))
 })
 
