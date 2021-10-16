@@ -14,6 +14,7 @@ import { DataProvider } from './hooks'
 const NotFound = ({ navigation }) => <Home navigation={navigation} />
 const Stack = createNativeStackNavigator()
 const linking = {
+  prefixes: ['tour.catawbaculture.org'],
   config: {
     screens: {
       Home: '',
