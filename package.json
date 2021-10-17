@@ -3,13 +3,12 @@
     "create": "node directoryUtility",
     "lint": "node directoryUtility/linter",
     "start": "node server",
-    "build": "cd client && expo build:web"
+    "deploy": "cd client && expo build:web && git push heroku main"
   },
   "dependencies": {
     "axios": "^0.23.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "expo": "^42.0.4",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.2",
     "http-proxy-middleware": "^2.0.1",
