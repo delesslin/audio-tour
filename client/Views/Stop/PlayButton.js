@@ -61,7 +61,7 @@ const PlayButton = ({
           }
           isPlaying={isPlaying}
           progress={expanded ? progress : 0}
-          borderWidth={expanded ? 3 : 2}
+          borderWidth={expanded ? 2.5 : 2}
         ></ProgressBorder>
         <FontAwesome5
           style={{ position: 'absolute' }}

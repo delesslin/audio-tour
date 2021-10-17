@@ -58,7 +58,7 @@ function StopText({ transcript, narrator, expanded, onPress }) {
               borderWidth: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: Theme.rgba(Theme.YELLOW, 0.9),
+              backgroundColor: Theme.rgba(Theme.TEAL, 0.9),
             }}
           >
             <Feather

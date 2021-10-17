@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { View, Platform, Animated, Easing } from 'react-native'
 import Theme from 'Theme'
 
-const Card = ({ children }) => {
+const Card = ({ style, children }) => {
   const opacity = useRef(new Animated.Value(0)).current
   useEffect(() => {
     Animated.timing(opacity, {
@@ -26,6 +26,7 @@ const Card = ({ children }) => {
           overflow: 'hidden',
           maxWidth: 375,
           opacity,
+          ...style,
         },
         Platform.OS == 'web' ? { alignSelf: 'center', width: 400 } : null,
       ]}

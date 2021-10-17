@@ -10,6 +10,7 @@ function ProgressBorder({
   isPlaying = false,
   size = 60,
   borderWidth = 2,
+  progressColor = Theme.YELLOW,
 }) {
   const [progress, setProgress] = useState(0)
 
@@ -39,7 +40,7 @@ function ProgressBorder({
             borderWidth,
             backgroundColor: bg,
             // borderColor: Theme.BLACK,
-            borderRightColor: Theme.YELLOW,
+            borderRightColor: progressColor,
             transform: [
               {
                 rotateZ: `${progress * 360}deg`,
@@ -57,16 +58,16 @@ function ProgressBorder({
             borderRadius: size / 2,
             borderWidth,
             borderBottomColor: Theme.rgba(
-              Theme.YELLOW,
+              progressColor,
               progress > 0.25 ? 1 : 0
             ),
-            borderLeftColor: Theme.rgba(Theme.YELLOW, progress > 0.5 ? 1 : 0),
+            borderLeftColor: Theme.rgba(progressColor, progress > 0.5 ? 1 : 0),
             borderTopColor: Theme.rgba(
-              progress > 0.5 ? Theme.YELLOW : Theme.BLACK,
+              progress > 0.5 ? progressColor : Theme.BLACK,
               progress > 0.5 && progress < 0.75 ? 0 : 1
             ),
             borderRightColor: Theme.rgba(
-              progress > 0.5 ? Theme.YELLOW : Theme.BLACK,
+              progress > 0.5 ? progressColor : Theme.BLACK,
               progress > 0.5 ? 0 : 1
             ),
             borderRightColor: Theme.rgba(Theme.BLACK, progress > 0.75 ? 0 : 1),

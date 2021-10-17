@@ -2,7 +2,8 @@
   "scripts": {
     "create": "node directoryUtility",
     "lint": "node directoryUtility/linter",
-    "start": "node server"
+    "start": "node server",
+    "build": "cd client && expo build:web"
   },
   "dependencies": {
     "axios": "^0.23.0",

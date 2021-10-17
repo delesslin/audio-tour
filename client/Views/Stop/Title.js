@@ -53,8 +53,9 @@ function Title({ children, expanded, fontSize = 30 }) {
   return (
     <Animated.View
       style={{
+        justifyContent: 'center',
         backgroundColor: expanded
-          ? Theme.rgba(Theme.TEAL, 0.9)
+          ? Theme.rgba(Theme.WHITE, 0.9)
           : Theme.rgba(Theme.WHITE, 1),
         alignSelf: expanded ? 'flex-start' : 'center',
         padding: 2,

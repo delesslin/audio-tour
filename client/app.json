@@ -9,6 +9,7 @@
     },
 
     "backgroundColor": "#41b2a2",
+    "primaryColor": "#fbc10b",
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#FFFFFF"
@@ -24,14 +25,14 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./static/adaptive-icon.png",
         "backgroundColor": "#FF0000"
       },
-      "package": "com.delesslin.catawbaaudiotour"
+      "package": "org.catawbaculture.tour"
     },
     "web": {
       "favicon": "./static/favicon.png"

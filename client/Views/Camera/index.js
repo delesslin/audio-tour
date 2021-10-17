@@ -7,6 +7,7 @@ import { StopButton } from './StopButton'
 
 import Background from './Background'
 import { useNav } from 'hooks'
+import { Card, Container } from '../../Components'
 const Camera = () => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
@@ -43,40 +44,20 @@ const Camera = () => {
     return <Text>No access to camera</Text>
   }
   return (
-    <View style={styles().container}>
-      <View
+    <Container>
+      <Card
         style={{
-          overflow: 'hidden',
-          flex: 1,
-          borderWidth: 5,
-          borderRadius: 20,
-
-          minHeight: 200,
-          margin: 20,
-          marginBottom: 50,
-          paddingVertical: 25,
+          paddingBottom: 50,
+          justifyContent: 'flex-start',
+          paddingTop: 50,
         }}
       >
-        <Background />
-        <Text
-          style={{
-            fontFamily: 'title',
-            padding: 10,
-            paddingBottom: 0,
-            textAlign: 'center',
-            fontSize: 40,
-          }}
-        >
-          Point at a Tour Code
-        </Text>
-
         <View
           style={{
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 50,
           }}
         >
           <View
@@ -110,11 +91,30 @@ const Camera = () => {
             )}
           </View>
         </View>
-      </View>
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Text
+            style={{
+              fontFamily: 'title',
+              fontStyle: 'italic',
+              textAlign: 'center',
+              fontSize: 20,
+              borderWidth: 2,
+              borderRadius: 30,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
+            Point at a Tour Code
+          </Text>
+        </View>
+      </Card>
+
       <NavButton onPress={() => to('Home')}>
         <BackIcon></BackIcon>
       </NavButton>
-    </View>
+    </Container>
   )
 }
 

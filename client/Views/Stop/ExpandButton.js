@@ -44,9 +44,7 @@ export function ExpandButton({
         style={{
           padding: size,
           borderWidth: 2,
-          backgroundColor: expanded
-            ? Theme.rgba(Theme.YELLOW, 0.9)
-            : Theme.YELLOW,
+          backgroundColor: expanded ? Theme.rgba(Theme.TEAL, 0.9) : Theme.TEAL,
           borderRadius: size * 2,
           alignItems: 'center',
           justifyContent: 'center',

@@ -6,12 +6,13 @@
   "name": "Catawba Audio Tour",
   "short_name": "Catawba Audio Tour",
   "start_url": "/?utm_source=web_app_manifest",
+  "theme_color": "#fbc10b",
   "orientation": "portrait",
   "related_applications": [
     {
       "platform": "play",
-      "url": "http://play.google.com/store/apps/details?id=com.delesslin.catawbaaudiotour",
-      "id": "com.delesslin.catawbaaudiotour"
+      "url": "http://play.google.com/store/apps/details?id=org.catawbaculture.tour",
+      "id": "org.catawbaculture.tour"
     }
   ],
   "prefer_related_applications": true,
