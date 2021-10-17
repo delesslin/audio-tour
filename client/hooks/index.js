@@ -29,7 +29,6 @@ export const useAnimatedValue = (val) => useRef(new Animated.Value(val)).current
 export const useAnimated = (initialValue) => {
   const value = useAnimatedValue(initialValue)
   const setValue = (val) => {
-    console.log(val)
     value.setValue(val)
   }
   const timing = (config) => {

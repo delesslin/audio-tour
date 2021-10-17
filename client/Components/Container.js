@@ -3,7 +3,6 @@ import { Animated, Easing, Platform, View } from 'react-native'
 import Theme from 'Theme'
 
 const Container = ({ children }) => {
-  console.log(Theme.rgba(Theme.TEAL, 0.75))
   return (
     <Animated.View
       style={{

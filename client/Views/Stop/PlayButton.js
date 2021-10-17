@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Animated, Easing, Pressable, View } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
 import Theme from 'Theme'
+import { useAnimated } from 'hooks'
 import { ProgressBorder } from 'Components'
 
 const PlayButton = ({
@@ -11,22 +12,23 @@ const PlayButton = ({
   expanded,
   progress,
 }) => {
-  const scale = React.useRef(new Animated.Value(0)).current
-  let [bg, setBg] = React.useState('')
+  const scale = useAnimated(0)
 
   React.useEffect(() => {
     if (expanded) {
-      Animated.spring(scale, {
-        toValue: 1.6,
-        useNativeDriver: false,
-        friction: 4,
-      }).start()
+      scale
+        .spring({
+          toValue: 1.6,
+          friction: 4,
+        })
+        .start()
     } else {
-      Animated.spring(scale, {
-        toValue: 1.2,
-        useNativeDriver: false,
-        friction: 4,
-      }).start()
+      scale
+        .spring({
+          toValue: 1.2,
+          friction: 4,
+        })
+        .start()
     }
   }, [expanded, isPlaying])
   return (
@@ -40,7 +42,7 @@ const PlayButton = ({
         top: 250 + 40,
         transform: [
           {
-            scale,
+            scale: scale.value,
           },
         ],
       }}
