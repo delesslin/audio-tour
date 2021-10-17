@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { View, Pressable, Platform, Animated } from 'react-native'
-import Theme from '../../Theme'
+import { Pressable, Animated } from 'react-native'
+import Theme from 'Theme'
 import { Feather } from '@expo/vector-icons'
 let getRadian = (deg) => deg * (Math.PI / 180)
 let getX = (deg, r) => r * Math.cos(getRadian(deg))

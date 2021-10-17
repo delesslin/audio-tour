@@ -1,32 +1,39 @@
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, Platform, Image } from 'react-native'
-import theme from '../../Theme'
+import { StyleSheet, Platform } from 'react-native'
+import theme from 'Theme'
 import CameraButton from './CameraButton'
 import Controls from './Controls'
 import Logo from './Logo'
-
 import Title from '../Stop/Title'
-import Container from '../../Components/Container'
-import Card from '../../Components/Card'
-import NavButton from '../../Components/NavButton'
-import CardText from '../../Components/CardText'
-import useSound from '../../hooks/useSound'
-const Home = ({ navigation: { navigate } }) => {
-  const { isPlaying, stopSound, playSound, isLoading, loadSound, unloadSound } =
-    useSound()
+import { Container, Card, NavButton, DownloadIcon, CardText } from 'Components'
+import { useSound, useNav } from 'hooks'
+import AboutButton from './AboutButton'
+
+const Home = () => {
+  const {
+    isPlaying,
+    stopSound,
+    playSound,
+    isLoading,
+    loadSound,
+    unloadSound,
+    progress,
+  } = useSound()
+  const { to } = useNav()
   useEffect(() => {
     loadSound(require('./Welcome.mp3'))
   }, [])
   const handleClick = () => {
-    stopSound().then(() => navigate('Camera'))
+    stopSound().then(() => to('Camera'))
   }
 
   return (
     <Container>
       <Card>
         <Title fontSize={50}>TANAKE</Title>
+        <AboutButton />
 
-        <Logo size={200}></Logo>
+        <Logo progress={progress} isPlaying={isPlaying} size={200}></Logo>
         {!isLoading ? (
           <Controls
             isPlaying={isPlaying}
@@ -40,7 +47,11 @@ const Home = ({ navigation: { navigate } }) => {
           Otherwise use your favorite QR code reader.
         </CardText>
       </Card>
-      {Platform.OS == 'web' ? null : (
+      {Platform.OS == 'web' ? (
+        <NavButton onPress={() => to('Download')}>
+          <DownloadIcon />
+        </NavButton>
+      ) : (
         <NavButton onPress={handleClick}>
           <CameraButton />
         </NavButton>

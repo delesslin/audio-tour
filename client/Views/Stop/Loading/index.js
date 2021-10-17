@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { View, Image, Animated, Easing } from 'react-native'
-import Container from '../../../Components/Container'
-import Theme from '../../../Theme'
-const degToRad = (deg) => deg * (Math.PI / 180)
+import { Container } from 'Components'
+import Theme from 'Theme'
 const Loading = ({ size = 100 }) => {
   const scale = useRef(new Animated.Value(1)).current
-  const rotateZ = useRef(new Animated.Value(degToRad(0))).current
+  const rotateZ = useRef(new Animated.Value(0)).current
   useEffect(() => {
     const useNativeDriver = false
     const duration = 2000
@@ -28,14 +27,14 @@ const Loading = ({ size = 100 }) => {
         ]),
         Animated.sequence([
           Animated.timing(rotateZ, {
-            toValue: degToRad(360),
+            toValue: 360,
             easing,
             duration,
             useNativeDriver,
           }),
 
           Animated.timing(rotateZ, {
-            toValue: degToRad(0),
+            toValue: 0,
             easing,
             duration,
             useNativeDriver,
@@ -61,7 +60,10 @@ const Loading = ({ size = 100 }) => {
                 scale,
               },
               {
-                rotateZ,
+                rotateZ: rotateZ.interpolate({
+                  inputRange: [0, 360],
+                  outputRange: ['0deg', '360deg'],
+                }),
               },
             ],
           }}

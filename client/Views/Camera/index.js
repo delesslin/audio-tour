@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Button, View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-import Theme from '../../Theme'
-import NavButton from '../../Components/NavButton'
+import Theme from 'Theme'
+import { NavButton, BackIcon } from 'Components'
 import { StopButton } from './StopButton'
-import BackIcon from '../../Components/BackIcon'
+
 import Background from './Background'
-const Camera = ({ navigation }) => {
+import { useNav } from 'hooks'
+const Camera = () => {
   const [data, setData] = useState({})
   const [hasPermission, setHasPermission] = useState(null)
-  const goTo = () => {
-    navigation.navigate('Stop', data)
-  }
+  const { to } = useNav()
+  const toStop = () => to('Stop', data)
+
   const handleScan = ({ type, data }) => {
     let host = 'tour.catawbaculture.org'
 
@@ -34,9 +35,11 @@ const Camera = ({ navigation }) => {
   }, [])
 
   if (hasPermission === null) {
+    // TODO: Loading page
     return <Text>Requesting for camera permission</Text>
   }
   if (hasPermission === false) {
+    // TODO: Error page
     return <Text>No access to camera</Text>
   }
   return (
@@ -47,7 +50,7 @@ const Camera = ({ navigation }) => {
           flex: 1,
           borderWidth: 5,
           borderRadius: 20,
-          backgroundColor: Theme.WHITE,
+
           minHeight: 200,
           margin: 20,
           marginBottom: 50,
@@ -62,8 +65,6 @@ const Camera = ({ navigation }) => {
             paddingBottom: 0,
             textAlign: 'center',
             fontSize: 40,
-
-            backgroundColor: Theme.WHITE,
           }}
         >
           Point at a Tour Code
@@ -87,26 +88,30 @@ const Camera = ({ navigation }) => {
               borderWidth: 5,
               borderColor: data.trail ? Theme.BLACK : Theme.BLUE,
               backgroundColor: Theme.BLUE,
-              padding: 150,
+              padding: Platform.OS == 'android' ? 125 : 150,
               position: 'absolute',
             }}
           >
             {data.trail ? (
-              <StopButton goTo={goTo}></StopButton>
+              <StopButton goTo={toStop}></StopButton>
             ) : (
               <BarCodeScanner
                 onBarCodeScanned={handleScan}
                 barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
                 style={[
                   StyleSheet.absoluteFillObject,
-                  { backgroundColor: Theme.BLACK, position: 'absolute' },
+                  {
+                    backgroundColor: Theme.BLACK,
+                    position: 'absolute',
+                    height: 443,
+                  },
                 ]}
               ></BarCodeScanner>
             )}
           </View>
         </View>
       </View>
-      <NavButton onPress={() => navigation.navigate('Home')}>
+      <NavButton onPress={() => to('Home')}>
         <BackIcon></BackIcon>
       </NavButton>
     </View>

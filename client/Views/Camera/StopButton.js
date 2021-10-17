@@ -2,7 +2,7 @@ import React from 'react'
 import { Animated, View, StyleSheet, Pressable, Easing } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
-import Theme from '../../Theme'
+import Theme from 'Theme'
 import hexRgb from 'hex-rgb'
 
 export function StopButton({ goTo }) {

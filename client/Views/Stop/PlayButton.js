@@ -1,25 +1,33 @@
-import React, { useState } from 'react'
-import { Animated, Pressable, StyleSheet, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Animated, Easing, Pressable, View } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import Theme from '../../Theme'
+import Theme from 'Theme'
+import { ProgressBorder } from 'Components'
 
-// TODO: Animate scale
-const PlayButton = ({ handlePlay, handleStop, isPlaying, expanded }) => {
-  const anime = React.useRef(new Animated.Value(expanded ? 1 : 0)).current
+const PlayButton = ({
+  handlePlay,
+  handleStop,
+  isPlaying,
+  expanded,
+  progress,
+}) => {
+  const scale = React.useRef(new Animated.Value(0)).current
   let [bg, setBg] = React.useState('')
 
   React.useEffect(() => {
-    Animated.spring(anime, {
-      toValue: expanded ? 1 : 0,
-      useNativeDriver: false,
-      friction: 4,
-    }).start()
-    let color = isPlaying ? Theme.NAVY : Theme.BLUE
     if (expanded) {
-      setBg(Theme.rgba(color, 0.9))
-      return
+      Animated.spring(scale, {
+        toValue: 1.5,
+        useNativeDriver: false,
+        friction: 4,
+      }).start()
+    } else {
+      Animated.spring(scale, {
+        toValue: 1,
+        useNativeDriver: false,
+        friction: 4,
+      }).start()
     }
-    setBg(color)
   }, [expanded, isPlaying])
   return (
     <Animated.View
@@ -32,31 +40,34 @@ const PlayButton = ({ handlePlay, handleStop, isPlaying, expanded }) => {
         top: 250 + 40,
         transform: [
           {
-            scale: anime.interpolate({
-              inputRange: [0, 1],
-              outputRange: [1, 1.75],
-            }),
+            scale,
           },
         ],
       }}
     >
       <Pressable
         style={{
-          borderRadius: 100,
-          padding: 30,
-          borderWidth: 2,
           overflow: 'hidden',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: bg,
         }}
         onPress={isPlaying ? handleStop : handlePlay}
       >
+        <ProgressBorder
+          bg={
+            isPlaying
+              ? Theme.rgba(Theme.YELLOW, expanded ? 0.9 : 1)
+              : Theme.rgba(Theme.BLUE, expanded ? 0.9 : 1)
+          }
+          isPlaying={isPlaying}
+          progress={expanded ? progress : 0}
+          borderWidth={expanded ? 3 : 2}
+        ></ProgressBorder>
         <FontAwesome5
           style={{ position: 'absolute' }}
           name={isPlaying ? 'stop' : 'play'}
           size={25}
-          color={isPlaying ? Theme.BLUE : Theme.NAVY}
+          color={Theme.BLACK}
         />
       </Pressable>
     </Animated.View>

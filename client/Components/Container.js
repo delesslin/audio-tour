@@ -1,10 +1,10 @@
-import React from 'react'
-import { Platform, View } from 'react-native'
-import Theme from '../Theme'
+import React, { useEffect, useRef } from 'react'
+import { Animated, Easing, Platform, View } from 'react-native'
+import Theme from 'Theme'
 
 const Container = ({ children }) => {
   return (
-    <View
+    <Animated.View
       style={{
         flex: 1,
         justifyContent: 'center',
@@ -12,7 +12,7 @@ const Container = ({ children }) => {
       }}
     >
       {children}
-    </View>
+    </Animated.View>
   )
 }
 

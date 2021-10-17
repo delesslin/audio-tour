@@ -2,8 +2,8 @@ import React from 'react'
 import { Pressable, View } from 'react-native'
 import { Entypo, Ionicons } from '@expo/vector-icons'
 
-import theme from '../../Theme'
-import Theme from '../../Theme'
+import theme from 'Theme'
+
 // TODO: WHY is this not stopping on navigate? maybe just implement the Play component from Stop?
 function Controls({ isPlaying, stopSound, playSound }) {
   return (

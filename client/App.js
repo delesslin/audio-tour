@@ -6,19 +6,26 @@ import Home from './Views/Home'
 import Stop from './Views/Stop'
 import Camera from './Views/Camera'
 import Download from './Views/Download'
+import About from './Views/About'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-import { DataProvider } from './hooks/useData'
+import { DataProvider } from './hooks'
 // TODO: refactor navigation to reflect trail:stop architecture
 const NotFound = ({ navigation }) => <Home navigation={navigation} />
 const Stack = createNativeStackNavigator()
 const linking = {
+  prefixes: [
+    'tour.catawbaculture.org',
+    'catawba-tour.herokuapp.com',
+    'catawba-tour-delesslin.vercel.app',
+  ],
   config: {
     screens: {
       Home: '',
       Stop: 'stop/:trail/:slug',
       Camera: 'camera',
       Download: 'download',
+      About: 'about',
       NotFound: '*',
     },
   },
@@ -53,7 +60,7 @@ function App() {
               {Platform.OS == 'web' ? (
                 <Stack.Screen name='Download' component={Download} />
               ) : null}
-
+              <Stack.Screen name='About' component={About} />
               <Stack.Screen name='NotFound' component={NotFound} />
             </Stack.Navigator>
           </NavigationContainer>

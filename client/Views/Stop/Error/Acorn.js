@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react'
 import { Animated, Easing, Image } from 'react-native'
 const degToRad = (deg) => deg * (Math.PI / 180)
 const Acorn = ({ size = 65 }) => {
-  const animeRotation = useRef(new Animated.Value(degToRad(20))).current
+  const animeRotation = useRef(new Animated.Value(20)).current
   const animeLocation = useRef(new Animated.Value(-size)).current
   const animeOpacity = useRef(new Animated.Value(0)).current
   useEffect(() => {
     const duration = 2500
     Animated.parallel([
       Animated.timing(animeRotation, {
-        toValue: degToRad(360),
+        toValue: 360,
         useNativeDriver: false,
         easing: Easing.bounce,
         duration,
@@ -37,7 +37,10 @@ const Acorn = ({ size = 65 }) => {
         opacity: animeOpacity,
         transform: [
           {
-            rotateZ: animeRotation,
+            rotateZ: animeRotation.interpolate({
+              inputRange: [0, 360],
+              outputRange: ['0deg', '360deg'],
+            }),
           },
         ],
       }}

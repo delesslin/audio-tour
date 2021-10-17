@@ -1,10 +1,49 @@
-import hexRgb from 'hex-rgb'
 import React from 'react'
-import { Animated, Platform, Text, View } from 'react-native'
-import Theme from '../../Theme'
-function Title({ children, expanded = false, fontSize = 30 }) {
+import { Animated, Easing, Platform, Text } from 'react-native'
+import Theme from 'Theme'
+function Title({ children, expanded, fontSize = 30 }) {
   let animeValue = React.useRef(new Animated.Value(0)).current
+  let opacity = React.useRef(new Animated.Value(0)).current
+  let left = React.useRef(new Animated.Value(120)).current
   let fs = Platform.OS == 'android' ? fontSize - 3 : fontSize
+  React.useEffect(() => {
+    const duration = 250
+    if (expanded) {
+      opacity.setValue(0)
+      left.setValue(120)
+      Animated.parallel([
+        Animated.timing(opacity, {
+          useNativeDriver: false,
+          toValue: 1,
+          duration,
+          easing: Easing.exp,
+        }),
+        Animated.timing(left, {
+          useNativeDriver: false,
+          toValue: 0,
+          duration,
+          easing: Easing.linear,
+        }),
+      ]).start()
+    } else {
+      opacity.setValue(0)
+      left.setValue(-50)
+      Animated.parallel([
+        Animated.timing(opacity, {
+          useNativeDriver: false,
+          toValue: 1,
+          duration,
+          easing: Easing.exp,
+        }),
+        Animated.timing(left, {
+          useNativeDriver: false,
+          toValue: 0,
+          duration,
+          easing: Easing.linear,
+        }),
+      ]).start()
+    }
+  }, [expanded])
   React.useEffect(() => {
     Animated.spring(animeValue, {
       toValue: expanded ? 1 : 0,
@@ -14,13 +53,6 @@ function Title({ children, expanded = false, fontSize = 30 }) {
   return (
     <Animated.View
       style={{
-        // backgroundColor: animeValue.interpolate({
-        //   inputRange: [0, 1],
-        //   outputRange: [
-        //     'rgba(0,0,0,0)',
-        //     expanded ? Theme.rgba(Theme.BLUE, 0.9) : Theme.rgba(Theme.WHITE, 1),
-        //   ],
-        // }),
         backgroundColor: expanded
           ? Theme.rgba(Theme.TEAL, 0.9)
           : Theme.rgba(Theme.WHITE, 1),
@@ -30,6 +62,8 @@ function Title({ children, expanded = false, fontSize = 30 }) {
         borderRadius: 30,
         margin: 10,
         borderWidth: expanded ? 3 : 0,
+        opacity,
+        left,
       }}
     >
       <Text

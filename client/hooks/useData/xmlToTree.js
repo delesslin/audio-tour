@@ -1,10 +1,20 @@
+import { Platform } from 'react-native'
 import { convertXML } from 'simple-xml-to-json'
 
-let xmlToTree = function (url) {
-  return fetch(url)
+let xmlToTree = async function (url) {
+  // console.log(url)
+  return await fetch(url)
+    .then((res) => {
+      // console.log(res.body)
+      return res
+    })
     .then((res) => res.text())
     .then((res) => convertXML(res))
     .then((obj) => obj.ListBucketResult.children)
+    // .then((res) => {
+    //   console.log(res)
+    //   return res
+    // })
     .then((objs) =>
       objs.filter((obj) => {
         let keys = Object.keys(obj)
@@ -14,6 +24,10 @@ let xmlToTree = function (url) {
         return false
       })
     )
+    // .then((res) => {
+    //   console.log(res)
+    //   return res
+    // })
     .then((arr) => {
       return arr.map(({ Contents: { children } }) => {
         return children.reduce((acc, curr) => {
@@ -34,13 +48,20 @@ let xmlToTree = function (url) {
     })
 
     .then((arr) => {
+      // console.log(arr)
       let trails = {}
       arr.forEach((p) =>
         p.path.split('/').reduce((o, k, p) => {
           if (o[k]) {
             o[k] = o[k]
           } else {
-            if (k == 'audio' || k == 'image' || k == 'qr') {
+            if (
+              k == 'audio' ||
+              k == 'image' ||
+              k == 'qr' ||
+              k == 'data.json' ||
+              k == 'transcript.txt'
+            ) {
               o[k] = {
                 lastModified: p.lastModified,
                 file: '',
@@ -59,15 +80,12 @@ let xmlToTree = function (url) {
       return tempOut
     })
     .then((tempOut) => {
+      // console.log(tempOut)
       let arr = tempOut.arr
       let trails = tempOut.trails
       arr.forEach((p) => {
         let path = p.path.split('/')
-        if (
-          path[path.length - 1].indexOf('.') > 0 &&
-          path[path.length - 1] != 'data.json' &&
-          path[path.length - 1] != 'transcript.txt'
-        ) {
+        if (path[path.length - 1].indexOf('.') > 0) {
           trails[path[1]][path[2]][path[3]].file = path[path.length - 1]
           trails[path[1]][path[2]][path[3]].lastModified = p.lastModified
         }
@@ -75,6 +93,7 @@ let xmlToTree = function (url) {
       return trails
     })
     .then((obj) => {
+      // console.log(obj)
       let trails = Object.keys(obj)
 
       trails.forEach((trail) => {
@@ -82,19 +101,22 @@ let xmlToTree = function (url) {
         stops.forEach((stop) => {
           let assets = Object.keys(obj[trail][stop])
           assets.forEach((asset) => {
+            // TODO: handle when asset == data.json or 'transcript.txt'
+            if (asset == 'data.json' || asset == 'transcript.txt') {
+              let k = asset.split('.')[0]
+              obj[trail][stop][k] = {
+                ...obj[trail][stop][asset],
+                url: `${url}/trails/${trail}/${stop}/${asset}`,
+              }
+              delete obj[trail][stop][asset]
+              return
+            }
             let fileName = obj[trail][stop][asset].file
             obj[trail][stop][
               asset
             ].url = `${url}/trails/${trail}/${stop}/${asset}/${fileName}`
           })
-          obj[trail][stop].data = {
-            url: `${url}/trails/${trail}/${stop}/data.json`,
-          }
-          obj[trail][stop].transcript = {
-            url: `${url}/trails/${trail}/${stop}/transcript.txt`,
-          }
         })
-        // obj[trail].audio.url = `${dataURL}`
       })
       // console.log(obj)
       return obj

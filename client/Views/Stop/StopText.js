@@ -1,29 +1,39 @@
 import React from 'react'
-import { Text, StyleSheet, View, Pressable, Platform } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import Theme from '../../Theme'
-import { MaterialIcons } from '@expo/vector-icons'
+import { Text, View, Pressable, Platform, Animated } from 'react-native'
+import Theme from 'Theme'
 import { Feather } from '@expo/vector-icons'
-import hexRgb from 'hex-rgb'
+
 function StopText({ transcript, narrator, expanded, onPress }) {
-  let teal = hexRgb(Theme.YELLOW)
-  let white = hexRgb(Theme.WHITE)
-  // TODO: Style expanded view text
+  let text = transcript.replace(/\r\n\r\n/g, '\r\n')
+  const bottom = React.useRef(new Animated.Value(75)).current
+  React.useEffect(() => {
+    bottom.setValue(0)
+    Animated.spring(bottom, {
+      useNativeDriver: false,
+      bounciness: 15,
+      toValue: 75,
+    }).start()
+  }, [expanded])
+
   if (expanded) {
     return (
-      <View
+      <Animated.View
         style={{
           alignSelf: 'center',
           alignItems: 'center',
           justifyContent: 'center',
 
           position: 'absolute',
-          bottom: 75,
+          bottom,
+          opacity: bottom.interpolate({
+            inputRange: [0, 75],
+            outputRange: [0, 1],
+          }),
         }}
       >
         <Pressable
           style={{
-            backgroundColor: `rgba(${white.red}, ${white.green}, ${white.blue}, 0.90)`,
+            backgroundColor: Theme.rgba(Theme.WHITE, 0.9),
             padding: 5,
             borderRadius: 40,
             borderWidth: 3,
@@ -38,7 +48,7 @@ function StopText({ transcript, narrator, expanded, onPress }) {
               margin: 10,
             }}
           >
-            {transcript.slice(0, 25)}...
+            {text.slice(0, 25)}...
           </Text>
           <View
             style={{
@@ -48,7 +58,7 @@ function StopText({ transcript, narrator, expanded, onPress }) {
               borderWidth: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: `rgba(${teal.red}, ${teal.green}, ${teal.blue}, 0.85)`,
+              backgroundColor: Theme.rgba(Theme.YELLOW, 0.9),
             }}
           >
             <Feather
@@ -59,37 +69,37 @@ function StopText({ transcript, narrator, expanded, onPress }) {
             />
           </View>
         </Pressable>
-      </View>
+      </Animated.View>
     )
   }
   return (
-    <ScrollView style={styles.text}>
-      <Text style={styles.transcript}>{transcript}</Text>
-      <Text style={styles.narrator}>Narrator: {narrator}</Text>
-    </ScrollView>
+    <Animated.ScrollView
+      style={{
+        flex: 1,
+        paddingHorizontal: 20,
+        opacity: bottom.interpolate({
+          inputRange: [0, 75],
+          outputRange: [0, 1],
+        }),
+        marginTop: Platform.OS == 'android' ? 40 : 50,
+        // TODO: marginBottom here or in .narrator ? ask alex
+        marginBottom: 60,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: Platform.OS == 'android' ? 15 : 20,
+          fontFamily: 'text',
+          textAlign: 'justify',
+        }}
+      >
+        {text}
+      </Text>
+      <Text style={{ paddingTop: 20, fontStyle: 'italic', fontFamily: 'text' }}>
+        Narrator: {narrator}
+      </Text>
+    </Animated.ScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  text: {
-    flex: 1,
-    paddingHorizontal: 20,
-
-    marginTop: Platform.OS == 'android' ? 40 : 50,
-    // TODO: marginBottom here or in .narrator ? ask alex
-    marginBottom: 60,
-  },
-  transcript: {
-    fontSize: Platform.OS == 'android' ? 15 : 20,
-    fontFamily: 'text',
-    textAlign: 'justify',
-  },
-  narrator: {
-    paddingTop: 20,
-    fontStyle: 'italic',
-    fontFamily: 'text',
-    // marginBottom: 70,
-  },
-})
 
 export default StopText
