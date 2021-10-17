@@ -14,8 +14,15 @@ const Stop = ({ route }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
   const [expanded, setExpanded] = useState(true)
   const { stop, loading, error } = useData({ trail, slug })
-  const { loadSound, isLoading, isPlaying, unloadSound, playSound, stopSound } =
-    useSound()
+  const {
+    loadSound,
+    isLoading,
+    isPlaying,
+    unloadSound,
+    playSound,
+    stopSound,
+    progress,
+  } = useSound()
   const { to } = useNav()
   const toggleExpand = () => setExpanded(!expanded)
   useEffect(() => {
@@ -51,6 +58,7 @@ const Stop = ({ route }) => {
           handleStop={stopSound}
           isPlaying={isPlaying}
           expanded={expanded}
+          progress={progress}
         />
 
         <ExpandButton expanded={expanded} onPress={toggleExpand}></ExpandButton>

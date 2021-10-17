@@ -2,19 +2,19 @@ import { Platform } from 'react-native'
 import { convertXML } from 'simple-xml-to-json'
 
 let xmlToTree = async function (url) {
-  console.log(url)
+  // console.log(url)
   return await fetch(url)
     .then((res) => {
-      console.log(res.body)
+      // console.log(res.body)
       return res
     })
     .then((res) => res.text())
-    .then((res) => {
-      console.log(res)
-      return res
-    })
     .then((res) => convertXML(res))
     .then((obj) => obj.ListBucketResult.children)
+    // .then((res) => {
+    //   console.log(res)
+    //   return res
+    // })
     .then((objs) =>
       objs.filter((obj) => {
         let keys = Object.keys(obj)
@@ -24,6 +24,10 @@ let xmlToTree = async function (url) {
         return false
       })
     )
+    // .then((res) => {
+    //   console.log(res)
+    //   return res
+    // })
     .then((arr) => {
       return arr.map(({ Contents: { children } }) => {
         return children.reduce((acc, curr) => {
