@@ -11,15 +11,14 @@ function ProgressBorder({
   size = 60,
   borderWidth = 2,
 }) {
-  const [progress, setProgress] = useState(percent)
+  const [progress, setProgress] = useState(0)
 
   useInterval(() => {
     if (isPlaying) {
-      console.log(progress)
       setProgress(percent)
     } else if (progress > 0) {
       setProgress((pg) => {
-        let newPg = pg - 0.05
+        let newPg = pg - 0.08
         if (newPg < 0) {
           return 0
         }
