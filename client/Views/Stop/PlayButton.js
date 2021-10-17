@@ -17,13 +17,13 @@ const PlayButton = ({
   React.useEffect(() => {
     if (expanded) {
       Animated.spring(scale, {
-        toValue: 1.5,
+        toValue: 1.6,
         useNativeDriver: false,
         friction: 4,
       }).start()
     } else {
       Animated.spring(scale, {
-        toValue: 1,
+        toValue: 1.2,
         useNativeDriver: false,
         friction: 4,
       }).start()
@@ -33,7 +33,7 @@ const PlayButton = ({
     <Animated.View
       style={{
         alignItems: 'center',
-        marginBottom: 20,
+        // marginBottom: 20,
 
         position: 'absolute',
         alignSelf: 'center',
