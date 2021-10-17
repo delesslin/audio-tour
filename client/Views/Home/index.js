@@ -10,8 +10,15 @@ import { useSound, useNav } from 'hooks'
 import AboutButton from './AboutButton'
 
 const Home = () => {
-  const { isPlaying, stopSound, playSound, isLoading, loadSound, unloadSound } =
-    useSound()
+  const {
+    isPlaying,
+    stopSound,
+    playSound,
+    isLoading,
+    loadSound,
+    unloadSound,
+    progress,
+  } = useSound()
   const { to } = useNav()
   useEffect(() => {
     loadSound(require('./Welcome.mp3'))
@@ -26,7 +33,7 @@ const Home = () => {
         <Title fontSize={50}>TANAKE</Title>
         <AboutButton />
 
-        <Logo size={200}></Logo>
+        <Logo progress={progress} isPlaying={isPlaying} size={200}></Logo>
         {!isLoading ? (
           <Controls
             isPlaying={isPlaying}

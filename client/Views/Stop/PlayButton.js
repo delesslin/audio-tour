@@ -15,9 +15,7 @@ const PlayButton = ({
   let [bg, setBg] = React.useState('')
 
   React.useEffect(() => {
-    let color = isPlaying ? Theme.BLUE : Theme.BLUE
     if (expanded) {
-      setBg(Theme.rgba(color, 0.9))
       Animated.spring(scale, {
         toValue: 1.5,
         useNativeDriver: false,
@@ -29,7 +27,6 @@ const PlayButton = ({
         useNativeDriver: false,
         friction: 4,
       }).start()
-      setBg(color)
     }
   }, [expanded, isPlaying])
   return (
@@ -57,7 +54,11 @@ const PlayButton = ({
         onPress={isPlaying ? handleStop : handlePlay}
       >
         <ProgressBorder
-          bg={bg}
+          bg={
+            isPlaying
+              ? Theme.rgba(Theme.YELLOW, expanded ? 0.9 : 1)
+              : Theme.rgba(Theme.BLUE, expanded ? 0.9 : 1)
+          }
           isPlaying={isPlaying}
           progress={expanded ? progress : 0}
           borderWidth={expanded ? 3 : 2}
@@ -66,7 +67,7 @@ const PlayButton = ({
           style={{ position: 'absolute' }}
           name={isPlaying ? 'stop' : 'play'}
           size={25}
-          color={isPlaying ? Theme.NAVY : Theme.NAVY}
+          color={Theme.BLACK}
         />
       </Pressable>
     </Animated.View>
