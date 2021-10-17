@@ -50,6 +50,8 @@ const Stop = ({ route }) => {
         {expanded ? null : <Title>{stop.title}</Title>}
         <StopImage
           expanded={expanded}
+          progress={progress}
+          isPlaying={isPlaying}
           image={Platform.OS == 'web' ? stop.image.url : stop.image.uri}
         ></StopImage>
         {expanded ? <Title expanded={expanded}>{stop.title}</Title> : null}

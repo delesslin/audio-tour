@@ -16,19 +16,7 @@ const getExt = (fileName) => {
 const apiURL = (url) => `${Platform.OS === 'web' ? proxyURL : dataURL}/${url}`
 
 const DataContext = createContext()
-// const devDelete = async () => {
-//   await FileSystem.deleteAsync(FileSystem.documentDirectory + 'db.json').then(
-//     () => console.log('DELETE DB')
-//   )
-//   await FileSystem.deleteAsync(FileSystem.documentDirectory + 'cultural').then(
-//     () => console.log('DELETE ASSETS')
-//   )
-//   await FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then(
-//     console.log
-//   )
-// }
-// TODO: refactor
-// TODO: ensure through logs
+
 export const DataProvider = ({ children, s3URL = '' }) => {
   const [data, setData] = useState(null)
   const [dataLoading, setDataLoading] = useState(true)
@@ -116,13 +104,13 @@ export const DataProvider = ({ children, s3URL = '' }) => {
               truth[trail][stop].audio.uri = uri
             }
             const textUpdateBool = updateBoolFN('data')
-            console.log("let's figure out text")
+            // console.log("let's figure out text")
             if (textUpdateBool) {
-              console.log('update text!', truth[trail][stop].data.url)
+              // console.log('update text!', truth[trail][stop].data.url)
               await fetch(truth[trail][stop].data.url)
                 .then((res) => res.json())
                 .then((obj) => {
-                  console.log('fetched data', obj)
+                  // console.log('fetched data', obj)
                   return obj
                 })
                 .then(
@@ -140,7 +128,7 @@ export const DataProvider = ({ children, s3URL = '' }) => {
                   }
                 )
             } else {
-              console.log('using local text data')
+              // console.log('using local text data')
               truth[trail][stop] = {
                 ...local?.[trail]?.[stop],
                 ...truth[trail][stop],
