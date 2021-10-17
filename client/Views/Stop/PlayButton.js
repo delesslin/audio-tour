@@ -9,6 +9,7 @@ function ProgressBorder({ bg, progress: percent, isPlaying }) {
 
   useInterval(() => {
     if (isPlaying) {
+      console.log(progress)
       setProgress(percent)
     } else if (progress > 0) {
       setProgress((pg) => {
@@ -26,18 +27,17 @@ function ProgressBorder({ bg, progress: percent, isPlaying }) {
       <Animated.View
         style={[
           {
-            borderRadius: 100,
+            borderRadius: 30,
             position: 'absolute',
-            padding: 30,
+            width: 60,
+            height: 60,
             borderWidth: 2,
             backgroundColor: bg,
-            borderBottomColor: Theme.YELLOW,
-            borderLeftColor: Theme.BLACK,
-            borderTopColor: Theme.BLACK,
+            // borderColor: Theme.BLACK,
             borderRightColor: Theme.YELLOW,
             transform: [
               {
-                rotateZ: `${progress * 360 - 90}deg`,
+                rotateZ: `${progress * 360}deg`,
               },
             ],
           },
@@ -46,10 +46,11 @@ function ProgressBorder({ bg, progress: percent, isPlaying }) {
       <Animated.View
         style={[
           {
-            borderRadius: 100,
-            padding: 30,
+            width: 60,
+            height: 60,
+
+            borderRadius: 30,
             borderWidth: 2,
-            // backgroundColor: bg,
             borderBottomColor: Theme.rgba(
               Theme.YELLOW,
               progress > 0.25 ? 1 : 0
@@ -63,7 +64,7 @@ function ProgressBorder({ bg, progress: percent, isPlaying }) {
               progress > 0.5 ? Theme.YELLOW : Theme.BLACK,
               progress > 0.5 ? 0 : 1
             ),
-            // borderRightColor: Theme.rgba(Theme.BLACK, 1),
+            borderRightColor: Theme.rgba(Theme.BLACK, progress > 0.75 ? 0 : 1),
           },
         ]}
       ></Animated.View>
