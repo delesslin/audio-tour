@@ -3,7 +3,7 @@
     "create": "node directoryUtility",
     "lint": "node directoryUtility/linter",
     "start": "node server",
-    "deploy": "cd client && expo build:web && git push heroku main"
+    "deploy": "cd client && yarn deploy"
   },
   "dependencies": {
     "axios": "^0.23.0",

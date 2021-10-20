@@ -41,5 +41,5 @@ let audioPath = stopPath + '/audio'
 fs.mkdirSync(audioPath)
 let qrPath = stopPath + '/qr'
 fs.mkdirSync(qrPath)
-let data = `http://tour.catawbaculture.org/stop/${trail}/${stop}`
+let data = `http://catawbatour.org/stop/${trail}/${stop}`
 generateQRCodes({ data, width, logoSize, path: qrPath })

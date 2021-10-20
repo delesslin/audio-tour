@@ -2,11 +2,13 @@ const fs = require('fs')
 const rootPath = 'trails'
 let trails = fs.readdirSync(rootPath)
 const boolMoji = (bool) => (bool ? '💚' : '🔴')
+let readyArray = []
+let notReadyObj = {}
 trails.forEach((trail) => {
   // TODO: does trail only contain letters and dashes?
   let trailPath = rootPath + `/${trail}`
   let stops = fs.readdirSync(trailPath)
-
+  notReadyObj[trail] = {}
   stops.forEach((stop) => {
     const stopPath = trailPath + `/${stop}`
     console.log(`===========\n===========\n===========\n${stop}\n===========`)
@@ -95,7 +97,7 @@ trails.forEach((trail) => {
       }
       return obj
     })()
-    console.table({
+    let checkObj = {
       'Valid stop directory name:': boolMoji(validStopName),
       'Has 1 valid image:': boolMoji(hasImage),
       'Has 1 valid audio:': boolMoji(hasAudio),
@@ -103,6 +105,20 @@ trails.forEach((trail) => {
       'Has a title:': boolMoji(hasTitle),
       'Has transcript/text:': boolMoji(hasTranscript),
       ...cautionObj,
-    })
+    }
+    if (
+      validStopName &&
+      hasImage &&
+      hasAudio &&
+      hasNarrator &&
+      hasTitle &&
+      hasTranscript
+    ) {
+      readyArray.push(stopPath)
+    } else {
+      notReadyObj[trail][stop] = checkObj
+    }
   })
 })
+console.error('Needs work', notReadyObj)
+console.log('Ready to publish (maybe):', readyArray)
