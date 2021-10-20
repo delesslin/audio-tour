@@ -15,7 +15,7 @@ const Camera = () => {
   const toStop = () => to('Stop', data)
 
   const handleScan = ({ type, data }) => {
-    let host = 'tour.catawbaculture.org'
+    let host = 'catawbatour.org'
 
     if (data.includes(host)) {
       try {

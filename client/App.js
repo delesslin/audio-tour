@@ -18,6 +18,7 @@ const linking = {
     'tour.catawbaculture.org',
     'catawba-tour.herokuapp.com',
     'catawba-tour-delesslin.vercel.app',
+    'catawbatour.org',
   ],
   config: {
     screens: {
