@@ -1,5 +1,13 @@
 const fs = require('fs')
 const rootPath = 'trails'
+const clearDotFiles = (path) => {
+  let results = fs.readdirSync(path)
+  if(results.includes('.DS_Store')){
+    // remove .DS_Store
+    console.log("Uh .DS_Store in ", path)
+  }
+}
+
 let trails = fs.readdirSync(rootPath)
 const boolMoji = (bool) => (bool ? '💚' : '🔴')
 let readyArray = []
@@ -7,6 +15,7 @@ let notReadyObj = {}
 trails.forEach((trail) => {
   // TODO: does trail only contain letters and dashes?
   let trailPath = rootPath + `/${trail}`
+
   let stops = fs.readdirSync(trailPath)
   notReadyObj[trail] = {}
   stops.forEach((stop) => {

@@ -106,15 +106,15 @@ let xmlToTree = async function (url) {
               let k = asset.split('.')[0]
               obj[trail][stop][k] = {
                 ...obj[trail][stop][asset],
-                url: `${url}/trails/${trail}/${stop}/${asset}`,
+                url: encodeURI(`${url}/trails/${trail}/${stop}/${asset}`),
               }
               delete obj[trail][stop][asset]
               return
             }
             let fileName = obj[trail][stop][asset].file
-            obj[trail][stop][
-              asset
-            ].url = `${url}/trails/${trail}/${stop}/${asset}/${fileName}`
+            obj[trail][stop][asset].url = encodeURI(
+              `${url}/trails/${trail}/${stop}/${asset}/${fileName}`
+            )
           })
         })
       })

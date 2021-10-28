@@ -101,8 +101,8 @@ export const DataProvider = ({ children, s3URL = '' }) => {
             truth[trail][stop].image.uri =
               stopPath + '/image' + getExt(truth[trail][stop].image.file)
             if (imgUpdateBool) {
-              // console.log('fetching image data')
-              // console.log(truth[trail][stop].image.url)
+              console.log('fetching image data')
+              console.log(truth[trail][stop].image.url)
               let { uri } = await FileSystem.downloadAsync(
                 truth[trail][stop].image.url,
                 truth[trail][stop].image.uri
@@ -115,8 +115,8 @@ export const DataProvider = ({ children, s3URL = '' }) => {
               stopPath + '/audio' + getExt(truth[trail][stop].audio.file)
             // console.log(truth[trail][stop].audio.uri)
             if (audioUpdateBool) {
-              // console.log('fetching audio data')
-              // console.log(truth[trail][stop].audio.url)
+              console.log('fetching audio data')
+              console.log(truth[trail][stop].audio.url)
               let { uri } = await FileSystem.downloadAsync(
                 truth[trail][stop].audio.url,
                 truth[trail][stop].audio.uri
@@ -126,7 +126,7 @@ export const DataProvider = ({ children, s3URL = '' }) => {
             const textUpdateBool = updateBoolFN('data')
             // console.log("let's figure out text")
             if (textUpdateBool) {
-              // console.log('update text!', truth[trail][stop].data.url)
+              console.log('update text!', truth[trail][stop].data.url)
               await fetch(truth[trail][stop].data.url)
                 .then((res) => res.json())
                 .then((obj) => {
