@@ -11,6 +11,7 @@ const useSound = () => {
   async function stopSound() {
     if (sound) {
       await sound.stopAsync()
+      setProgress(0)
       setIsPlaying(false)
     }
   }
