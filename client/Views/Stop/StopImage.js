@@ -87,10 +87,17 @@ const LoadingImage = ({ size = 125 }) => {
     </View>
   )
 }
-function StopImage({ image, expanded = false, progress, isPlaying }) {
+function StopImage({
+  image,
+  expanded = false,
+  progress,
+  isPlaying,
+  onLoad = () => console.log('Image Loaded!'),
+}) {
   const [isLoading, setIsLoading] = useState(true)
   let opacity = useRef(new Animated.Value(0)).current
   const handleLoad = () => {
+    onLoad()
     Animated.spring(opacity, {
       toValue: 1,
       useNativeDriver: false,

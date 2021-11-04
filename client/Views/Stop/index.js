@@ -12,8 +12,9 @@ import Loading from './Loading'
 
 const Stop = ({ route }) => {
   const { slug = 'NO SLUG', trail = 'NO TRAIL' } = route.params
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(false)
   const { stop, loading, error } = useData({ trail, slug })
+  const [imgLoaded, setImgLoaded] = useState(false)
   const {
     loadSound,
     isLoading,
@@ -53,6 +54,7 @@ const Stop = ({ route }) => {
           progress={progress}
           isPlaying={isPlaying}
           image={Platform.OS == 'web' ? stop.image.url : stop.image.uri}
+          onLoad={() => setImgLoaded(true)}
         ></StopImage>
         {expanded ? <Title expanded={expanded}>{stop.title}</Title> : null}
         <PlayButton
@@ -63,7 +65,12 @@ const Stop = ({ route }) => {
           progress={progress}
         />
 
-        <ExpandButton expanded={expanded} onPress={toggleExpand}></ExpandButton>
+        {!imgLoaded ? null : (
+          <ExpandButton
+            expanded={expanded}
+            onPress={toggleExpand}
+          ></ExpandButton>
+        )}
         <StopText
           onPress={toggleExpand}
           expanded={expanded}
