@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 const proxy = require('express-http-proxy')
 const app = express()
-const generateQR = require('./generateQR')
+
 const PORT = process.env.PORT || 8001
 let apiURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
 const { ANDROID_URL, APPLE_URL, DATA_UPDATE_INTERVAL_MS } = process.env
