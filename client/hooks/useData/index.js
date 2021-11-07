@@ -69,13 +69,11 @@ export const DataProvider = ({ children, s3URL = '' }) => {
   }, [])
 
   const fetchStop = async ({ trail, slug }) => {
-    let stopData = data[trail].stops[slug] || {}
-
-    if (stopData === {}) {
+    if (!data[trail] || data[trail].stops[slug]) {
       return null
     } else {
-      console.log('stop data', stopData)
-      return stopData
+      console.log('stop data', data[trail].stops[slug])
+      return data[trail].stops[slug]
     }
   }
   return (
