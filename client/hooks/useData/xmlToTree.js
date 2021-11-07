@@ -10,7 +10,7 @@ let xmlToTree = async function (url) {
     })
     .then((res) => res.text())
     .then((res) => convertXML(res))
-    .then((obj) => obj.ListBucketResult.children)
+    .then((obj) => obj.ListBucketResult?.children || [])
     // .then((res) => {
     //   console.log(res)
     //   return res
@@ -94,6 +94,7 @@ let xmlToTree = async function (url) {
     })
     .then((obj) => {
       // console.log(obj)
+      // TODO: IDK but why am I not getting data
       let trails = Object.keys(obj)
 
       trails.forEach((trail) => {

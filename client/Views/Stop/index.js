@@ -29,7 +29,7 @@ const Stop = ({ route }) => {
   useEffect(() => {
     if (!loading && !error) {
       loadSound({
-        uri: Platform.OS == 'web' ? stop.audio.url : stop.audio.uri,
+        uri: stop.audio,
       })
       return () => unloadSound
     }
@@ -53,7 +53,7 @@ const Stop = ({ route }) => {
           expanded={expanded}
           progress={progress}
           isPlaying={isPlaying}
-          image={Platform.OS == 'web' ? stop.image.url : stop.image.uri}
+          image={stop.image}
           onLoad={() => setImgLoaded(true)}
         ></StopImage>
         {expanded ? <Title expanded={expanded}>{stop.title}</Title> : null}
@@ -74,7 +74,7 @@ const Stop = ({ route }) => {
         <StopText
           onPress={toggleExpand}
           expanded={expanded}
-          transcript={stop.text}
+          transcript={stop.transcript}
           narrator={stop.narrator}
         ></StopText>
       </Card>

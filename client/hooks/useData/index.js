@@ -1,11 +1,11 @@
 import React, { useEffect, useState, createContext, useContext } from 'react'
 import { Platform } from 'react-native'
-import * as FileSystem from 'expo-file-system'
-import xmlToTree from './xmlToTree'
 import NetInfo from '@react-native-community/netinfo'
 let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
 // let proxyURL = 'http://localhost:8000/api'
 let proxyURL = '/api'
+const fs = import('./fs')
+
 // TODO: download react-device-detect
 // TODO: if (mobileBrowser) then {offer mobile app download}
 const getExt = (fileName) => {
@@ -13,7 +13,8 @@ const getExt = (fileName) => {
   return '.' + arr[arr.length - 1]
 }
 
-const apiURL = (url) => `${Platform.OS === 'web' ? proxyURL : dataURL}/${url}`
+const apiURL = (url) =>
+  Platform.OS === 'web' ? '/api/data' : 'https://www.catawbatour.org/api/data'
 
 const DataContext = createContext()
 
@@ -21,184 +22,60 @@ export const DataProvider = ({ children, s3URL = '' }) => {
   const [data, setData] = useState(null)
   const [dataLoading, setDataLoading] = useState(true)
   useEffect(() => {
-    // NetInfo.fetch().then(({ isConnected, type }) => {
-    //   console.log('Is connected?', isConnected)
-    //   console.log('Connection type: ', type)
-    //   if (!isConnected) {
-    //     console.log('not connected')
-    //     return FileSystem.readAsStringAsync(
-    //       FileSystem.documentDirectory + 'db.json'
-    //     )
-    //       .then(JSON.parse)
-    //       .then((local) => {
-    //         // TODO: map through local and create uri
-    //         setData(local)
-    //         setDataLoading(false)
-    //         return
-    //       })
-    //   }
-
-    //   console.log('fetching data map')
-
-    //   xmlToTree(s3URL).then(async (truth) => {
-    // console.log(apiURL(s3URL))
-    xmlToTree(`${Platform.OS === 'web' ? proxyURL : dataURL}`).then(
-      async (truth) => {
-        if (Platform.OS == 'web') {
-          setData(truth)
-          setDataLoading(false)
-          return
-        }
-        const files = await FileSystem.readDirectoryAsync(
-          FileSystem.documentDirectory
-        )
-
-        let local = {}
-
-        if (files.includes('db.json')) {
-          let response = await FileSystem.readAsStringAsync(
-            FileSystem.documentDirectory + 'db.json'
-          )
-          local = JSON.parse(response)
-        }
-        const localExists = (() => {
-          const keys = Object.keys(local)
-
-          return keys.length > 0
-        })()
-
-        const trails = Object.keys(truth)
-        for (let trail of trails) {
-          let trailPath = FileSystem.documentDirectory + trail
-          if (!files.includes(trail)) {
-            await FileSystem.makeDirectoryAsync(trailPath)
-          }
-          let stops = Object.keys(truth[trail])
-          let stopFiles = await FileSystem.readDirectoryAsync(trailPath)
-
-          for (let stop of stops) {
-            let stopPath = trailPath + `/${stop}`
-
-            let pathExists = true
-            if (!stopFiles.includes(stop)) {
-              await FileSystem.makeDirectoryAsync(stopPath)
-              pathExists = false
+    fetch('http://localhost:8001/api/data')
+      .then((res) => res.json())
+      .then(async (truth) => {
+        console.log('got', truth)
+        if (Platform.OS == 'android' || Platform.OS == 'ios') {
+          let local = (await fs.readLocalString(dir + '/db.json')) || truth
+          let localDir = await fs.readDir(dir)
+          let trails = Object.keys(truth)
+          trails.forEach(async (trail) => {
+            let trailPath = fs.dir + '/' + trail
+            if (!localDir[trail]) {
+              console.log('no trail in local data')
+              await fs.mkdir(trailPath)
             }
-            let pathFiles = await FileSystem.readDirectoryAsync(stopPath)
+            let stops = truth[trail]
+            let trailDir = fs.readDir(trailPath)
+            stops.forEach(async (stop) => {
+              let stopPath = trailDir + '/' + stop
+              let stopData = truth[trail][stop]
+              let imageURL = stopData.image,
+                imageExt = getExt(imageURL),
+                imagePath = stopPath + '/image.' + imageExt
 
-            const updateBoolFN = (property) => {
-              if (!localExists || !pathFiles.includes(property)) {
-                return true
+              let audioURL = stopData.audio,
+                audioExt = getExt(audioURL),
+                audioPath = stopPath + '/audio.' + audioExt
+              if (
+                Date.parse(truth[trail][stop].updatedAt) >
+                  Date.parse(local[trail][stop].updatedAt) ||
+                !trailDir[stop]
+              ) {
+                await fs.delete(stopPath, { idempotent: true })
+                await fs.mkdir(stopPath)
+                await fs.download(imageURL, imagePath)
+                await fs.download(audioURL, audioPath)
               }
-
-              return (
-                new Date(truth[trail][stop][property].lastModified) >
-                new Date(local[trail][stop][property].lastModified)
-              )
-            }
-            const imgUpdateBool = updateBoolFN('image')
-
-            truth[trail][stop].image.uri =
-              stopPath + '/image' + getExt(truth[trail][stop].image.file)
-            if (imgUpdateBool) {
-              console.log('fetching image data')
-              console.log(truth[trail][stop].image.url)
-              let { uri } = await FileSystem.downloadAsync(
-                truth[trail][stop].image.url,
-                truth[trail][stop].image.uri
-              )
-              truth[trail][stop].image.uri = uri
-            }
-            const audioUpdateBool = updateBoolFN('audio')
-
-            truth[trail][stop].audio.uri =
-              stopPath + '/audio' + getExt(truth[trail][stop].audio.file)
-            // console.log(truth[trail][stop].audio.uri)
-            if (audioUpdateBool) {
-              console.log('fetching audio data')
-              console.log(truth[trail][stop].audio.url)
-              let { uri } = await FileSystem.downloadAsync(
-                truth[trail][stop].audio.url,
-                truth[trail][stop].audio.uri
-              )
-              truth[trail][stop].audio.uri = uri
-            }
-            const textUpdateBool = updateBoolFN('data')
-            // console.log("let's figure out text")
-            if (textUpdateBool) {
-              console.log('update text!', truth[trail][stop].data.url)
-              await fetch(truth[trail][stop].data.url)
-                .then((res) => res.json())
-                .then((obj) => {
-                  // console.log('fetched data', obj)
-                  return obj
-                })
-                .then(
-                  async ({ narrator = 'no narrator', title = 'no title' }) => {
-                    return await fetch(truth[trail][stop].transcript.url)
-                      .then((res) => res.text())
-                      .then((text) => {
-                        truth[trail][stop] = {
-                          ...truth[trail][stop],
-                          narrator,
-                          title,
-                          text,
-                        }
-                      })
-                  }
-                )
-            } else {
-              // console.log('using local text data')
-              truth[trail][stop] = {
-                ...local?.[trail]?.[stop],
-                ...truth[trail][stop],
-              }
-            }
-          }
+              truth[trail][path].image = imagePath
+              truth[trail][path].audio = audioPath
+            })
+          })
         }
-        // console.log(truth)
-        await FileSystem.writeAsStringAsync(
-          FileSystem.documentDirectory + 'db.json',
-          JSON.stringify(truth)
-        )
         setData(truth)
         setDataLoading(false)
-      }
-    )
+      })
   }, [])
 
-  // TODO: Move function out of hook
   const fetchStop = async ({ trail, slug }) => {
-    let stopData = data[trail][slug] || {}
+    let stopData = data[trail].stops[slug] || {}
 
     if (stopData === {}) {
-      // console.log('empty stop')
       return null
-    } else if (
-      stopData.hasOwnProperty('narrator') &&
-      stopData.hasOwnProperty('title')
-    ) {
-      // console.log('ALREADY HAVE DATA')
+    } else {
+      console.log('stop data', stopData)
       return stopData
-    } else if (Platform.OS == 'web') {
-      // console.log('fetching data for web', stopData.data.url)
-      return await fetch(stopData.data.url)
-        .then((res) => res.json())
-        .then(async ({ title, narrator }) => {
-          return await fetch(stopData.transcript.url)
-            .then((res) => res.text())
-            .then((transcript) => {
-              stopData.text = transcript
-              stopData.title = title
-              stopData.narrator = narrator
-
-              setData((oldData) => {
-                oldData[trail][slug] = stopData
-                return oldData
-              })
-              return stopData
-            })
-        })
     }
   }
   return (

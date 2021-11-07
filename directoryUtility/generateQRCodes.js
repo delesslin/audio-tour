@@ -15,6 +15,7 @@ const generateQRCodes = ({ data, width, logoSize, path }) => {
         light: '#fff', // Transparent background
       },
       width,
+      margin: 1,
     },
     function (err) {
       if (err) throw err

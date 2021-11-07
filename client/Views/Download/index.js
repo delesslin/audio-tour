@@ -4,8 +4,7 @@ import { View, Text, Pressable } from 'react-native'
 import { FontAwesome5, Zocial } from '@expo/vector-icons'
 import Theme from 'Theme'
 import { useNav } from 'hooks'
-const androidLink = 'http://google.com'
-const iosLink = 'http://twitter.com'
+
 function AppButton({
   size = 60,
   children,
@@ -31,11 +30,17 @@ function AppButton({
 }
 
 const Download = () => {
+  const [androidLink, setAndroidLink] = useState('')
+  const [iosLink, setIosLink] = useState('')
   const { to, href } = useNav()
   const toHome = () => to('Home')
   const size = 60
   const toAndroid = () => href(androidLink)
   const toIOS = () => href(iosLink)
+  useEffect(() => {
+    fetch('http://www.catawbatour.org/api/download/android').then(console.log)
+  }, [])
+  use
   return (
     <Container>
       <Card>

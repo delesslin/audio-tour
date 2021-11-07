@@ -4,7 +4,6 @@ import Theme from 'Theme'
 import { Feather } from '@expo/vector-icons'
 
 function StopText({ transcript, narrator, expanded, onPress }) {
-  let text = transcript.replace(/\r\n\r\n/g, '\r\n')
   const bottom = React.useRef(new Animated.Value(75)).current
   React.useEffect(() => {
     bottom.setValue(0)
@@ -48,7 +47,12 @@ function StopText({ transcript, narrator, expanded, onPress }) {
               margin: 10,
             }}
           >
-            {text.slice(0, 25)}...
+            {transcript[0].content
+              .reduce((acc, curr) => {
+                return acc + curr.value
+              }, '')
+              .slice(0, 25)}
+            ...
           </Text>
           <View
             style={{
@@ -86,15 +90,37 @@ function StopText({ transcript, narrator, expanded, onPress }) {
         marginBottom: 60,
       }}
     >
-      <Text
-        style={{
-          fontSize: Platform.OS == 'android' ? 15 : 20,
-          fontFamily: 'text',
-          textAlign: 'justify',
-        }}
-      >
-        {text}
-      </Text>
+      {transcript.map((p, i) => {
+        return (
+          <Text
+            key={i}
+            style={{
+              fontSize: 15,
+              textAlign: 'justify',
+              marginVertical: 15,
+              lineHeight: 20,
+            }}
+          >
+            {p.content.map((p, j) => {
+              let marks = p.marks.map((mk) => mk.type)
+              return (
+                <Text
+                  key={j}
+                  style={{
+                    fontStyle: marks.includes('italic') ? 'italic' : '',
+                    fontWeight: marks.includes('bold') ? 'bold' : '',
+                    textDecorationLine: marks.includes('underline')
+                      ? 'underline'
+                      : '',
+                  }}
+                >
+                  {p.value}
+                </Text>
+              )
+            })}
+          </Text>
+        )
+      })}
       <Text style={{ paddingTop: 20, fontStyle: 'italic', fontFamily: 'text' }}>
         Narrator: {narrator}
       </Text>
