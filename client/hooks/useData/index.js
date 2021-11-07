@@ -22,7 +22,7 @@ export const DataProvider = ({ children, s3URL = '' }) => {
   const [data, setData] = useState(null)
   const [dataLoading, setDataLoading] = useState(true)
   useEffect(() => {
-    fetch('http://localhost:8001/api/data')
+    fetch(apiURL)
       .then((res) => res.json())
       .then(async (truth) => {
         console.log('got', truth)
