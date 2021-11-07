@@ -107,11 +107,11 @@ function StopText({ transcript, narrator, expanded, onPress }) {
                 <Text
                   key={j}
                   style={{
-                    fontStyle: marks.includes('italic') ? 'italic' : '',
-                    fontWeight: marks.includes('bold') ? 'bold' : '',
+                    fontStyle: marks.includes('italic') ? 'italic' : 'normal',
+                    fontWeight: marks.includes('bold') ? 'bold' : 'normal',
                     textDecorationLine: marks.includes('underline')
                       ? 'underline'
-                      : '',
+                      : 'none',
                   }}
                 >
                   {p.value}

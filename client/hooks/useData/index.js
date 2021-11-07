@@ -4,7 +4,7 @@ import NetInfo from '@react-native-community/netinfo'
 let dataURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
 // let proxyURL = 'http://localhost:8000/api'
 let proxyURL = '/api'
-const fs = import('./fs')
+import fs from './fs'
 
 // TODO: download react-device-detect
 // TODO: if (mobileBrowser) then {offer mobile app download}
@@ -25,22 +25,28 @@ export const DataProvider = ({ children, s3URL = '' }) => {
     fetch(apiURL)
       .then((res) => res.json())
       .then(async (truth) => {
-        console.log('got', truth)
+        // console.log('got', truth)
         if (Platform.OS == 'android' || Platform.OS == 'ios') {
-          let local = (await fs.readLocalString(dir + '/db.json')) || truth
-          let localDir = await fs.readDir(dir)
+          let local =
+            JSON.parse(await fs.readLocalString(fs.dir + '/db.json')) || truth
+          let localDir = await fs.readDir(fs.dir)
           let trails = Object.keys(truth)
           trails.forEach(async (trail) => {
-            let trailPath = fs.dir + '/' + trail
-            if (!localDir[trail]) {
+            let trailPath = fs.dir + trail
+            console.log(trailPath)
+            if (!localDir.includes(trail)) {
               console.log('no trail in local data')
               await fs.mkdir(trailPath)
             }
-            let stops = truth[trail]
-            let trailDir = fs.readDir(trailPath)
+            let stops = Object.keys(truth[trail].stops)
+            console.log('truth stops', stops)
+            let trailDir = await fs.readDir(trailPath)
+
             stops.forEach(async (stop) => {
-              let stopPath = trailDir + '/' + stop
-              let stopData = truth[trail][stop]
+              console.log(stop)
+              let stopPath = trailPath + '/' + stop
+              console.log(stopPath)
+              let stopData = truth[trail].stops[stop]
               let imageURL = stopData.image,
                 imageExt = getExt(imageURL),
                 imagePath = stopPath + '/image.' + imageExt
@@ -48,18 +54,39 @@ export const DataProvider = ({ children, s3URL = '' }) => {
               let audioURL = stopData.audio,
                 audioExt = getExt(audioURL),
                 audioPath = stopPath + '/audio.' + audioExt
-              if (
-                Date.parse(truth[trail][stop].updatedAt) >
-                  Date.parse(local[trail][stop].updatedAt) ||
-                !trailDir[stop]
-              ) {
-                await fs.delete(stopPath, { idempotent: true })
-                await fs.mkdir(stopPath)
-                await fs.download(imageURL, imagePath)
-                await fs.download(audioURL, audioPath)
+
+              let shouldUpdate = (() => {
+                if (local[trail].stops?.[stop] == undefined) {
+                  console.log('undefined stop')
+                  return true
+                }
+                if (
+                  Date.parse(stopData.updatedAt) >
+                  Date.parse(local[trail].stops[stop]?.updatedAt)
+                ) {
+                  console.log('truth is newer')
+                  return true
+                }
+                if (!trailDir[stop]) {
+                  console.log('no stop folder in dir')
+                  return true
+                }
+                return false
+              })()
+              if (shouldUpdate) {
+                try {
+                  console.log('deleting', stop)
+                  await fs.delete(stopPath, { idempotent: true })
+                  console.log('making', stop)
+                  await fs.mkdir(stopPath)
+                  await fs.download(imageURL, imagePath)
+                  await fs.download(audioURL, audioPath)
+                } catch (e) {
+                  console.error(e)
+                }
               }
-              truth[trail][path].image = imagePath
-              truth[trail][path].audio = audioPath
+              truth[trail].stops[stop].image = imagePath
+              truth[trail].stops[stop].audio = audioPath
             })
           })
         }
