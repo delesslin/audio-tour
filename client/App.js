@@ -7,6 +7,7 @@ import Stop from './Views/Stop'
 import Camera from './Views/Camera'
 import Download from './Views/Download'
 import About from './Views/About'
+import QRCodes from './Views/QRCode'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { DataProvider } from './hooks'
@@ -27,6 +28,7 @@ const linking = {
       Camera: 'camera',
       Download: 'download',
       About: 'about',
+      QR: 'qr/:trail/:stop',
       NotFound: '*',
     },
   },
@@ -60,6 +62,9 @@ function App() {
               )}
               {Platform.OS == 'web' ? (
                 <Stack.Screen name='Download' component={Download} />
+              ) : null}
+              {Platform.OS == 'web' ? (
+                <Stack.Screen name='QR' component={QRCodes} />
               ) : null}
               <Stack.Screen name='About' component={About} />
               <Stack.Screen name='NotFound' component={NotFound} />
