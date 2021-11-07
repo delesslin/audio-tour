@@ -3,7 +3,6 @@ const TOKEN = process.env.CONTENTFUL_TOKEN
 const SPACE = process.env.CONTENTFUL_SPACE
 
 const getData = async (DATA = {}) => {
-  console.log('getting DATA')
   try {
     const apiClient = contentful.createClient({
       space: SPACE,

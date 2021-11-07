@@ -29,7 +29,7 @@ app.listen(PORT, async (err) => {
   if (err) console.error(err)
   console.log(`Now listening on http://localhost:${PORT}`)
   DATA = await getData()
-  setInterval(async () => {
-    DATA = await getData()
-  }, DATA_UPDATE_INTERVAL_MS)
+  // setInterval(async () => {
+  //   DATA = await getData()
+  // }, DATA_UPDATE_INTERVAL_MS)
 })
