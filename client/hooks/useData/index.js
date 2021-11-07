@@ -13,7 +13,7 @@ const getExt = (fileName) => {
   return '.' + arr[arr.length - 1]
 }
 
-const apiURL = (url) =>
+const apiURL =
   Platform.OS === 'web' ? '/api/data' : 'https://www.catawbatour.org/api/data'
 
 const DataContext = createContext()
