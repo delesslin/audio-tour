@@ -13,7 +13,6 @@ export const StaticProvider = ({ children }) => {
       })
 
       .then((data) => {
-        console.log(data)
         setAssets(data)
         setLoading(false)
       })

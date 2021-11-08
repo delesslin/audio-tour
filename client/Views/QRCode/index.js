@@ -50,9 +50,8 @@ const QRCodes = ({ route }) => {
   return (
     <View>
       <Text style={{ textAlign: 'center', fontSize: 30, marginVertical: 20 }}>
-        FIX THIS
+        {uri}
       </Text>
-      <Text style={{ textAlign: 'center' }}>{uri}</Text>
       <View
         style={{
           flexDirection: 'row',
