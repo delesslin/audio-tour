@@ -14,7 +14,7 @@ const getData = require('./getData')
 const getStatic = require('./getStatic')
 // TODO: https redirect
 app.use(function (request, response, next) {
-  if (process.env.ENVIRONMENT != 'production' && !request.secure) {
+  if (process.env.ENVIRONMENT == 'production' && !request.secure) {
     return response.redirect('https://' + request.headers.host + request.url)
   }
 
