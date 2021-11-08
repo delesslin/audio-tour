@@ -1,12 +1,16 @@
 import React, { createContext, useState, useEffect, useContext } from 'react'
-
+import { Platform } from 'react-native'
+const apiURL =
+  Platform.OS == 'web'
+    ? '/api/static'
+    : 'https://www.catawbatour.org/api/static'
 const STATIC_CONTEXT = createContext()
 
 export const StaticProvider = ({ children }) => {
   const [assets, setAssets] = useState({})
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    fetch('http://localhost:8001/api/static')
+    fetch(apiURL)
       .then((data) => data.json())
       .then((data) => {
         setAssets(data)
