@@ -13,14 +13,13 @@ let STATIC = {}
 const getData = require('./getData')
 const getStatic = require('./getStatic')
 // TODO: https redirect
-if (ENVIRONMENT == 'production') {
-  app.get('*', function (req, res) {
-    res.redirect('https://' + req.headers.host + req.url)
+app.use(function (request, response, next) {
+  if (process.env.ENVIRONMENT != 'production' && !request.secure) {
+    return response.redirect('https://' + request.headers.host + request.url)
+  }
 
-    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-    // res.redirect('https://example.com' + req.url);
-  })
-}
+  next()
+})
 app.use(express.static(path.join(__dirname, '../client/web-build')))
 
 app.get('/api/data', async (req, res) => {
@@ -36,7 +35,7 @@ app.get('/privacy', (req, res) => {
 })
 // app.use('/api', proxy(apiURL))
 app.get('*', (req, res) => {
-  console.log('GET * request', req.body)
+  console.log('GET * request', req.headers)
   res.sendFile(path.join(__dirname, '../client/web-build/index.html'))
 })
 
