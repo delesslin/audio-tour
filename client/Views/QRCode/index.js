@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import QRCodeStyling from 'qr-code-styling'
 import qrOptions from './qrOptions.json'
@@ -11,20 +11,38 @@ const qrCode = new QRCodeStyling({
 const qrCodeInverted = new QRCodeStyling({
   ...qrOptionsInverted,
 })
+const homeUrl = 'https://www.catawbatour.org'
 const QRCodes = ({ route }) => {
-  const { trail, stop } = route.params
   const ref = useRef(null)
   const invertRef = useRef(null)
   const assets = useStatic()
+  const [uri, setUri] = useState(homeUrl)
   useEffect(() => {
+    console.log(route.params)
+    let str = homeUrl
+    if (route.params) {
+      if (route.params['route']) {
+        str += '/' + route.params.route
+      }
+      if (route.params['trail']) {
+        str += '/' + route.params.trail
+      }
+      if (route.params['stop']) {
+        str += '/' + route.params.stop
+      }
+    }
+    setUri(str)
+  }, [route])
+  useEffect(() => {
+    console.log(route.params)
     if (assets.loading) return
     qrCode.update({
-      data: `https://www.catawbatour.org/stop/${trail}/${stop}`,
+      data: uri,
       image: assets.qrLogo,
     })
     qrCode.append(ref.current)
     qrCodeInverted.update({
-      data: `https://www.catawbatour.org/stop/${trail}/${stop}`,
+      data: uri,
       image: assets.qrLogo,
     })
     qrCodeInverted.append(invertRef.current)
@@ -32,11 +50,9 @@ const QRCodes = ({ route }) => {
   return (
     <View>
       <Text style={{ textAlign: 'center', fontSize: 30, marginVertical: 20 }}>
-        {trail}/{stop}
+        FIX THIS
       </Text>
-      <Text
-        style={{ textAlign: 'center' }}
-      >{`https://www.catawbatour.org/stop/${trail}/${stop}`}</Text>
+      <Text style={{ textAlign: 'center' }}>{uri}</Text>
       <View
         style={{
           flexDirection: 'row',

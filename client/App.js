@@ -29,7 +29,7 @@ const linking = {
       Camera: 'camera',
       Download: 'download',
       About: 'about',
-      QR: 'qr/:trail/:stop',
+      QR: 'qr/:route?/:trail?/:stop?',
       NotFound: '*',
     },
   },
