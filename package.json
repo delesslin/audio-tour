@@ -1,7 +1,5 @@
 {
   "scripts": {
-    "create": "node directoryUtility",
-    "lint": "node directoryUtility/linter",
     "start": "node server",
     "deploy": "cd client && yarn deploy"
   },
