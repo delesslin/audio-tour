@@ -11,7 +11,6 @@ export const StaticProvider = ({ children }) => {
       .then(async (data) => {
         return await data.json()
       })
-
       .then((data) => {
         setAssets(data)
         setLoading(false)

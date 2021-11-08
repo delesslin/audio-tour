@@ -7,18 +7,20 @@ const app = express()
 
 const PORT = process.env.PORT || 8001
 // let apiURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
-const { DATA_UPDATE_INTERVAL_MS } = process.env
+const { DATA_UPDATE_INTERVAL_MS, ENVIRONMENT } = process.env
 let DATA = {}
 let STATIC = {}
 const getData = require('./getData')
 const getStatic = require('./getStatic')
 // TODO: https redirect
-// http.get('*', function(req, res) {
-//   res.redirect('https://' + req.headers.host + req.url);
+if (ENVIRONMENT == 'production') {
+  app.get('*', function (req, res) {
+    res.redirect('https://' + req.headers.host + req.url)
 
-//   // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-//   // res.redirect('https://example.com' + req.url);
-// })
+    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+    // res.redirect('https://example.com' + req.url);
+  })
+}
 app.use(express.static(path.join(__dirname, '../client/web-build')))
 
 app.get('/api/data', async (req, res) => {
