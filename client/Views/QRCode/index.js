@@ -3,29 +3,32 @@ import { View, Text } from 'react-native'
 import QRCodeStyling from 'qr-code-styling'
 import qrOptions from './qrOptions.json'
 import qrOptionsInverted from './qrOptionsInverted.json'
-import logo from './logo.png'
+import useStatic from '../../hooks/useStatic'
+
 const qrCode = new QRCodeStyling({
   ...qrOptions,
-  image: logo,
 })
 const qrCodeInverted = new QRCodeStyling({
   ...qrOptionsInverted,
-  image: logo,
 })
 const QRCodes = ({ route }) => {
   const { trail, stop } = route.params
   const ref = useRef(null)
   const invertRef = useRef(null)
+  const assets = useStatic()
   useEffect(() => {
+    if (assets.loading) return
     qrCode.update({
       data: `https://www.catawbatour.org/stop/${trail}/${stop}`,
+      image: assets.qrLogo,
     })
     qrCode.append(ref.current)
     qrCodeInverted.update({
       data: `https://www.catawbatour.org/stop/${trail}/${stop}`,
+      image: assets.qrLogo,
     })
     qrCodeInverted.append(invertRef.current)
-  }, [])
+  }, [assets])
   return (
     <View>
       <Text style={{ textAlign: 'center', fontSize: 30, marginVertical: 20 }}>
