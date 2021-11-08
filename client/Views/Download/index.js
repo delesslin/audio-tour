@@ -31,14 +31,11 @@ function AppButton({
 }
 
 const Download = () => {
-  const { androidUrl, iOsUrl, loading } = useStatic()
+  const { androidUrl = '', iOsUrl = '', loading } = useStatic()
   const { to, href } = useNav()
   const toHome = () => to('Home')
   const size = 60
-  const toAndroid = () => {
-    console.log(androidUrl)
-    href(androidUrl)
-  }
+  const toAndroid = () => href(androidUrl)
   const toIOS = () => href(iOsUrl)
 
   return (
@@ -68,15 +65,16 @@ const Download = () => {
             absolutely free to use and we do not track personal data.
           </Text>
         </View>
-        {loading ? null : (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'space-evenly',
-              marginTop: 25,
-              marginBottom: 50,
-            }}
-          >
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-evenly',
+            marginTop: 25,
+            marginBottom: 50,
+          }}
+        >
+          {androidUrl.length > 0 ? (
             <AppButton size={size} onPress={toAndroid}>
               <Zocial
                 name='android'
@@ -87,6 +85,8 @@ const Download = () => {
                 color='black'
               />
             </AppButton>
+          ) : null}
+          {iOsUrl.length > 0 ? (
             <AppButton color={Theme.BLUE} onPress={toIOS}>
               <FontAwesome5
                 name='app-store-ios'
@@ -95,8 +95,8 @@ const Download = () => {
                 style={{ position: 'absolute' }}
               />
             </AppButton>
-          </View>
-        )}
+          ) : null}
+        </View>
       </Card>
       <NavButton onPress={toHome}>
         <BackIcon />
