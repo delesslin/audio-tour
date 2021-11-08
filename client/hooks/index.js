@@ -1,4 +1,5 @@
 export { default as useData, DataProvider } from './useData'
+export { default as useStatic, StaticProvider } from './useStatic'
 export { default as useSound } from './useSound'
 export { default as useNav } from './useNav'
 import React, { useState, useEffect, useRef } from 'react'

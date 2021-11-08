@@ -8,6 +8,7 @@ import Title from '../Stop/Title'
 import { Container, Card, NavButton, DownloadIcon, CardText } from 'Components'
 import { useSound, useNav } from 'hooks'
 import AboutButton from './AboutButton'
+import { useStatic } from '../../hooks'
 
 const Home = () => {
   const {
@@ -20,9 +21,13 @@ const Home = () => {
     progress,
   } = useSound()
   const { to } = useNav()
+  const assets = useStatic()
   useEffect(() => {
-    loadSound(require('./Welcome.mp3'))
-  }, [])
+    if (!assets.loading) {
+      console.log(assets.welcomeAudio)
+      loadSound({ uri: assets.welcomeAudio })
+    }
+  }, [assets])
   const handleClick = () => {
     stopSound().then(() => to('Camera'))
   }
@@ -33,8 +38,13 @@ const Home = () => {
         <Title fontSize={50}>TANAKE</Title>
         <AboutButton />
 
-        <Logo progress={progress} isPlaying={isPlaying} size={200}></Logo>
-        {!isLoading ? (
+        <Logo
+          src={{ uri: assets.welcomeImage }}
+          progress={progress}
+          isPlaying={isPlaying}
+          size={200}
+        ></Logo>
+        {!isLoading && !assets.loading ? (
           <Controls
             isPlaying={isPlaying}
             stopSound={stopSound}

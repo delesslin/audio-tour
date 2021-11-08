@@ -8,7 +8,9 @@ const PORT = process.env.PORT || 8001
 let apiURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
 const { ANDROID_URL, APPLE_URL, DATA_UPDATE_INTERVAL_MS } = process.env
 let DATA = {}
+let STATIC = {}
 const getData = require('./getData')
+const getStatic = require('./getStatic')
 
 app.use(express.static(path.join(__dirname, '../client/web-build')))
 app.get('/api/download/android', (req, res) => {
@@ -19,6 +21,10 @@ app.get('/api/download/apple', (req, res) => {
 })
 app.get('/api/data', async (req, res) => {
   res.send(DATA)
+})
+app.get('/api/static', async (req, res) => {
+  STATIC = await getStatic()
+  res.send(STATIC)
 })
 
 app.use('/api', proxy(apiURL))

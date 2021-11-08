@@ -3,13 +3,7 @@ import { Image, Animated, Easing, View } from 'react-native'
 import Theme from 'Theme'
 import { ProgressBorder } from '../../Components'
 
-function Logo({
-  src = require('./Logo.png'),
-  size = 100,
-  children,
-  progress = 0.5,
-  isPlaying,
-}) {
+function Logo({ src, size = 100, children, progress = 0.5, isPlaying }) {
   const opacity = useRef(new Animated.Value(0)).current
   useEffect(() => {
     Animated.timing(opacity, {

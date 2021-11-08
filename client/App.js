@@ -11,6 +11,7 @@ import QRCodes from './Views/QRCode'
 import * as Font from 'expo-font'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { DataProvider } from './hooks'
+import { StaticProvider } from './hooks/useStatic'
 // TODO: refactor navigation to reflect trail:stop architecture
 const NotFound = ({ navigation }) => <Home navigation={navigation} />
 const Stack = createNativeStackNavigator()
@@ -46,32 +47,34 @@ function App() {
   }
   return (
     <DataProvider>
-      <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          <NavigationContainer linking={linking}>
-            <Stack.Navigator
-              initialRouteName='Home'
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <Stack.Screen name='Home' component={Home} />
-              <Stack.Screen name='Stop' component={Stop} />
-              {Platform.OS == 'web' ? null : (
-                <Stack.Screen name='Camera' component={Camera} />
-              )}
-              {Platform.OS == 'web' ? (
-                <Stack.Screen name='Download' component={Download} />
-              ) : null}
-              {Platform.OS == 'web' ? (
-                <Stack.Screen name='QR' component={QRCodes} />
-              ) : null}
-              <Stack.Screen name='About' component={About} />
-              <Stack.Screen name='NotFound' component={NotFound} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <StaticProvider>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <NavigationContainer linking={linking}>
+              <Stack.Navigator
+                initialRouteName='Home'
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name='Home' component={Home} />
+                <Stack.Screen name='Stop' component={Stop} />
+                {Platform.OS == 'web' ? null : (
+                  <Stack.Screen name='Camera' component={Camera} />
+                )}
+                {Platform.OS == 'web' ? (
+                  <Stack.Screen name='Download' component={Download} />
+                ) : null}
+                {Platform.OS == 'web' ? (
+                  <Stack.Screen name='QR' component={QRCodes} />
+                ) : null}
+                <Stack.Screen name='About' component={About} />
+                <Stack.Screen name='NotFound' component={NotFound} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </StaticProvider>
     </DataProvider>
   )
 }
