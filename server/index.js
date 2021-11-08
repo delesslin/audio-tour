@@ -19,10 +19,13 @@ app.get('/api/data', async (req, res) => {
   res.send(DATA)
 })
 app.get('/api/static', async (req, res) => {
-  STATIC = await getStatic()
   res.send(STATIC)
 })
-
+app.get('/privacy', (req, res) => {
+  res.send(`
+    Catawba Nation's Audio Tour server and websites/apps ("clients") do not collect personal data from site visitors or app users ("users"). When users access the Audio Tour through a client generic requests are made to our server. Any unintentional data that is included in that request by default (e.g. source IP) is not used or collected by the server. The app is free to download, free to use, and does not contain any premium options. For questions regarding this policy, please contact us at info@catawbaculture.org
+  `)
+})
 app.use('/api', proxy(apiURL))
 app.get('*', (req, res) => {
   console.log('GET * request', req.body)
@@ -33,6 +36,7 @@ app.listen(PORT, async (err) => {
   if (err) console.error(err)
   console.log(`Now listening on http://localhost:${PORT}`)
   DATA = await getData()
+  STATIC = await getStatic()
   // setInterval(async () => {
   //   DATA = await getData()
   // }, DATA_UPDATE_INTERVAL_MS)
