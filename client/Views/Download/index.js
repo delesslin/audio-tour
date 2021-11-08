@@ -4,6 +4,7 @@ import { View, Text, Pressable } from 'react-native'
 import { FontAwesome5, Zocial } from '@expo/vector-icons'
 import Theme from 'Theme'
 import { useNav } from 'hooks'
+import useStatic from 'hooks/useStatic'
 
 function AppButton({
   size = 60,
@@ -30,17 +31,16 @@ function AppButton({
 }
 
 const Download = () => {
-  const [androidLink, setAndroidLink] = useState('')
-  const [iosLink, setIosLink] = useState('')
+  const { androidUrl, iOsUrl, loading } = useStatic()
   const { to, href } = useNav()
   const toHome = () => to('Home')
   const size = 60
-  const toAndroid = () => href(androidLink)
-  const toIOS = () => href(iosLink)
-  useEffect(() => {
-    fetch('http://www.catawbatour.org/api/download/android').then(console.log)
-  }, [])
-  use
+  const toAndroid = () => {
+    console.log(androidUrl)
+    href(androidUrl)
+  }
+  const toIOS = () => href(iOsUrl)
+
   return (
     <Container>
       <Card>
@@ -68,33 +68,35 @@ const Download = () => {
             absolutely free to use and we do not track personal data.
           </Text>
         </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'space-evenly',
-            marginTop: 25,
-            marginBottom: 50,
-          }}
-        >
-          <AppButton size={size} onPress={toAndroid}>
-            <Zocial
-              name='android'
-              style={{
-                position: 'absolute',
-              }}
-              size={size}
-              color='black'
-            />
-          </AppButton>
-          <AppButton color={Theme.BLUE} onPress={toIOS}>
-            <FontAwesome5
-              name='app-store-ios'
-              size={size}
-              color='black'
-              style={{ position: 'absolute' }}
-            />
-          </AppButton>
-        </View>
+        {loading ? null : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'space-evenly',
+              marginTop: 25,
+              marginBottom: 50,
+            }}
+          >
+            <AppButton size={size} onPress={toAndroid}>
+              <Zocial
+                name='android'
+                style={{
+                  position: 'absolute',
+                }}
+                size={size}
+                color='black'
+              />
+            </AppButton>
+            <AppButton color={Theme.BLUE} onPress={toIOS}>
+              <FontAwesome5
+                name='app-store-ios'
+                size={size}
+                color='black'
+                style={{ position: 'absolute' }}
+              />
+            </AppButton>
+          </View>
+        )}
       </Card>
       <NavButton onPress={toHome}>
         <BackIcon />

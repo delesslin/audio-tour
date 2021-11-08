@@ -21,6 +21,8 @@ const getStatic = async () => {
       welcomeAudio: 'https:' + static.fields.welcomeAudio.fields.file.url,
       about: static.fields.about.content,
       qrLogo: 'https:' + static.fields.qrLogo.fields.file.url,
+      androidUrl: static.fields.androidUrl,
+      iOsUrl: static.fields.iOsUrl,
     }
   } catch (e) {
     console.error(e)

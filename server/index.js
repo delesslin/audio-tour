@@ -1,24 +1,20 @@
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
+// TODO: is proxy still needed?
 const proxy = require('express-http-proxy')
 const app = express()
 
 const PORT = process.env.PORT || 8001
 let apiURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
-const { ANDROID_URL, APPLE_URL, DATA_UPDATE_INTERVAL_MS } = process.env
+const { DATA_UPDATE_INTERVAL_MS } = process.env
 let DATA = {}
 let STATIC = {}
 const getData = require('./getData')
 const getStatic = require('./getStatic')
 
 app.use(express.static(path.join(__dirname, '../client/web-build')))
-app.get('/api/download/android', (req, res) => {
-  res.send(ANDROID_URL)
-})
-app.get('/api/download/apple', (req, res) => {
-  res.send(APPLE_URL)
-})
+
 app.get('/api/data', async (req, res) => {
   res.send(DATA)
 })
