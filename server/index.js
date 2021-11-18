@@ -7,7 +7,7 @@ const app = express()
 
 const PORT = process.env.PORT || 8001
 // let apiURL = 'https://catawba-audio-tour.s3.us-east-2.amazonaws.com'
-const { DATA_UPDATE_INTERVAL_MS, ENVIRONMENT } = process.env
+// const { DATA_UPDATE_INTERVAL_MS, ENVIRONMENT } = process.env
 let DATA = {}
 let STATIC = {}
 const getData = require('./getData')
