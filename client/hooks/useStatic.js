@@ -1,6 +1,13 @@
-import React, { createContext, useState, useEffect, useContext } from 'react'
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  Platform,
+} from 'react'
 
-const apiURL = '/api/static'
+const apiURL =
+  Platform.OS === 'web' ? '/api/data' : 'https://www.catawbatour.org/api/data'
 const STATIC_CONTEXT = createContext()
 
 export const StaticProvider = ({ children }) => {
