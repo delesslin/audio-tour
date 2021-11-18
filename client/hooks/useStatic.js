@@ -1,10 +1,5 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  Platform,
-} from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
+import { Platform } from 'react-native'
 
 const apiURL =
   Platform.OS === 'web' ? '/api/data' : 'https://www.catawbatour.org/api/data'
