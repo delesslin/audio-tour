@@ -9,8 +9,13 @@ const getData = async (DATA = {}) => {
       accessToken: TOKEN,
     })
     // Probably change to a query to get trails
-    let { items } = await apiClient.getEntries()
+    // TODO: Must find a more elegant way to handle this, particularly as data size increases
+    let { items } = await apiClient.getEntries({
+      // skip: 100,
+      limit: 1000,
+    })
     let trails = items.filter((item) => item.sys.contentType.sys.id === 'trail')
+
     trails.forEach((trail) => {
       let trailName = trail.fields.name
       DATA[trailName] = {
@@ -31,6 +36,7 @@ const getData = async (DATA = {}) => {
         }
       })
     })
+
     return DATA
   } catch (e) {
     console.error(e)

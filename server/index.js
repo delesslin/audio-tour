@@ -35,7 +35,7 @@ app.get('/privacy', (req, res) => {
 })
 // app.use('/api', proxy(apiURL))
 app.get('*', (req, res) => {
-  console.log('GET * request', req.headers)
+  // console.log('GET * request', req.headers)
   res.sendFile(path.join(__dirname, '../client/web-build/index.html'))
 })
 
