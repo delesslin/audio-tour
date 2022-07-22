@@ -10,6 +10,7 @@ const STATIC_CONTEXT = createContext()
 export const StaticProvider = ({ children }) => {
   const [assets, setAssets] = useState({})
   const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     console.log('Fetching: ', apiURL)
     fetch(apiURL)

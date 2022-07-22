@@ -3,16 +3,21 @@ const TOKEN = process.env.CONTENTFUL_TOKEN
 const SPACE = process.env.CONTENTFUL_SPACE
 
 const getStatic = async () => {
+  console.log('GET contentful')
   try {
     const apiClient = contentful.createClient({
       space: SPACE,
       accessToken: TOKEN,
     })
-    // Probably change to a query to get trails
-    let { items } = await apiClient.getEntries()
-    let static = items.filter(
-      (item) => item.sys.contentType.sys.id == 'static'
-    )[0]
+
+    // TODO: Must find a more elegant way to handle this, particularly as data size increases
+    let { items } = await apiClient.getEntries({
+      // skip: 100,
+      limit: 1000,
+    })
+    let static = items.filter((item) => {
+      return item.sys.contentType.sys.id == 'static'
+    })[0]
 
     return {
       welcomeTitle: static.fields.welcomeTitle,
