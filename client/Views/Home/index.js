@@ -57,7 +57,12 @@ const Home = () => {
           Otherwise use your favorite QR code reader.
         </CardText>
       </Card>
-      {Platform.OS == 'web' ? (
+      {Platform.OS == 'web' ? null : (
+        <NavButton onPress={handleClick}>
+          <CameraButton />
+        </NavButton>
+      )}
+      {/* {Platform.OS == 'web' ? (
         <NavButton onPress={() => to('Download')}>
           <DownloadIcon />
         </NavButton>
@@ -65,7 +70,7 @@ const Home = () => {
         <NavButton onPress={handleClick}>
           <CameraButton />
         </NavButton>
-      )}
+      )} */}
     </Container>
   )
 }

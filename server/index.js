@@ -23,10 +23,11 @@ const getStatic = require('./getStatic')
 app.use(express.static(path.join(__dirname, '../client/web-build')))
 
 app.get('/api/data', async (req, res) => {
-  res.send(DATA)
+  res.json(DATA)
 })
 app.get('/api/static', async (req, res) => {
-  res.send(STATIC)
+  console.log('static')
+  res.json(STATIC)
 })
 app.get('/privacy', (req, res) => {
   res.send(`
@@ -35,7 +36,7 @@ app.get('/privacy', (req, res) => {
 })
 // app.use('/api', proxy(apiURL))
 app.get('*', (req, res) => {
-  // console.log('GET * request', req.headers)
+  console.log('GET * request', req.headers)
   res.sendFile(path.join(__dirname, '../client/web-build/index.html'))
 })
 
