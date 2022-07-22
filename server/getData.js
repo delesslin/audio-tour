@@ -31,8 +31,8 @@ const getData = async (DATA = {}) => {
           id: stop.sys.id,
           updatedAt: stop.sys.updatedAt,
           transcript: fields.transcript.content,
-          image: 'http:' + fields.image.fields.file.url,
-          audio: 'http:' + fields.audio.fields.file.url,
+          image: 'https:' + fields.image.fields.file.url,
+          audio: 'https:' + fields.audio.fields.file.url,
         }
       })
     })
